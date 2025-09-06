@@ -7,7 +7,7 @@ import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
 import BenefitsCarousel from "@/components/BenefitsCarousel";
 import { services } from "@/data/services";
-import { case-studies } from "@/data/case-studies";
+import { caseStudies } from "@/data/case-studies";
 
 export default function HomePage() {
   return (
