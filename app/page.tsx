@@ -61,16 +61,16 @@ export default function HomePage() {
       {/* Beneficios / Por qué elegirnos */}
       <Section id="beneficios" className="bg-brand-aqua text-brand-pearl">
         <div className="container">
-          <div className="max-w-4xl mx-auto text-center mb-20">
-            <h2 className="mb-8 text-4xl font-bold md:text-5xl lg:text-6xl">
+          <div className="max-w-5xl mx-auto text-center mb-16">
+            <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Más que diseño, creamos sistemas digitales vivos.
             </h2>
-            <p className="text-xl md:text-2xl opacity-90 leading-relaxed">
+            <p className="text-lg md:text-xl opacity-90">
               Cada detalle de tu web debe trabajar a tu favor. No solo lucir bien, sino atraer, convencer y vender.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {[
               { 
                 title: "Diseño UX/UI Premium", 
@@ -98,32 +98,32 @@ export default function HomePage() {
                 highlight: "Partnership"
               },
             ].map((item, index) => (
-              <div key={index} className="group p-8 rounded-2xl bg-brand-deep/30 backdrop-blur-sm border border-brand-waves/20 transition-all duration-500 hover:bg-brand-deep/50 hover:border-brand-waves/40 hover:shadow-soft">
-                <div className="mb-6">
-                  <div className="inline-block px-4 py-2 rounded-full bg-brand-bright/10 border border-brand-bright/30 text-brand-bright text-sm font-medium mb-4">
+              <div key={index} className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1">
+                <div className="mb-4">
+                  <div className="inline-block px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium mb-3">
                     {item.highlight}
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4 group-hover:text-brand-bright transition-colors">
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
                     {item.title}
                   </h3>
                 </div>
-                <p className="text-lg opacity-80 leading-relaxed">
+                <p className="text-sm opacity-85 leading-relaxed">
                   {item.desc}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-20">
-            <div className="mb-8">
-              <p className="text-xl opacity-90 mb-6">
+          <div className="text-center mt-16">
+            <div className="mb-6">
+              <p className="text-lg opacity-90 mb-4">
                 En Aqua Studio fusionamos <span className="text-brand-bright font-semibold">estética premium</span>, <span className="text-brand-bright font-semibold">estrategia digital</span> y <span className="text-brand-bright font-semibold">automatización inteligente</span>
               </p>
-              <p className="text-lg opacity-80">
+              <p className="text-base opacity-80">
                 para que tu negocio fluya hacia el crecimiento.
               </p>
             </div>
-            <Button variant="primary" className="px-12 py-6 text-lg font-semibold">
+            <Button variant="primary" className="px-10 py-4 text-base font-semibold">
               Descubre cómo escalamos marcas
             </Button>
           </div>
