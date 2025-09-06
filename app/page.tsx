@@ -61,31 +61,69 @@ export default function HomePage() {
       {/* Beneficios / Por qué elegirnos */}
       <Section id="beneficios" className="bg-brand-aqua text-brand-pearl">
         <div className="container">
-          <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
-            Más que diseño, creamos sistemas digitales vivos.
-          </h2>
-          <p className="mb-16 text-lg text-center max-w-3xl mx-auto opacity-90">
-            Cada detalle de tu web debe trabajar a tu favor. No solo lucir bien, sino atraer, convencer y vender. En Aqua Studio fusionamos <strong>estética premium</strong>, <strong>estrategia digital</strong> y <strong>automatización inteligente</strong> para que tu negocio fluya hacia el crecimiento.
-          </p>
+          <div className="max-w-4xl mx-auto text-center mb-20">
+            <h2 className="mb-8 text-4xl font-bold md:text-5xl lg:text-6xl">
+              Más que diseño, creamos sistemas digitales vivos.
+            </h2>
+            <p className="text-xl md:text-2xl opacity-90 leading-relaxed">
+              Cada detalle de tu web debe trabajar a tu favor. No solo lucir bien, sino atraer, convencer y vender.
+            </p>
+          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {[
-              { icon: "🎨", title: "Diseño UX/UI premium", desc: "Belleza con propósito." },
-              { icon: "⚡", title: "Automatización 24/7", desc: "Tu web trabajando mientras duermes." },
-              { icon: "🚀", title: "Estrategia escalable", desc: "Crece con sistemas que se adaptan." },
-              { icon: "🔍", title: "SEO optimizado", desc: "Aparécete donde tus clientes te buscan." },
-              { icon: "🤝", title: "Acompañamiento estratégico", desc: "Un socio digital, no solo un proveedor." },
+              { 
+                title: "Diseño UX/UI Premium", 
+                desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión.",
+                highlight: "Conversión"
+              },
+              { 
+                title: "Automatización 24/7", 
+                desc: "Tu web trabajando mientras duermes. Sistemas inteligentes que capturan y nutren leads automáticamente.",
+                highlight: "Eficiencia"
+              },
+              { 
+                title: "Estrategia Escalable", 
+                desc: "Crece con sistemas que se adaptan. Arquitectura pensada para el crecimiento sostenible de tu negocio.",
+                highlight: "Crecimiento"
+              },
+              { 
+                title: "SEO Optimizado", 
+                desc: "Aparécete donde tus clientes te buscan. Visibilidad orgánica que genera tráfico de calidad.",
+                highlight: "Visibilidad"
+              },
+              { 
+                title: "Acompañamiento Estratégico", 
+                desc: "Un socio digital, no solo un proveedor. Te acompañamos en cada paso de tu transformación digital.",
+                highlight: "Partnership"
+              },
             ].map((item, index) => (
-              <div key={index} className="flex flex-col items-center text-center p-8 rounded-3xl bg-brand-deep/50 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-brand-deep/70">
-                <span className="text-6xl mb-6">{item.icon}</span>
-                <h3 className="mb-4 text-2xl font-semibold">{item.title}</h3>
-                <p className="text-lg opacity-80">{item.desc}</p>
+              <div key={index} className="group p-8 rounded-2xl bg-brand-deep/30 backdrop-blur-sm border border-brand-waves/20 transition-all duration-500 hover:bg-brand-deep/50 hover:border-brand-waves/40 hover:shadow-soft">
+                <div className="mb-6">
+                  <div className="inline-block px-4 py-2 rounded-full bg-brand-bright/10 border border-brand-bright/30 text-brand-bright text-sm font-medium mb-4">
+                    {item.highlight}
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-4 group-hover:text-brand-bright transition-colors">
+                    {item.title}
+                  </h3>
+                </div>
+                <p className="text-lg opacity-80 leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-16">
-            <Button variant="primary" className="px-10 py-5 text-lg">
+          <div className="text-center mt-20">
+            <div className="mb-8">
+              <p className="text-xl opacity-90 mb-6">
+                En Aqua Studio fusionamos <span className="text-brand-bright font-semibold">estética premium</span>, <span className="text-brand-bright font-semibold">estrategia digital</span> y <span className="text-brand-bright font-semibold">automatización inteligente</span>
+              </p>
+              <p className="text-lg opacity-80">
+                para que tu negocio fluya hacia el crecimiento.
+              </p>
+            </div>
+            <Button variant="primary" className="px-12 py-6 text-lg font-semibold">
               Descubre cómo escalamos marcas
             </Button>
           </div>
