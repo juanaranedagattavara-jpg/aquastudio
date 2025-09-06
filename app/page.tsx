@@ -5,8 +5,9 @@ import Button from "@/components/Button";
 import PlanCard from "@/components/PlanCard";
 import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
+import BenefitsCarousel from "@/components/BenefitsCarousel";
 import { services } from "@/data/services";
-import { caseStudies } from "@/data/case-studies";
+import { case-studies } from "@/data/case-studies";
 
 export default function HomePage() {
   return (
@@ -71,71 +72,7 @@ export default function HomePage() {
           </div>
 
           {/* Carrusel de Beneficios */}
-          <div className="relative max-w-4xl mx-auto">
-            <div className="overflow-hidden">
-              <div id="benefits-carousel" className="flex transition-transform duration-500 ease-in-out">
-                {[
-                  { 
-                    title: "Diseño UX/UI Premium", 
-                    desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión.",
-                    highlight: "Conversión"
-                  },
-                  { 
-                    title: "Automatización 24/7", 
-                    desc: "Tu web trabajando mientras duermes. Sistemas inteligentes que capturan y nutren leads automáticamente.",
-                    highlight: "Eficiencia"
-                  },
-                  { 
-                    title: "Estrategia Escalable", 
-                    desc: "Crece con sistemas que se adaptan. Arquitectura pensada para el crecimiento sostenible de tu negocio.",
-                    highlight: "Crecimiento"
-                  },
-                  { 
-                    title: "SEO Optimizado", 
-                    desc: "Aparécete donde tus clientes te buscan. Visibilidad orgánica que genera tráfico de calidad.",
-                    highlight: "Visibilidad"
-                  },
-                  { 
-                    title: "Acompañamiento Estratégico", 
-                    desc: "Un socio digital, no solo un proveedor. Te acompañamos en cada paso de tu transformación digital.",
-                    highlight: "Partnership"
-                  },
-                ].map((item, index) => (
-                  <div key={index} className="w-full flex-shrink-0 px-4">
-                    <div className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1">
-                      <div className="mb-4">
-                        <div className="inline-block px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium mb-3">
-                          {item.highlight}
-                        </div>
-                        <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <p className="text-sm opacity-85 leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Indicadores del carrusel */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {[0, 1, 2, 3, 4].map((index) => (
-                <button
-                  key={index}
-                  className="w-2 h-2 rounded-full bg-brand-waves/40 transition-all duration-300 hover:bg-brand-bright/60"
-                  onClick={() => {
-                    const carousel = document.getElementById('benefits-carousel');
-                    if (carousel) {
-                      carousel.style.transform = `translateX(-${index * 100}%)`;
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <BenefitsCarousel />
 
           <div className="text-center mt-12">
             <div className="mb-6">
@@ -151,48 +88,6 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
-
-        {/* Script para rotación automática */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                let currentIndex = 0;
-                const totalItems = 5;
-                const carousel = document.getElementById('benefits-carousel');
-                const indicators = document.querySelectorAll('[data-carousel-indicator]');
-                
-                function updateCarousel() {
-                  if (carousel) {
-                    carousel.style.transform = \`translateX(-\${currentIndex * 100}%)\`;
-                  }
-                  
-                  // Actualizar indicadores
-                  indicators.forEach((indicator, index) => {
-                    if (index === currentIndex) {
-                      indicator.classList.add('bg-brand-bright/60');
-                      indicator.classList.remove('bg-brand-waves/40');
-                    } else {
-                      indicator.classList.remove('bg-brand-bright/60');
-                      indicator.classList.add('bg-brand-waves/40');
-                    }
-                  });
-                }
-                
-                function nextSlide() {
-                  currentIndex = (currentIndex + 1) % totalItems;
-                  updateCarousel();
-                }
-                
-                // Rotación automática cada 4 segundos
-                setInterval(nextSlide, 4000);
-                
-                // Inicializar
-                updateCarousel();
-              })();
-            `,
-          }}
-        />
       </Section>
 
       {/* Servicios Estrella (Paquetes Aqua) */}
