@@ -61,7 +61,7 @@ export default function HomePage() {
       {/* Beneficios / Por qué elegirnos */}
       <Section id="beneficios" className="bg-brand-aqua text-brand-pearl">
         <div className="container">
-          <div className="max-w-5xl mx-auto text-center mb-16">
+          <div className="max-w-5xl mx-auto text-center mb-12">
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Más que diseño, creamos sistemas digitales vivos.
             </h2>
@@ -70,51 +70,74 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              { 
-                title: "Diseño UX/UI Premium", 
-                desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión.",
-                highlight: "Conversión"
-              },
-              { 
-                title: "Automatización 24/7", 
-                desc: "Tu web trabajando mientras duermes. Sistemas inteligentes que capturan y nutren leads automáticamente.",
-                highlight: "Eficiencia"
-              },
-              { 
-                title: "Estrategia Escalable", 
-                desc: "Crece con sistemas que se adaptan. Arquitectura pensada para el crecimiento sostenible de tu negocio.",
-                highlight: "Crecimiento"
-              },
-              { 
-                title: "SEO Optimizado", 
-                desc: "Aparécete donde tus clientes te buscan. Visibilidad orgánica que genera tráfico de calidad.",
-                highlight: "Visibilidad"
-              },
-              { 
-                title: "Acompañamiento Estratégico", 
-                desc: "Un socio digital, no solo un proveedor. Te acompañamos en cada paso de tu transformación digital.",
-                highlight: "Partnership"
-              },
-            ].map((item, index) => (
-              <div key={index} className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1">
-                <div className="mb-4">
-                  <div className="inline-block px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium mb-3">
-                    {item.highlight}
+          {/* Carrusel de Beneficios */}
+          <div className="relative max-w-4xl mx-auto">
+            <div className="overflow-hidden">
+              <div id="benefits-carousel" className="flex transition-transform duration-500 ease-in-out">
+                {[
+                  { 
+                    title: "Diseño UX/UI Premium", 
+                    desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión.",
+                    highlight: "Conversión"
+                  },
+                  { 
+                    title: "Automatización 24/7", 
+                    desc: "Tu web trabajando mientras duermes. Sistemas inteligentes que capturan y nutren leads automáticamente.",
+                    highlight: "Eficiencia"
+                  },
+                  { 
+                    title: "Estrategia Escalable", 
+                    desc: "Crece con sistemas que se adaptan. Arquitectura pensada para el crecimiento sostenible de tu negocio.",
+                    highlight: "Crecimiento"
+                  },
+                  { 
+                    title: "SEO Optimizado", 
+                    desc: "Aparécete donde tus clientes te buscan. Visibilidad orgánica que genera tráfico de calidad.",
+                    highlight: "Visibilidad"
+                  },
+                  { 
+                    title: "Acompañamiento Estratégico", 
+                    desc: "Un socio digital, no solo un proveedor. Te acompañamos en cada paso de tu transformación digital.",
+                    highlight: "Partnership"
+                  },
+                ].map((item, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-4">
+                    <div className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1">
+                      <div className="mb-4">
+                        <div className="inline-block px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium mb-3">
+                          {item.highlight}
+                        </div>
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <p className="text-sm opacity-85 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
-                    {item.title}
-                  </h3>
-                </div>
-                <p className="text-sm opacity-85 leading-relaxed">
-                  {item.desc}
-                </p>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Indicadores del carrusel */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {[0, 1, 2, 3, 4].map((index) => (
+                <button
+                  key={index}
+                  className="w-2 h-2 rounded-full bg-brand-waves/40 transition-all duration-300 hover:bg-brand-bright/60"
+                  onClick={() => {
+                    const carousel = document.getElementById('benefits-carousel');
+                    if (carousel) {
+                      carousel.style.transform = `translateX(-${index * 100}%)`;
+                    }
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12">
             <div className="mb-6">
               <p className="text-lg opacity-90 mb-4">
                 En Aqua Studio fusionamos <span className="text-brand-bright font-semibold">estética premium</span>, <span className="text-brand-bright font-semibold">estrategia digital</span> y <span className="text-brand-bright font-semibold">automatización inteligente</span>
@@ -128,6 +151,48 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
+
+        {/* Script para rotación automática */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                let currentIndex = 0;
+                const totalItems = 5;
+                const carousel = document.getElementById('benefits-carousel');
+                const indicators = document.querySelectorAll('[data-carousel-indicator]');
+                
+                function updateCarousel() {
+                  if (carousel) {
+                    carousel.style.transform = \`translateX(-\${currentIndex * 100}%)\`;
+                  }
+                  
+                  // Actualizar indicadores
+                  indicators.forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                      indicator.classList.add('bg-brand-bright/60');
+                      indicator.classList.remove('bg-brand-waves/40');
+                    } else {
+                      indicator.classList.remove('bg-brand-bright/60');
+                      indicator.classList.add('bg-brand-waves/40');
+                    }
+                  });
+                }
+                
+                function nextSlide() {
+                  currentIndex = (currentIndex + 1) % totalItems;
+                  updateCarousel();
+                }
+                
+                // Rotación automática cada 4 segundos
+                setInterval(nextSlide, 4000);
+                
+                // Inicializar
+                updateCarousel();
+              })();
+            `,
+          }}
+        />
       </Section>
 
       {/* Servicios Estrella (Paquetes Aqua) */}
