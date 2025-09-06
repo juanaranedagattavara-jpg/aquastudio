@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Spectral, Inter } from "next/font/google";
+import Header from "@/components/Header";
 
 const serif = Spectral({ 
   subsets: ["latin"], 
@@ -53,6 +54,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${serif.variable} ${sans.variable}`}>
       <body className="antialiased"> {/* Las clases de fondo y texto se aplican desde globals.css */}
+        <Header />
         {children}
       </body>
     </html>

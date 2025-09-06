@@ -29,7 +29,7 @@ export default function HomePage() {
       </Script>
 
       {/* Hero Section */}
-      <Section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-deep text-center text-brand-pearl">
+      <Section id="inicio" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-deep text-center text-brand-pearl">
         <Image
           src="/hero-water.jpg"
           alt="Superficie de agua con ondas suaves y elegantes"
