@@ -206,7 +206,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="mb-4 text-2xl font-semibold">Título del Artículo {item}</h3>
                 <p className="text-lg opacity-80 mb-6">Breve descripción del contenido del artículo para captar la atención.</p>
-                <Button variant="link" className="text-brand-bright">
+                <Button variant="link" href="/blog" className="text-brand-bright">
                   Leer más →
                 </Button>
               </article>
@@ -214,7 +214,7 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-16">
-            <Button variant="ghost" className="px-10 py-5 text-lg">
+            <Button variant="ghost" href="/blog" className="px-10 py-5 text-lg">
               Ver todos los artículos
             </Button>
           </div>
@@ -273,7 +273,7 @@ export default function HomePage() {
               <li><a href="#servicios" className="text-sm hover:text-brand-bright transition">Servicios</a></li>
               <li><a href="#portfolio" className="text-sm hover:text-brand-bright transition">Portfolio</a></li>
               <li><a href="#testimonios" className="text-sm hover:text-brand-bright transition">Testimonios</a></li>
-              <li><a href="#blog" className="text-sm hover:text-brand-bright transition">Blog</a></li>
+              <li><a href="/blog" className="text-sm hover:text-brand-bright transition">Blog</a></li>
               <li><a href="#nosotros" className="text-sm hover:text-brand-bright transition">Sobre Nosotros</a></li>
             </ul>
           </div>

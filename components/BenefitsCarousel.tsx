@@ -4,38 +4,59 @@ import { useState, useEffect } from 'react';
 
 const benefitsData = [
   { 
+    title: "Estrategia Digital Integral", 
+    desc: "Análisis profundo de tu mercado y competencia. Desarrollamos una hoja de ruta personalizada que maximiza tu potencial de crecimiento.",
+    highlight: "Fundación"
+  },
+  { 
     title: "Diseño UX/UI Premium", 
-    desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión.",
-    highlight: "Conversión"
+    desc: "Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión de manera natural y elegante.",
+    highlight: "Experiencia"
   },
   { 
-    title: "Automatización 24/7", 
-    desc: "Tu web trabajando mientras duermes. Sistemas inteligentes que capturan y nutren leads automáticamente.",
-    highlight: "Eficiencia"
-  },
-  { 
-    title: "Estrategia Escalable", 
-    desc: "Crece con sistemas que se adaptan. Arquitectura pensada para el crecimiento sostenible de tu negocio.",
-    highlight: "Crecimiento"
-  },
-  { 
-    title: "SEO Optimizado", 
-    desc: "Aparécete donde tus clientes te buscan. Visibilidad orgánica que genera tráfico de calidad.",
+    title: "SEO & Visibilidad Orgánica", 
+    desc: "Aparécete donde tus clientes te buscan. Posicionamiento estratégico que genera tráfico de calidad y autoridad de marca.",
     highlight: "Visibilidad"
   },
   { 
+    title: "Automatización Inteligente", 
+    desc: "Tu web trabajando 24/7. Sistemas avanzados que capturan, nutren y convierten leads automáticamente mientras duermes.",
+    highlight: "Eficiencia"
+  },
+  { 
+    title: "Escalabilidad & Crecimiento", 
+    desc: "Arquitectura pensada para el futuro. Sistemas que crecen contigo, adaptándose a las necesidades de tu negocio en expansión.",
+    highlight: "Futuro"
+  },
+  { 
     title: "Acompañamiento Estratégico", 
-    desc: "Un socio digital, no solo un proveedor. Te acompañamos en cada paso de tu transformación digital.",
+    desc: "Un socio digital de confianza. Te acompañamos en cada paso de tu transformación digital con soporte premium y consultoría especializada.",
     highlight: "Partnership"
   },
 ];
 
 export default function BenefitsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  // Duplicar los datos para crear un loop infinito
+  const duplicatedData = [...benefitsData, ...benefitsData];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % benefitsData.length);
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = prevIndex + 3;
+        // Si llegamos al final de la primera copia, saltar al inicio sin transición
+        if (nextIndex >= benefitsData.length) {
+          setTimeout(() => {
+            setCurrentIndex(0);
+            setIsTransitioning(false);
+            setTimeout(() => setIsTransitioning(true), 50);
+          }, 500);
+          return nextIndex;
+        }
+        return nextIndex;
+      });
     }, 4000);
 
     return () => clearInterval(interval);
@@ -46,16 +67,16 @@ export default function BenefitsCarousel() {
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto">
+    <div className="relative max-w-7xl mx-auto">
       <div className="overflow-hidden">
         <div 
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+          style={{ transform: `translateX(-${currentIndex * 33.333}%)` }}
         >
-          {benefitsData.map((item, index) => (
-            <div key={index} className="w-full flex-shrink-0 px-4">
-              <div className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1">
-                <div className="mb-4">
+          {duplicatedData.map((item, index) => (
+            <div key={index} className="w-1/3 flex-shrink-0 px-4">
+              <div className="group p-6 rounded-xl bg-brand-deep/25 backdrop-blur-sm border border-brand-waves/15 transition-all duration-300 hover:bg-brand-deep/40 hover:border-brand-waves/30 hover:shadow-soft hover:-translate-y-1 h-full flex flex-col">
+                <div className="mb-4 flex-shrink-0">
                   <div className="inline-block px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium mb-3">
                     {item.highlight}
                   </div>
@@ -63,7 +84,7 @@ export default function BenefitsCarousel() {
                     {item.title}
                   </h3>
                 </div>
-                <p className="text-sm opacity-85 leading-relaxed">
+                <p className="text-sm opacity-85 leading-relaxed flex-grow">
                   {item.desc}
                 </p>
               </div>
@@ -74,15 +95,15 @@ export default function BenefitsCarousel() {
 
       {/* Indicadores del carrusel */}
       <div className="flex justify-center mt-8 space-x-2">
-        {benefitsData.map((_, index) => (
+        {Array.from({ length: Math.ceil(benefitsData.length / 3) }).map((_, index) => (
           <button
             key={index}
             className={`w-2 h-2 rounded-full transition-all duration-300 hover:bg-brand-bright/60 ${
-              index === currentIndex 
+              index === Math.floor(currentIndex % benefitsData.length / 3)
                 ? 'bg-brand-bright/60' 
                 : 'bg-brand-waves/40'
             }`}
-            onClick={() => goToSlide(index)}
+            onClick={() => goToSlide(index * 3)}
           />
         ))}
       </div>
