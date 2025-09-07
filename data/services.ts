@@ -19,16 +19,16 @@ export const services = [
   },
   {
     key: "scale",
-    title: "Aqua Scale",
+    title: "Aqua App",
     price: "$1999",
     period: "único",
-    description: "Web + e-commerce + funnels automatizados + dashboard de métricas. Crecimiento en serio.",
+    description: "Aplicación web completa con funcionalidades avanzadas, panel de administración y experiencia de usuario premium.",
     bullets: [
-      "E-commerce completo",
-      "Funnels automatizados", 
-      "Dashboard de KPIs",
-      "Integraciones avanzadas",
-      "Acompañamiento estratégico"
+      "Aplicación web completa",
+      "Panel de administración", 
+      "Autenticación de usuarios",
+      "Base de datos integrada",
+      "API personalizada"
     ] as string[],
     cta: { 
       label: "Solicitar propuesta", 
@@ -37,16 +37,16 @@ export const services = [
   },
   {
     key: "custom",
-    title: "Aqua Custom",
+    title: "Aqua Commerce",
     price: "A medida",
     period: "",
-    description: "Proyectos a medida para exclusividad digital absoluta.",
+    description: "E-commerce completo con carrito de compras, pasarelas de pago, gestión de inventario y analytics avanzados.",
     bullets: [
-      "Diseño completamente a medida",
-      "Integraciones personalizadas", 
-      "Acompañamiento estratégico completo",
-      "Soporte premium 24/7",
-      "Escalabilidad ilimitada"
+      "Tienda online completa",
+      "Pasarelas de pago integradas", 
+      "Gestión de inventario",
+      "Sistema de pedidos",
+      "Analytics de ventas"
     ] as string[],
     cta: { 
       label: "Solicitar consultoría", 

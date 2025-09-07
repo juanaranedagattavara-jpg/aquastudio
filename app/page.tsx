@@ -6,7 +6,6 @@ import PlanCard from "@/components/PlanCard";
 import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
 import { services } from "@/data/services";
-import { caseStudies } from "@/data/case-studies";
 
 export default function HomePage() {
   return (
@@ -42,7 +41,7 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-5xl px-4">
           <h1 className="mb-8 text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-            Más que diseño, creamos sistemas digitales vivos
+            Diseñamos webs que fluyen y convierten.
           </h1>
           <p className="mb-12 text-xl md:text-2xl lg:text-3xl opacity-90 max-w-4xl mx-auto leading-relaxed">
             En Aqua Studio creamos experiencias digitales premium: diseño elegante, funnels automatizados y estrategia inteligente que transforman clics en clientes.
@@ -63,10 +62,10 @@ export default function HomePage() {
         <div className="container">
           <div className="max-w-5xl mx-auto text-center mb-12">
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
-              Más que diseño, creamos sistemas digitales vivos.
+              Más que diseño, creamos sistemas digitales vivos
             </h2>
-            <p className="text-lg md:text-xl opacity-90">
-              Cada detalle de tu web debe trabajar a tu favor. No solo lucir bien, sino atraer, convencer y vender.
+            <p className="text-lg md:text-xl opacity-90 whitespace-nowrap">
+              Cada detalle de tu web debe trabajar a tu favor: atraer, convencer y vender
             </p>
           </div>
 
@@ -106,7 +105,7 @@ export default function HomePage() {
                     Diseño UX/UI Premium
                   </h3>
                   <p className="text-sm opacity-85 leading-relaxed">
-                    Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión de manera natural y elegante.
+                    Interfaces que no solo cautivan, sino que guían a tus usuarios hacia la conversión. Cada píxel tiene un propósito estratégico.
                   </p>
                 </div>
 
@@ -124,73 +123,61 @@ export default function HomePage() {
                     SEO & Visibilidad Orgánica
                   </h3>
                   <p className="text-sm opacity-85 leading-relaxed">
-                    Aparécete donde tus clientes te buscan. Posicionamiento estratégico que genera tráfico de calidad y autoridad de marca.
+                    Aparece donde te buscan. Optimización técnica y de contenido que posiciona tu marca en los primeros resultados.
                   </p>
                 </div>
 
-                {/* Paso 4: Eficiencia */}
+                {/* Paso 4: Automatización */}
                 <div className="group">
                   <div className="flex items-center mb-4">
                     <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
                       <span className="text-brand-bright text-sm font-bold">4</span>
                     </div>
                     <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
-                      Eficiencia
+                      Automatización
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
-                    Automatización Inteligente
+                    Sistemas que Trabajan 24/7
                   </h3>
                   <p className="text-sm opacity-85 leading-relaxed">
-                    Tu web trabajando 24/7. Sistemas avanzados que capturan, nutren y convierten leads automáticamente mientras duermes.
+                    Funnels automatizados, chatbots inteligentes y workflows que convierten mientras duermes. Tu negocio nunca para.
                   </p>
                 </div>
 
-                {/* Paso 5: Futuro */}
+                {/* Paso 5: Conversión */}
                 <div className="group">
                   <div className="flex items-center mb-4">
                     <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
                       <span className="text-brand-bright text-sm font-bold">5</span>
                     </div>
                     <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
-                      Futuro
+                      Conversión
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
-                    Escalabilidad & Crecimiento
+                    Optimización de Conversiones
                   </h3>
                   <p className="text-sm opacity-85 leading-relaxed">
-                    Arquitectura pensada para el futuro. Sistemas que crecen contigo, adaptándose a las necesidades de tu negocio en expansión.
+                    A/B testing, análisis de comportamiento y mejoras continuas que transforman visitantes en clientes fieles.
                   </p>
                 </div>
 
-                {/* Paso 6: Partnership */}
+                {/* Paso 6: Escalabilidad */}
                 <div className="group">
                   <div className="flex items-center mb-4">
                     <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
                       <span className="text-brand-bright text-sm font-bold">6</span>
                     </div>
                     <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
-                      Partnership
+                      Escalabilidad
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
-                    Acompañamiento Estratégico
+                    Crecimiento Sostenible
                   </h3>
                   <p className="text-sm opacity-85 leading-relaxed">
-                    Un socio digital de confianza. Te acompañamos en cada paso de tu transformación digital con soporte premium y consultoría especializada.
-                  </p>
-                </div>
-              </div>
-
-              {/* Línea conectora visual */}
-              <div className="mt-8 pt-8 border-t border-brand-waves/20">
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-brand-bright mb-2">
-                    Tu Transformación Digital Completa
-                  </p>
-                  <p className="text-sm opacity-80 max-w-2xl mx-auto">
-                    Desde la estrategia inicial hasta el crecimiento sostenible, te acompañamos en cada paso de tu evolución digital con soluciones premium diseñadas específicamente para tu negocio.
+                    Arquitectura escalable que crece contigo. Desde startup hasta empresa consolidada, tu sistema digital evoluciona.
                   </p>
                 </div>
               </div>
@@ -245,40 +232,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Casos de Éxito / Portfolio */}
-      <Section id="portfolio" className="bg-brand-pearl text-brand-deep">
-        <div className="container">
-          <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
-            Historias reales de marcas que fluyen con Aqua.
-          </h2>
-          <p className="mb-16 text-lg text-center max-w-3xl mx-auto opacity-80">
-            Cada cliente que confía en Aqua Studio se convierte en una historia de éxito. Aquí te mostramos algunos resultados tangibles que hemos logrado.
-          </p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {caseStudies.map((study, index) => (
-              <article key={index} className="rounded-3xl border border-brand-waves/30 bg-white p-8 shadow-soft transition-all duration-300 hover:shadow-xl">
-                <h3 className="mb-4 text-2xl font-semibold text-brand-deep">{study.title}</h3>
-                <div className="mb-6">
-                  <MetricsChip>{study.metric}</MetricsChip>
-                </div>
-                <p className="text-lg text-zinc-700 mb-6">{study.summary}</p>
-                {study.href && (
-                  <Button variant="link" href={study.href} className="text-brand-bright">
-                    Ver caso completo →
-                  </Button>
-                )}
-              </article>
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <Button variant="primary" className="px-10 py-5 text-lg">
-              Explora nuestro portfolio completo
-            </Button>
-          </div>
-        </div>
-      </Section>
+      {/* Logos de Clientes */}
 
       {/* Testimonios */}
       <Section id="testimonios" className="bg-brand-aqua text-brand-pearl">
@@ -307,6 +261,46 @@ export default function HomePage() {
               role="Directora de Marketing, GlobalCorp"
             />
           </div>
+
+          {/* Marcas que confían en Aqua Studio */}
+          <div className="mt-16">
+            <h2 className="mb-8 text-2xl font-bold text-center">
+              Marcas que confían en Aqua Studio
+            </h2>
+
+            {/* Barra horizontal de logos */}
+            <div className="flex justify-center items-center space-x-8 md:space-x-12 py-4">
+              {/* Logo 1 */}
+              <div className="group">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-brand-bright/20 to-brand-aqua/30 border-2 border-brand-waves/40 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:border-brand-bright/60">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-deep/80 flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">A</span>
+                  </div>
+                </div>
+                <p className="text-xs text-center mt-1 opacity-70 group-hover:opacity-100 transition-opacity">TechCorp</p>
+              </div>
+
+              {/* Logo 2 */}
+              <div className="group">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-brand-bright/20 to-brand-aqua/30 border-2 border-brand-waves/40 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:border-brand-bright/60">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-deep/80 flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">B</span>
+                  </div>
+                </div>
+                <p className="text-xs text-center mt-1 opacity-70 group-hover:opacity-100 transition-opacity">StartupX</p>
+              </div>
+
+              {/* Logo 3 */}
+              <div className="group">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-brand-bright/20 to-brand-aqua/30 border-2 border-brand-waves/40 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:border-brand-bright/60">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-deep/80 flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">C</span>
+                  </div>
+                </div>
+                <p className="text-xs text-center mt-1 opacity-70 group-hover:opacity-100 transition-opacity">EcoFlow</p>
+              </div>
+            </div>
+          </div>
         </div>
       </Section>
 
@@ -314,24 +308,72 @@ export default function HomePage() {
       <Section id="blog" className="bg-brand-deep text-brand-pearl">
         <div className="container">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
-            Insights que te hacen fluir.
+            Insights que te hacen fluir
           </h2>
           <p className="mb-16 text-lg text-center max-w-3xl mx-auto opacity-90">
-            Mantente al día con las últimas tendencias en diseño web, estrategia digital y automatización.
+            Mantente al día con las últimas tendencias en diseño web, estrategia digital y automatización
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Placeholder para artículos del blog */}
-            {[1, 2, 3].map((item) => (
-              <article key={item} className="rounded-3xl bg-brand-aqua/50 p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
-                <div className="h-48 w-full rounded-2xl bg-brand-waves/30 mb-6 flex items-center justify-center text-2xl font-semibold">
-                  Imagen del Blog {item}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
+            {/* 6 rectángulos pequeños del blog */}
+            {[
+              { 
+                title: "Cómo crear una web que realmente convierta", 
+                category: "Diseño",
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop&crop=center"
+              },
+              { 
+                title: "SEO 2024: Estrategias que funcionan", 
+                category: "Estrategia",
+                image: "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=400&h=200&fit=crop&crop=center"
+              },
+              { 
+                title: "Automatiza tu negocio sin perder el toque humano", 
+                category: "Automatización",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop&crop=center"
+              },
+              { 
+                title: "Psicología del color en diseño web", 
+                category: "UX/UI",
+                image: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=200&fit=crop&crop=center"
+              },
+              { 
+                title: "Optimización web: Velocidad = Conversiones", 
+                category: "Performance",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop&crop=center"
+              },
+              { 
+                title: "Estrategia digital para startups", 
+                category: "Estrategia",
+                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=200&fit=crop&crop=center"
+              }
+            ].map((item, index) => (
+              <article key={index} className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 group-hover:bg-white/10 h-40">
+                  {/* Imagen de fondo real */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  ></div>
+                  
+                  {/* Overlay para legibilidad */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/80 via-brand-deep/40 to-transparent"></div>
+                  
+                  {/* Contenido */}
+                  <div className="relative p-4 h-full flex flex-col justify-end">
+                    <div className="mb-2">
+                      <span className="px-2 py-1 text-xs font-medium text-white bg-white/20 backdrop-blur-sm rounded-full">
+                        {item.category}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-white group-hover:text-white/90 transition-colors duration-300 leading-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Efecto hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <h3 className="mb-4 text-2xl font-semibold">Título del Artículo {item}</h3>
-                <p className="text-lg opacity-80 mb-6">Breve descripción del contenido del artículo para captar la atención.</p>
-                <Button variant="link" href="/blog" className="text-brand-bright">
-                  Leer más →
-                </Button>
               </article>
             ))}
           </div>
@@ -430,3 +472,4 @@ export default function HomePage() {
     </>
   );
 }
+
