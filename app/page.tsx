@@ -57,6 +57,102 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* Comparación: Dolores vs Soluciones */}
+      <Section id="comparacion" className="bg-brand-deep text-brand-pearl py-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            {/* Título compacto */}
+            <div className="text-center mb-12">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+                Antes vs Después
+              </h2>
+              <p className="text-base opacity-90">
+                La transformación que tu negocio necesita
+              </p>
+            </div>
+
+            {/* Comparación simétrica y compacta */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Lado izquierdo - Problemas */}
+              <div className="text-center">
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 mb-3">
+                    <span className="text-red-400 text-xl font-bold">✗</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-red-400 mb-2">Tu Situación Actual</h3>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <h4 className="font-semibold text-red-300 text-sm mb-1">Web que no convierte</h4>
+                    <p className="text-xs opacity-80">Solo una tarjeta de presentación</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <h4 className="font-semibold text-red-300 text-sm mb-1">Invisible en Google</h4>
+                    <p className="text-xs opacity-80">Nadie te encuentra online</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <h4 className="font-semibold text-red-300 text-sm mb-1">Diseño amateur</h4>
+                    <p className="text-xs opacity-80">No inspira confianza</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <h4 className="font-semibold text-red-300 text-sm mb-1">Procesos manuales</h4>
+                    <p className="text-xs opacity-80">Pierdes tiempo valioso</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <h4 className="font-semibold text-red-300 text-sm mb-1">Sin estrategia</h4>
+                    <p className="text-xs opacity-80">No sabes qué funciona</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Lado derecho - Soluciones */}
+              <div className="text-center">
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-bright/20 border border-brand-bright/40 mb-3">
+                    <span className="text-brand-bright text-xl font-bold">✓</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-bright mb-2">Con Aqua Studio</h3>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-3 rounded-lg bg-brand-bright/10 border border-brand-bright/20">
+                    <h4 className="font-semibold text-brand-bright text-sm mb-1">Web que vende 24/7</h4>
+                    <p className="text-xs opacity-80">Sistema de conversión automático</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-brand-bright/10 border border-brand-bright/20">
+                    <h4 className="font-semibold text-brand-bright text-sm mb-1">Primero en Google</h4>
+                    <p className="text-xs opacity-80">SEO estratégico que funciona</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-brand-bright/10 border border-brand-bright/20">
+                    <h4 className="font-semibold text-brand-bright text-sm mb-1">Diseño premium</h4>
+                    <p className="text-xs opacity-80">Estética que inspira confianza</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-brand-bright/10 border border-brand-bright/20">
+                    <h4 className="font-semibold text-brand-bright text-sm mb-1">Automatización inteligente</h4>
+                    <p className="text-xs opacity-80">Trabaja por ti mientras duermes</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-brand-bright/10 border border-brand-bright/20">
+                    <h4 className="font-semibold text-brand-bright text-sm mb-1">Estrategia clara</h4>
+                    <p className="text-xs opacity-80">Roadmap con ROI medible</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA compacto */}
+            <div className="text-center mt-12">
+              <div className="bg-gradient-to-r from-brand-bright/10 to-brand-aqua/10 rounded-xl p-6 border border-brand-bright/20">
+                <h3 className="text-lg font-bold mb-2">¿Listo para el cambio?</h3>
+                <Button variant="primary" className="px-8 py-3 text-base font-semibold">
+                  Quiero mi transformación
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Beneficios / Por qué elegirnos */}
       <Section id="beneficios" className="bg-brand-aqua text-brand-pearl">
         <div className="container">
@@ -225,6 +321,9 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-16">
+            <p className="text-lg opacity-90 mb-6">
+              ¿Ninguno de los planes se adapta a tu necesidad?
+            </p>
             <Button variant="ghost" className="px-10 py-5 text-lg">
               Solicita tu propuesta personalizada
             </Button>
