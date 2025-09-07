@@ -5,7 +5,6 @@ import Button from "@/components/Button";
 import PlanCard from "@/components/PlanCard";
 import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
-import BenefitsCarousel from "@/components/BenefitsCarousel";
 import { services } from "@/data/services";
 import { caseStudies } from "@/data/case-studies";
 
@@ -43,7 +42,7 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-5xl px-4">
           <h1 className="mb-8 text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-            Diseñamos webs que fluyen y convierten.
+            Más que diseño, creamos sistemas digitales vivos
           </h1>
           <p className="mb-12 text-xl md:text-2xl lg:text-3xl opacity-90 max-w-4xl mx-auto leading-relaxed">
             En Aqua Studio creamos experiencias digitales premium: diseño elegante, funnels automatizados y estrategia inteligente que transforman clics en clientes.
@@ -71,8 +70,132 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Carrusel de Beneficios */}
-          <BenefitsCarousel />
+          {/* Storytelling de Transformación Digital */}
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-brand-deep/30 backdrop-blur-sm border border-brand-waves/20 rounded-3xl p-12 shadow-soft">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Paso 1: Fundación */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">1</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Fundación
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    Estrategia Digital Integral
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Análisis profundo de tu mercado y competencia. Desarrollamos una hoja de ruta personalizada que maximiza tu potencial de crecimiento.
+                  </p>
+                </div>
+
+                {/* Paso 2: Experiencia */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">2</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Experiencia
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    Diseño UX/UI Premium
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Belleza con propósito. Cada elemento está pensado para guiar a tus usuarios hacia la conversión de manera natural y elegante.
+                  </p>
+                </div>
+
+                {/* Paso 3: Visibilidad */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">3</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Visibilidad
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    SEO & Visibilidad Orgánica
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Aparécete donde tus clientes te buscan. Posicionamiento estratégico que genera tráfico de calidad y autoridad de marca.
+                  </p>
+                </div>
+
+                {/* Paso 4: Eficiencia */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">4</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Eficiencia
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    Automatización Inteligente
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Tu web trabajando 24/7. Sistemas avanzados que capturan, nutren y convierten leads automáticamente mientras duermes.
+                  </p>
+                </div>
+
+                {/* Paso 5: Futuro */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">5</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Futuro
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    Escalabilidad & Crecimiento
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Arquitectura pensada para el futuro. Sistemas que crecen contigo, adaptándose a las necesidades de tu negocio en expansión.
+                  </p>
+                </div>
+
+                {/* Paso 6: Partnership */}
+                <div className="group">
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-bright/20 border border-brand-bright/40 flex items-center justify-center mr-4">
+                      <span className="text-brand-bright text-sm font-bold">6</span>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-brand-bright/15 border border-brand-bright/25 text-brand-bright text-xs font-medium">
+                      Partnership
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-brand-bright transition-colors">
+                    Acompañamiento Estratégico
+                  </h3>
+                  <p className="text-sm opacity-85 leading-relaxed">
+                    Un socio digital de confianza. Te acompañamos en cada paso de tu transformación digital con soporte premium y consultoría especializada.
+                  </p>
+                </div>
+              </div>
+
+              {/* Línea conectora visual */}
+              <div className="mt-8 pt-8 border-t border-brand-waves/20">
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-brand-bright mb-2">
+                    Tu Transformación Digital Completa
+                  </p>
+                  <p className="text-sm opacity-80 max-w-2xl mx-auto">
+                    Desde la estrategia inicial hasta el crecimiento sostenible, te acompañamos en cada paso de tu evolución digital con soluciones premium diseñadas específicamente para tu negocio.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="text-center mt-12">
             <div className="mb-6">
