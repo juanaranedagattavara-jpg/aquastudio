@@ -41,7 +41,7 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-5xl px-4">
           <h1 className="mb-8 text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-            Diseñamos webs que fluyen y convierten.
+            Diseñamos webs que fluyen y convierten
           </h1>
           <p className="mb-12 text-xl md:text-2xl lg:text-3xl opacity-90 max-w-4xl mx-auto leading-relaxed">
             En Aqua Studio creamos experiencias digitales premium: diseño elegante, funnels automatizados y estrategia inteligente que transforman clics en clientes.
@@ -204,7 +204,7 @@ export default function HomePage() {
       <Section id="servicios" className="bg-brand-deep text-brand-pearl">
         <div className="container">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
-            Soluciones digitales diseñadas para crecer contigo.
+            Soluciones digitales diseñadas para crecer contigo
           </h2>
           <p className="mb-16 text-lg text-center max-w-3xl mx-auto opacity-90">
             Cada proyecto es único, pero nuestros servicios estrella están pensados para cubrir las etapas clave de tu crecimiento digital.
@@ -238,7 +238,7 @@ export default function HomePage() {
       <Section id="testimonios" className="bg-brand-aqua text-brand-pearl">
         <div className="container">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
-            Lo que nuestros clientes dicen.
+            Lo que nuestros clientes dicen
           </h2>
           <p className="mb-16 text-lg text-center max-w-3xl mx-auto opacity-90">
             La confianza de nuestros clientes es nuestro mayor activo. Sus palabras reflejan el impacto real de nuestro trabajo.
@@ -305,7 +305,7 @@ export default function HomePage() {
       </Section>
 
       {/* Blog / Recursos */}
-      <Section id="blog" className="bg-brand-deep text-brand-pearl">
+      <Section id="blog" className="bg-brand-aqua/20 text-brand-pearl">
         <div className="container">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Insights que te hacen fluir
@@ -314,8 +314,8 @@ export default function HomePage() {
             Mantente al día con las últimas tendencias en diseño web, estrategia digital y automatización
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
-            {/* 6 rectángulos pequeños del blog */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {/* 4 artículos del blog */}
             {[
               { 
                 title: "Cómo crear una web que realmente convierta", 
@@ -337,19 +337,9 @@ export default function HomePage() {
                 category: "UX/UI",
                 image: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=200&fit=crop&crop=center"
               },
-              { 
-                title: "Optimización web: Velocidad = Conversiones", 
-                category: "Performance",
-                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop&crop=center"
-              },
-              { 
-                title: "Estrategia digital para startups", 
-                category: "Estrategia",
-                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=200&fit=crop&crop=center"
-              }
             ].map((item, index) => (
               <article key={index} className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 group-hover:bg-white/10 h-40">
+                <div className="relative overflow-hidden rounded-2xl bg-brand-deep/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-brand-deep/60 h-40">
                   {/* Imagen de fondo real */}
                   <div 
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -357,12 +347,12 @@ export default function HomePage() {
                   ></div>
                   
                   {/* Overlay para legibilidad */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/80 via-brand-deep/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/90 via-brand-deep/50 to-transparent"></div>
                   
                   {/* Contenido */}
                   <div className="relative p-4 h-full flex flex-col justify-end">
                     <div className="mb-2">
-                      <span className="px-2 py-1 text-xs font-medium text-white bg-white/20 backdrop-blur-sm rounded-full">
+                      <span className="px-3 py-1 text-xs font-medium text-brand-bright bg-brand-bright/20 backdrop-blur-sm rounded-full border border-brand-bright/30">
                         {item.category}
                       </span>
                     </div>
@@ -405,7 +395,7 @@ export default function HomePage() {
       <Section id="nosotros" className="bg-brand-deep text-brand-pearl">
         <div className="container max-w-4xl mx-auto text-center">
           <h2 className="mb-12 text-4xl font-bold md:text-5xl">
-            Nuestra filosofía: Diseño con propósito.
+            Nuestra filosofía: Diseño con propósito
           </h2>
           <p className="mb-8 text-lg opacity-90">
             En Aqua Studio, creemos que una web es más que una tarjeta de presentación; es una herramienta estratégica. Fusionamos la estética más refinada con la funcionalidad más avanzada para crear experiencias digitales que no solo cautivan, sino que impulsan resultados tangibles.
