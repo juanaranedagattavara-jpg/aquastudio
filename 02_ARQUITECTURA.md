@@ -319,7 +319,7 @@ export default function HomePage() {
         <h2 id="beneficios-title" className="text-2xl font-semibold tracking-tight md:text-3xl">Más que diseño, creamos sistemas digitales vivos.</h2>
         <p className="mt-4 max-w-2xl text-zinc-600">
           Cada detalle de tu web debe trabajar a tu favor: atraer, convencer y vender. Combinamos estética premium, estrategia y automatización inteligente para que tu negocio fluya hacia el crecimiento.
-        </p>
+        </p>o.
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {[
             { t: "Diseño UX/UI premium", d: "Belleza con propósito." },

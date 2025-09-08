@@ -58,8 +58,20 @@ export default function HomePage() {
       </Section>
 
       {/* Comparación: Dolores vs Soluciones */}
-      <Section id="comparacion" className="bg-brand-deep text-brand-pearl py-16">
-        <div className="container">
+      <Section id="comparacion" className="relative text-brand-pearl py-16 overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/30 to-brand-deep">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/10 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/5 to-transparent transform skew-y-1"></div>
+            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/8 to-transparent transform -skew-y-2"></div>
+            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-1"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/80 via-brand-deep/40 to-brand-deep/60"></div>
+        </div>
+        <div className="container relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Título compacto */}
             <div className="text-center mb-12">
@@ -154,8 +166,19 @@ export default function HomePage() {
       </Section>
 
       {/* Beneficios / Por qué elegirnos */}
-      <Section id="beneficios" className="bg-brand-aqua text-brand-pearl">
-        <div className="container">
+      <Section id="beneficios" className="relative text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-waves/40 to-brand-aqua">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-25">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/8 to-transparent transform skew-y-2"></div>
+            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/5 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/6 to-transparent transform skew-y-3"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/90 via-brand-aqua/70 to-brand-aqua/80"></div>
+        </div>
+        <div className="container relative z-10">
           <div className="max-w-5xl mx-auto text-center mb-12">
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Más que diseño, creamos sistemas digitales vivos
@@ -297,8 +320,20 @@ export default function HomePage() {
       </Section>
 
       {/* Servicios Estrella (Paquetes Aqua) */}
-      <Section id="servicios" className="bg-brand-deep text-brand-pearl">
-        <div className="container">
+      <Section id="servicios" className="relative text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-waves/20 to-brand-deep">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/6 to-transparent transform -skew-y-3"></div>
+            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/4 to-transparent transform skew-y-2"></div>
+            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/5 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-4"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/85 via-brand-deep/50 to-brand-deep/70"></div>
+        </div>
+        <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Soluciones digitales diseñadas para crecer contigo
           </h2>
@@ -334,8 +369,19 @@ export default function HomePage() {
       {/* Logos de Clientes */}
 
       {/* Testimonios */}
-      <Section id="testimonios" className="bg-brand-aqua text-brand-pearl">
-        <div className="container">
+      <Section id="testimonios" className="relative text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-bright/20 to-brand-aqua">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/6 to-transparent transform skew-y-1"></div>
+            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-waves/4 to-transparent transform -skew-y-2"></div>
+            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/3 to-transparent transform skew-y-3"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/80 via-brand-aqua/60 to-brand-aqua/70"></div>
+        </div>
+        <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Lo que nuestros clientes dicen
           </h2>
@@ -404,8 +450,20 @@ export default function HomePage() {
       </Section>
 
       {/* Blog / Recursos */}
-      <Section id="blog" className="bg-brand-aqua/20 text-brand-pearl">
-        <div className="container">
+      <Section id="blog" className="relative text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua/30 via-brand-waves/15 to-brand-aqua/20">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-25">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/4 to-transparent transform -skew-y-2"></div>
+            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform skew-y-1"></div>
+            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/2 to-transparent transform -skew-y-3"></div>
+            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/2 to-transparent transform skew-y-2"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/40 via-brand-aqua/20 to-brand-aqua/30"></div>
+        </div>
+        <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Insights que te hacen fluir
           </h2>
@@ -476,23 +534,46 @@ export default function HomePage() {
       </Section>
 
       {/* CTA Intermedio */}
-      <Section className="bg-brand-bright text-brand-deep py-20 md:py-28">
-        <div className="container text-center">
-          <h2 className="mb-8 text-4xl font-bold md:text-5xl">
+      <Section className="relative text-brand-pearl py-20 md:py-28 overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/40 to-brand-deep">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/8 to-transparent transform skew-y-3"></div>
+            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/5 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/4 to-transparent transform skew-y-2"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-deep/90 via-brand-deep/70 to-brand-deep/80"></div>
+        </div>
+        <div className="container text-center relative z-10">
+          <h2 className="mb-8 text-4xl font-bold md:text-5xl text-brand-pearl">
             ¿Listo para hacer fluir tu negocio?
           </h2>
-          <p className="mb-10 text-xl md:text-2xl max-w-3xl mx-auto">
+          <p className="mb-10 text-xl md:text-2xl max-w-3xl mx-auto text-brand-pearl/90">
             Transforma tu visión en una realidad digital que convierte.
           </p>
-          <Button variant="primary" className="bg-brand-deep text-brand-bright hover:bg-brand-deep/90 px-10 py-5 text-lg md:text-xl">
+          <Button variant="primary" className="bg-brand-bright text-brand-deep hover:bg-brand-bright/90 px-10 py-5 text-lg md:text-xl shadow-lg hover:shadow-xl transition-all duration-300">
             Empieza tu transformación digital
           </Button>
         </div>
       </Section>
 
       {/* Sobre Nosotros */}
-      <Section id="nosotros" className="bg-brand-deep text-brand-pearl">
-        <div className="container max-w-4xl mx-auto text-center">
+      <Section id="nosotros" className="relative text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/25 to-brand-deep">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-25">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/5 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform skew-y-2"></div>
+            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/4 to-transparent transform -skew-y-3"></div>
+            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-waves/2 to-transparent transform skew-y-1"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/90 via-brand-deep/60 to-brand-deep/75"></div>
+        </div>
+        <div className="container max-w-4xl mx-auto text-center relative z-10">
           <h2 className="mb-12 text-4xl font-bold md:text-5xl">
             Nuestra filosofía: Diseño con propósito
           </h2>
@@ -509,8 +590,19 @@ export default function HomePage() {
       </Section>
 
       {/* Footer */}
-      <footer className="bg-brand-aqua py-16 text-brand-pearl">
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-12">
+      <footer className="relative py-16 text-brand-pearl overflow-hidden">
+        {/* Fondo fluido del mar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-waves/30 to-brand-aqua">
+          {/* Ondas de agua sutiles */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/4 to-transparent transform skew-y-2"></div>
+            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform -skew-y-1"></div>
+            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/2 to-transparent transform skew-y-3"></div>
+          </div>
+          {/* Efecto de profundidad */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-aqua/85 via-brand-aqua/70 to-brand-aqua/80"></div>
+        </div>
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
           {/* Columna 1: Logo y Descripción */}
           <div>
             <h3 className="text-2xl font-bold mb-4">Aqua Studio</h3>

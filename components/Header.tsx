@@ -10,6 +10,13 @@ export default function Header() {
 
   const navItems = [
     { name: 'Inicio', href: '/' },
+    { 
+      name: 'SaaS', 
+      href: '/saas',
+      submenu: [
+        { name: 'Restaurante SaaS', href: '/saas/restaurante' }
+      ]
+    },
     { name: 'Blog', href: '/blog' },
   ];
 
@@ -61,14 +68,32 @@ export default function Header() {
             {/* Navegación centrada */}
             <nav className="hidden md:flex items-center space-x-12">
               {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="relative text-white/90 hover:text-white transition-all duration-300 group text-sm font-medium tracking-wide uppercase"
-                >
-                  {item.name}
-                  <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-                </Link>
+                <div key={item.name} className="relative group">
+                  <Link
+                    href={item.href}
+                    className="relative text-white/90 hover:text-white transition-all duration-300 group text-sm font-medium tracking-wide uppercase"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                  
+                  {/* Submenú */}
+                  {item.submenu && (
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-brand-deep/95 backdrop-blur-md border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                      <div className="py-2">
+                        {item.submenu.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            href={subItem.href}
+                            className="block px-4 py-3 text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-200"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
             
