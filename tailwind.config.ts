@@ -42,6 +42,36 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
+      keyframes: {
+        'aquatic-flow': {
+          '0%': { transform: 'scale(1) rotate(0deg)', opacity: '0.8' },
+          '25%': { transform: 'scale(1.1) rotate(90deg)', opacity: '0.6' },
+          '50%': { transform: 'scale(0.9) rotate(180deg)', opacity: '0.9' },
+          '75%': { transform: 'scale(1.05) rotate(270deg)', opacity: '0.7' },
+          '100%': { transform: 'scale(1) rotate(360deg)', opacity: '0.8' },
+        },
+        'gentle-pulse': {
+          '0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+          '50%': { opacity: '0.7', transform: 'scale(1.1)' },
+        },
+        'water-ripple': {
+          '0%': { transform: 'scale(0.8)', opacity: '0.4' },
+          '50%': { transform: 'scale(1.2)', opacity: '0.1' },
+          '100%': { transform: 'scale(1.5)', opacity: '0' },
+        },
+        'floating': {
+          '0%, 100%': { transform: 'translateY(0px) translateX(0px)' },
+          '25%': { transform: 'translateY(-10px) translateX(5px)' },
+          '50%': { transform: 'translateY(-5px) translateX(-5px)' },
+          '75%': { transform: 'translateY(-15px) translateX(3px)' },
+        },
+      },
+      animation: {
+        'aquatic-flow': 'aquatic-flow 20s ease-in-out infinite',
+        'gentle-pulse': 'gentle-pulse 8s ease-in-out infinite',
+        'water-ripple': 'water-ripple 12s ease-out infinite',
+        'floating': 'floating 15s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
