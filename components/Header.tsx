@@ -51,7 +51,7 @@ export default function Header() {
       {/* Línea horizontal delgada que cubre toda la pantalla */}
       <div className="w-full h-px bg-gradient-to-r from-transparent via-brand-aqua/40 to-transparent"></div>
       
-      <div className="relative bg-black backdrop-blur-md border-b border-brand-aqua/20">
+      <div className="relative bg-transparent backdrop-blur-md border-b border-brand-aqua/30">
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo a la izquierda */}

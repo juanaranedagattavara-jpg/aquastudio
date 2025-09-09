@@ -34,7 +34,9 @@ export default {
       },
       boxShadow: { 
         soft: "0 6px 24px -6px rgba(0,0,0,.35)",
-        "soft-lg": "0 10px 40px -10px rgba(0,0,0,.4)"
+        "soft-lg": "0 10px 40px -10px rgba(0,0,0,.4)",
+        "2xl": "0 25px 50px -12px rgba(0,0,0,.25)",
+        "3xl": "0 35px 60px -12px rgba(0,0,0,.3)"
       },
       fontFamily: {
         serif: ["var(--font-serif)", "ui-serif", "Georgia", "Times New Roman", "serif"],

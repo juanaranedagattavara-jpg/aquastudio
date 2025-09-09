@@ -26,32 +26,135 @@ export default function HomePage() {
         })}
       </Script>
 
-      {/* Hero Section */}
-      <section id="inicio" className="relative min-h-screen flex items-center justify-center bg-black">
-        <div className="max-w-6xl mx-auto text-center px-6">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-8">
-            Aqua Studio
+      {/* Imagen de energía de agua fija - presente en toda la página */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+          <Image
+          src="/ChatGPT Image 9 sept 2025, 00_52_21.jpg"
+          alt="Fondo abstracto Aqua Studio"
+            fill
+          className="object-cover brightness-125 contrast-110"
+            priority
+          quality={85}
+          />
+        {/* Overlay dinámico que se desvanece con el scroll */}
+        <div 
+          id="water-energy-overlay"
+          className="absolute inset-0 bg-black/20 transition-all duration-1000 ease-out"
+        ></div>
+        {/* Efecto de desenfoque dinámico */}
+        <div 
+          id="water-energy-blur"
+          className="absolute inset-0 backdrop-blur-none transition-all duration-1000 ease-out"
+        ></div>
+        {/* Efecto de brillo adicional */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-bright/8 to-transparent"></div>
+        </div>
+
+      {/* Script para controlar el desvanecimiento con scroll */}
+      <Script id="water-energy-scroll" strategy="afterInteractive">
+        {`
+          let ticking = false;
+          
+          function updateWaterEnergyOverlay() {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const heroHeight = windowHeight;
+            
+            // Calcular opacidad basada en el scroll - overlay mínimo
+            let overlayOpacity = 0.2;
+            
+            if (scrollY > 0) {
+              const fadeProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
+              overlayOpacity = 0.2 + (fadeProgress * 0.3);
+            }
+            
+            // Calcular desenfoque basado en el scroll
+            let blurAmount = 0;
+            
+            if (scrollY > heroHeight * 0.3) {
+              const blurProgress = Math.min((scrollY - heroHeight * 0.3) / (heroHeight * 0.7), 1);
+              blurAmount = blurProgress * 8;
+            }
+            
+            // Aplicar la opacidad al overlay
+            const overlay = document.getElementById('water-energy-overlay');
+            if (overlay) {
+              overlay.style.opacity = Math.min(overlayOpacity, 0.5);
+            }
+            
+            // Aplicar el desenfoque
+            const blurElement = document.getElementById('water-energy-blur');
+            if (blurElement) {
+              blurElement.style.backdropFilter = 'blur(' + blurAmount + 'px)';
+            }
+            
+            ticking = false;
+          }
+          
+          function requestTick() {
+            if (!ticking) {
+              requestAnimationFrame(updateWaterEnergyOverlay);
+              ticking = true;
+            }
+          }
+          
+          window.addEventListener('scroll', requestTick);
+          window.addEventListener('resize', requestTick);
+          
+          updateWaterEnergyOverlay();
+        `}
+      </Script>
+
+      {/* Hero Section - Diseño premium optimizado */}
+      <section id="inicio" className="relative min-h-screen flex flex-col justify-center bg-transparent overflow-hidden z-10">
+        {/* Contenido del hero - distribuido verticalmente para diseño premium */}
+        <div className="relative z-10 max-w-7xl mx-auto text-center px-6 py-20 pt-32">
+          
+          {/* Título principal - diseño premium con mejor espaciado */}
+          <div className="mb-16">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[0.9] drop-shadow-2xl">
+              <div className="block font-bold tracking-tight mb-4">Negocios que fluyen</div>
+              <div className="block font-bold tracking-tight">Resultados que crecen</div>
           </h1>
-          <p className="text-xl md:text-2xl text-white/80 mb-12">
-            Donde el diseño fluye y la estrategia convierte
-          </p>
+            
+            {/* Línea decorativa elegante */}
+            <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-brand-aqua to-transparent mx-auto mb-8"></div>
+          </div>
+          
+          {/* Subtítulo - mejor espaciado y tipografía */}
+          <div className="mb-20">
+            <div className="text-xl md:text-2xl text-white/95 max-w-4xl mx-auto leading-relaxed font-sans drop-shadow-lg">
+              <div className="block font-light mb-2">Webs premium y automatización que atraen</div>
+              <div className="block font-light">clientes y te devuelven tiempo</div>
+            </div>
+          </div>
+          
+          {/* Botones CTA - diseño premium con mejor espaciado */}
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+            {/* Botón principal - diseño premium elegante */}
+            <Button 
+              variant="primary" 
+              className="bg-gradient-to-r from-brand-bright to-brand-aqua hover:from-brand-bright/90 hover:to-brand-aqua/90 text-brand-deep px-12 py-6 text-xl font-semibold rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 min-w-[360px] sm:min-w-[320px] drop-shadow-2xl hover:scale-105"
+            >
+              Agenda tu asesoría gratuita
+            </Button>
+            
+            {/* Botón secundario - diseño premium minimalista */}
+            <Button 
+              variant="ghost" 
+              className="border-2 border-white/60 hover:border-white text-white hover:text-white px-12 py-6 text-xl font-semibold rounded-3xl transition-all duration-500 min-w-[360px] sm:min-w-[240px] backdrop-blur-md hover:bg-white/10 drop-shadow-2xl hover:scale-105"
+            >
+              Ver proyectos
+            </Button>
+          </div>
+          
+          {/* Espaciado inferior para completar el diseño premium */}
+          <div className="h-20"></div>
         </div>
       </section>
 
       {/* Comparación: Dolores vs Soluciones */}
-      <Section id="comparacion" className="relative text-brand-pearl py-16 overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/20 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/10 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/5 to-transparent transform skew-y-1"></div>
-            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/8 to-transparent transform -skew-y-2"></div>
-            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-1"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60"></div>
-        </div>
+      <Section id="comparacion" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Título compacto */}
@@ -138,18 +241,7 @@ export default function HomePage() {
       </Section>
 
       {/* Beneficios / Por qué elegirnos */}
-      <Section id="beneficios" className="relative text-brand-pearl overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/30 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-25">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/8 to-transparent transform skew-y-2"></div>
-            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/5 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/6 to-transparent transform skew-y-3"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/90 via-brand-aqua/70 to-brand-aqua/80"></div>
-        </div>
+      <Section id="beneficios" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container relative z-10">
           <div className="max-w-5xl mx-auto text-center mb-12">
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
@@ -292,19 +384,7 @@ export default function HomePage() {
       </Section>
 
       {/* Servicios Estrella (Paquetes Aqua) */}
-      <Section id="servicios" className="relative text-brand-pearl overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-waves/20 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/6 to-transparent transform -skew-y-3"></div>
-            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/4 to-transparent transform skew-y-2"></div>
-            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/5 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-4"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/70"></div>
-        </div>
+      <Section id="servicios" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Soluciones digitales diseñadas para crecer contigo
@@ -341,18 +421,7 @@ export default function HomePage() {
       {/* Logos de Clientes */}
 
       {/* Testimonios */}
-      <Section id="testimonios" className="relative text-brand-pearl overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-waves/30 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/6 to-transparent transform skew-y-1"></div>
-            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-waves/4 to-transparent transform -skew-y-2"></div>
-            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/3 to-transparent transform skew-y-3"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/80 via-brand-aqua/60 to-brand-aqua/70"></div>
-        </div>
+      <Section id="testimonios" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Lo que nuestros clientes dicen
@@ -422,19 +491,7 @@ export default function HomePage() {
       </Section>
 
       {/* Blog / Recursos */}
-      <Section id="blog" className="relative text-brand-pearl overflow-hidden bg-brand-dark">
-        {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-deep/20 to-brand-dark">
-          {/* Ondas de agua sutiles */}
-          <div className="absolute inset-0 opacity-25">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/4 to-transparent transform -skew-y-2"></div>
-            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform skew-y-1"></div>
-            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/2 to-transparent transform -skew-y-3"></div>
-            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/2 to-transparent transform skew-y-2"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-aqua/40 via-brand-aqua/20 to-brand-aqua/30"></div>
-        </div>
+      <Section id="blog" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container relative z-10">
           <h2 className="mb-12 text-4xl font-bold text-center md:text-5xl">
             Insights que te hacen fluir
@@ -506,18 +563,7 @@ export default function HomePage() {
       </Section>
 
       {/* CTA Intermedio */}
-      <Section className="relative text-brand-pearl py-20 md:py-28 overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-bright/20 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/8 to-transparent transform skew-y-3"></div>
-            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/5 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/4 to-transparent transform skew-y-2"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black/80"></div>
-        </div>
+      <Section className="relative text-white py-20 md:py-28 overflow-hidden bg-transparent z-10">
         <div className="container text-center relative z-10">
           <h2 className="mb-8 text-4xl font-bold md:text-5xl text-brand-pearl">
             ¿Listo para hacer fluir tu negocio?
@@ -532,19 +578,7 @@ export default function HomePage() {
       </Section>
 
       {/* Sobre Nosotros */}
-      <Section id="nosotros" className="relative text-brand-pearl overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/25 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-25">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/5 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform skew-y-2"></div>
-            <div className="absolute top-1/2 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/4 to-transparent transform -skew-y-3"></div>
-            <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-waves/2 to-transparent transform skew-y-1"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/75"></div>
-        </div>
+      <Section id="nosotros" className="relative text-white py-20 overflow-hidden bg-transparent z-10">
         <div className="container max-w-4xl mx-auto text-center relative z-10">
           <h2 className="mb-12 text-4xl font-bold md:text-5xl">
             Nuestra filosofía: Diseño con propósito
@@ -562,18 +596,7 @@ export default function HomePage() {
       </Section>
 
       {/* Footer */}
-      <footer className="relative py-16 text-brand-pearl overflow-hidden bg-black">
-        {/* Fondo fluido negro con grises */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-waves/30 to-black">
-          {/* Ondas sutiles en gris */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/4 to-transparent transform skew-y-2"></div>
-            <div className="absolute top-1/3 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-bright/3 to-transparent transform -skew-y-1"></div>
-            <div className="absolute top-2/3 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/2 to-transparent transform skew-y-3"></div>
-          </div>
-          {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-aqua/85 via-brand-aqua/70 to-brand-aqua/80"></div>
-        </div>
+      <footer className="relative py-20 text-white overflow-hidden bg-transparent z-10">
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
           {/* Columna 1: Logo y Descripción */}
           <div>
