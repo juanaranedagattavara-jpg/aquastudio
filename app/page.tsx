@@ -5,8 +5,6 @@ import Button from "@/components/Button";
 import PlanCard from "@/components/PlanCard";
 import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
-import { LampContainer } from "@/components/LampContainer";
-import AnimatedHero from "@/components/AnimatedHero";
 import { services } from "@/data/services";
 
 export default function HomePage() {
@@ -29,10 +27,15 @@ export default function HomePage() {
       </Script>
 
       {/* Hero Section */}
-      <section id="inicio">
-        <LampContainer className="text-center text-white">
-          <AnimatedHero />
-        </LampContainer>
+      <section id="inicio" className="relative min-h-screen flex items-center justify-center bg-black">
+        <div className="max-w-6xl mx-auto text-center px-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-8">
+            Aqua Studio
+          </h1>
+          <p className="text-xl md:text-2xl text-white/80 mb-12">
+            Donde el diseño fluye y la estrategia convierte
+          </p>
+        </div>
       </section>
 
       {/* Comparación: Dolores vs Soluciones */}
