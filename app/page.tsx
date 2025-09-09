@@ -5,6 +5,8 @@ import Button from "@/components/Button";
 import PlanCard from "@/components/PlanCard";
 import Testimonial from "@/components/Testimonial";
 import MetricsChip from "@/components/MetricsChip";
+import { LampContainer } from "@/components/LampContainer";
+import AnimatedHero from "@/components/AnimatedHero";
 import { services } from "@/data/services";
 
 export default function HomePage() {
@@ -27,40 +29,16 @@ export default function HomePage() {
       </Script>
 
       {/* Hero Section */}
-      <Section id="inicio" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-deep text-center text-brand-pearl">
-        <Image
-          src="/hero-water.jpg"
-          alt="Superficie de agua con ondas suaves y elegantes"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        {/* Overlay para mejorar la legibilidad del texto */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/70 via-brand-aqua/40 to-transparent" />
-
-        <div className="relative z-10 max-w-5xl px-4">
-          <h1 className="mb-8 text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-            Diseñamos webs que fluyen y convierten
-          </h1>
-          <p className="mb-12 text-xl md:text-2xl lg:text-3xl opacity-90 max-w-4xl mx-auto leading-relaxed">
-            En Aqua Studio creamos experiencias digitales premium: diseño elegante, funnels automatizados y estrategia inteligente que transforman clics en clientes.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Button variant="primary" className="px-10 py-5 text-lg md:text-xl">
-              Agenda tu diagnóstico gratuito
-            </Button>
-            <Button variant="ghost" className="px-10 py-5 text-lg md:text-xl">
-              Ver proyectos en acción
-            </Button>
-          </div>
-        </div>
-      </Section>
+      <section id="inicio">
+        <LampContainer className="text-center text-white">
+          <AnimatedHero />
+        </LampContainer>
+      </section>
 
       {/* Comparación: Dolores vs Soluciones */}
-      <Section id="comparacion" className="relative text-brand-pearl py-16 overflow-hidden">
+      <Section id="comparacion" className="relative text-brand-pearl py-16 overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/30 to-brand-deep">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/10 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/10 to-transparent transform -skew-y-1"></div>
@@ -158,7 +136,7 @@ export default function HomePage() {
                 <h3 className="text-lg font-bold mb-2">¿Listo para el cambio?</h3>
                 <Button variant="primary" className="px-8 py-3 text-base font-semibold">
                   Quiero mi transformación
-                </Button>
+            </Button>
               </div>
             </div>
           </div>
@@ -166,9 +144,9 @@ export default function HomePage() {
       </Section>
 
       {/* Beneficios / Por qué elegirnos */}
-      <Section id="beneficios" className="relative text-brand-pearl overflow-hidden">
+      <Section id="beneficios" className="relative text-brand-pearl overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-waves/40 to-brand-aqua">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/20 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-25">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/8 to-transparent transform skew-y-2"></div>
@@ -320,9 +298,9 @@ export default function HomePage() {
       </Section>
 
       {/* Servicios Estrella (Paquetes Aqua) */}
-      <Section id="servicios" className="relative text-brand-pearl overflow-hidden">
+      <Section id="servicios" className="relative text-brand-pearl overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-waves/20 to-brand-deep">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/15 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-30">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-aqua/6 to-transparent transform -skew-y-3"></div>
@@ -369,9 +347,9 @@ export default function HomePage() {
       {/* Logos de Clientes */}
 
       {/* Testimonios */}
-      <Section id="testimonios" className="relative text-brand-pearl overflow-hidden">
+      <Section id="testimonios" className="relative text-brand-pearl overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-bright/20 to-brand-aqua">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/25 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/6 to-transparent transform skew-y-1"></div>
@@ -450,9 +428,9 @@ export default function HomePage() {
       </Section>
 
       {/* Blog / Recursos */}
-      <Section id="blog" className="relative text-brand-pearl overflow-hidden">
+      <Section id="blog" className="relative text-brand-pearl overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua/30 via-brand-waves/15 to-brand-aqua/20">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/10 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-25">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/4 to-transparent transform -skew-y-2"></div>
@@ -590,9 +568,9 @@ export default function HomePage() {
       </Section>
 
       {/* Footer */}
-      <footer className="relative py-16 text-brand-pearl overflow-hidden">
+      <footer className="relative py-16 text-brand-pearl overflow-hidden bg-black">
         {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua via-brand-waves/30 to-brand-aqua">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/20 to-black">
           {/* Ondas de agua sutiles */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-deep/4 to-transparent transform skew-y-2"></div>

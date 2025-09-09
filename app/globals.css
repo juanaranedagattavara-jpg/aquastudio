@@ -22,7 +22,7 @@ html:focus-within {
 
   /* Establecer el fondo principal y color de texto por defecto */
   body {
-    @apply bg-brand-deep text-brand-pearl; /* Fondo azul profundo, texto blanco perla */
+    @apply bg-black text-brand-pearl; /* Fondo negro, texto blanco perla */
   }
 }
 

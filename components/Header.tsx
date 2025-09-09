@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -50,11 +49,9 @@ export default function Header() {
       }`}
     >
       {/* Línea horizontal delgada que cubre toda la pantalla */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-brand-aqua/40 to-transparent"></div>
       
-      <div className="relative bg-gradient-to-b from-brand-deep/95 via-brand-deep/75 to-brand-deep/60 backdrop-blur-md border-b border-white/10">
-        {/* Degradado adicional para mayor elegancia */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent pointer-events-none"></div>
+      <div className="relative bg-black backdrop-blur-md border-b border-brand-aqua/20">
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo a la izquierda */}
@@ -102,39 +99,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu Button - Solo visible en móvil */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden absolute top-6 right-6 text-white hover:text-white/80 transition-colors"
-          aria-label="Toggle menu"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-6 border-t border-white/20 bg-brand-deep/98 backdrop-blur-md">
-            <nav className="flex flex-col items-center space-y-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="relative text-white hover:text-white/80 transition-colors duration-300 group py-2 text-lg font-medium tracking-wide uppercase"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                  <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );

@@ -17,11 +17,12 @@ export default {
     extend: {
       colors: {
         brand: {
-          deep:   "#0D2A3A", // 🌊 fondo hero / secciones oscuras
-          aqua:   "#1F4F64", // 💧 overlay / gradientes / secciones intermedias
-          waves:  "#3B6F84", // 🔹 hovers / bordes / detalles
-          pearl:  "#F7F9FC", // ⚪ tipografía sobre oscuro / fondos claros (no blanco puro)
-          bright: "#00C2FF", // 🟦 CTAs / enlaces
+          deep:   "#000000", // 🖤 fondo principal negro
+          aqua:   "#06B6D4", // 💙 azul del círculo - color secundario
+          waves:  "#0891B2", // 🔹 azul más intenso para hovers
+          pearl:  "#F8FAFC", // ⚪ tipografía sobre oscuro
+          bright: "#22D3EE", // 🟦 azul brillante para CTAs
+          accent: "#0EA5E9", // 🌊 azul medio para detalles
         },
       },
       borderRadius: { 
@@ -37,6 +38,9 @@ export default {
       fontFamily: {
         serif: ["var(--font-serif)", "ui-serif", "Georgia", "Times New Roman", "serif"],
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },
