@@ -7,10 +7,10 @@ export default function SaasPage() {
   return (
     <>
       {/* Hero Section */}
-      <Section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-deep text-center text-brand-pearl">
-        {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/30 to-brand-deep">
-          {/* Ondas de agua sutiles */}
+      <Section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black text-center text-brand-pearl">
+        {/* Fondo fluido negro con grises */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/30 to-black">
+          {/* Ondas sutiles en gris */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/10 to-transparent transform -skew-y-1"></div>
             <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/5 to-transparent transform skew-y-1"></div>
@@ -18,7 +18,7 @@ export default function SaasPage() {
             <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-1"></div>
           </div>
           {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/80 via-brand-deep/40 to-brand-deep/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60"></div>
         </div>
 
         <div className="relative z-10 max-w-6xl px-4">
@@ -67,7 +67,7 @@ export default function SaasPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {/* Restaurante SaaS */}
             <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-3xl bg-brand-deep/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-brand-deep/60 h-80">
+              <div className="relative overflow-hidden rounded-3xl bg-black/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-black/60 h-80">
                 {/* Placeholder elegante */}
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-aqua/20 via-brand-waves/10 to-brand-bright/20"></div>
                 
@@ -106,7 +106,7 @@ export default function SaasPage() {
 
             {/* E-commerce SaaS - Placeholder */}
             <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-3xl bg-brand-deep/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-brand-deep/60 h-80">
+              <div className="relative overflow-hidden rounded-3xl bg-black/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-black/60 h-80">
                 {/* Placeholder elegante */}
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-waves/20 via-brand-aqua/10 to-brand-bright/20"></div>
                 
@@ -145,7 +145,7 @@ export default function SaasPage() {
 
             {/* Servicios Profesionales SaaS - Placeholder */}
             <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-3xl bg-brand-deep/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-brand-deep/60 h-80">
+              <div className="relative overflow-hidden rounded-3xl bg-black/40 backdrop-blur-sm border border-brand-waves/30 hover:border-brand-bright/40 transition-all duration-500 group-hover:bg-black/60 h-80">
                 {/* Placeholder elegante */}
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-bright/20 via-brand-aqua/10 to-brand-waves/20"></div>
                 

@@ -13,8 +13,8 @@ export default function AnimatedHero() {
       >
         {/* Título principal con más espaciado */}
         <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
           className="mb-8 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl xl:text-7xl tracking-tight"
         >
@@ -25,10 +25,10 @@ export default function AnimatedHero() {
         
         {/* Subtítulo con más espacio y elegancia */}
         <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-          className="text-lg md:text-xl lg:text-2xl xl:text-3xl opacity-90 leading-relaxed font-light max-w-4xl mx-auto"
+          className="text-lg md:text-xl lg:text-2xl xl:text-3xl opacity-90 leading-relaxed font-light max-w-4xl mx-auto whitespace-nowrap"
         >
           Webs premium y automatización que atraen clientes y te devuelven tiempo
         </motion.p>

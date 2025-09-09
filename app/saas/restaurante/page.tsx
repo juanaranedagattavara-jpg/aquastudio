@@ -6,10 +6,10 @@ export default function RestauranteSaasPage() {
   return (
     <>
       {/* Hero Section */}
-      <Section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-deep text-center text-brand-pearl">
-        {/* Fondo fluido del mar */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-aqua/30 to-brand-deep">
-          {/* Ondas de agua sutiles */}
+      <Section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black text-center text-brand-pearl">
+        {/* Fondo fluido negro con grises */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-brand-aqua/30 to-black">
+          {/* Ondas sutiles en gris */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-brand-waves/10 to-transparent transform -skew-y-1"></div>
             <div className="absolute top-1/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/5 to-transparent transform skew-y-1"></div>
@@ -17,7 +17,7 @@ export default function RestauranteSaasPage() {
             <div className="absolute top-3/4 left-0 w-full h-full bg-gradient-to-l from-transparent via-brand-aqua/3 to-transparent transform skew-y-1"></div>
           </div>
           {/* Efecto de profundidad */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/80 via-brand-deep/40 to-brand-deep/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60"></div>
         </div>
 
         <div className="relative z-10 max-w-6xl px-4">
@@ -290,7 +290,7 @@ export default function RestauranteSaasPage() {
             </div>
 
             {/* Tabla de ROI Mejorada */}
-            <div className="bg-brand-deep/40 backdrop-blur-sm border border-brand-waves/30 rounded-3xl p-8 mb-12">
+            <div className="bg-black/40 backdrop-blur-sm border border-brand-waves/30 rounded-3xl p-8 mb-12">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -303,7 +303,7 @@ export default function RestauranteSaasPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-brand-waves/10">
-                    <tr className="hover:bg-brand-deep/20 transition-colors">
+                    <tr className="hover:bg-black/20 transition-colors">
                       <td className="py-4 px-6 font-medium">Básico</td>
                       <td className="py-4 px-6">~26h</td>
                       <td className="py-4 px-6">≈ CLP 73.800</td>
@@ -317,7 +317,7 @@ export default function RestauranteSaasPage() {
                       <td className="py-4 px-6">CLP 50.000 (~€60)</td>
                       <td className="py-4 px-6 text-brand-bright font-bold">3.6×</td>
                     </tr>
-                    <tr className="hover:bg-brand-deep/20 transition-colors">
+                    <tr className="hover:bg-black/20 transition-colors">
                       <td className="py-4 px-6 font-medium">Premium 🥇</td>
                       <td className="py-4 px-6">~108h</td>
                       <td className="py-4 px-6">≈ CLP 306.700</td>
@@ -481,10 +481,10 @@ export default function RestauranteSaasPage() {
               Digitaliza tu restaurante hoy, libera tiempo y crece con una solución hecha para ti.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <Button variant="primary" className="px-12 py-6 text-xl font-semibold bg-brand-deep text-brand-bright hover:bg-brand-deep/90">
+              <Button variant="primary" className="px-12 py-6 text-xl font-semibold bg-black text-brand-bright hover:bg-black/90">
                 Agendar Demo Gratis
               </Button>
-              <Button variant="ghost" className="px-12 py-6 text-xl font-semibold text-brand-deep border-brand-deep hover:bg-brand-deep/10">
+              <Button variant="ghost" className="px-12 py-6 text-xl font-semibold text-brand-deep border-brand-deep hover:bg-black/10">
                 Descargar Brochure
               </Button>
             </div>

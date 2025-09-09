@@ -17,8 +17,8 @@ export const LampContainer = ({
         className
       )}
     >
-      {/* Fondo negro puro - sin efectos */}
-      <div className="absolute inset-0 bg-black"></div>
+      {/* Fondo azul marino profundo - elegante */}
+      <div className="absolute inset-0 bg-brand-deep"></div>
 
       {/* Contenedor del texto centrado como en la referencia */}
       <div className="relative z-50 flex flex-col items-center justify-center min-h-screen px-6 w-full">

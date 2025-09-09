@@ -18,20 +18,20 @@ export default function Button({
   href,
   ...props 
 }: Props) {
-  const base = "inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2";
+  const base = "inline-flex items-center justify-center rounded-2xl px-8 py-4 text-base font-semibold transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 relative overflow-hidden group";
   
-  const variants = {
-    primary: "bg-gradient-to-r from-brand-aqua to-brand-bright text-black shadow-soft hover:from-brand-bright hover:to-brand-aqua hover:shadow-xl focus-visible:ring-brand-aqua",
-    ghost: "border border-brand-aqua/40 text-brand-pearl hover:bg-brand-aqua/10 hover:border-brand-aqua focus-visible:ring-brand-aqua/50",
-    link: "underline underline-offset-4 text-brand-aqua hover:opacity-90 focus-visible:ring-brand-aqua/40",
-  } as const;
+        const variants = {
+          primary: "bg-gradient-to-r from-brand-bright to-brand-accent text-white shadow-2xl hover:shadow-brand-bright/25 hover:shadow-2xl hover:scale-105 focus-visible:ring-brand-bright before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          ghost: "border-2 border-brand-waves/60 text-brand-pearl hover:bg-brand-waves/20 hover:border-brand-waves hover:shadow-lg hover:scale-105 focus-visible:ring-brand-waves/50 backdrop-blur-sm",
+          link: "underline underline-offset-4 text-brand-bright hover:opacity-90 hover:scale-105 focus-visible:ring-brand-bright/40 transition-transform duration-300",
+        } as const;
 
   const combinedClassName = `${base} ${variants[variant]} ${className}`;
 
   if (href) {
     return (
       <a href={href} className={combinedClassName} {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
-        {(props as any).children}
+        <span className="relative z-10">{(props as any).children}</span>
       </a>
     );
   }
@@ -40,6 +40,8 @@ export default function Button({
     <button 
       className={combinedClassName} 
       {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)} 
-    />
+    >
+      <span className="relative z-10">{(props as any).children}</span>
+    </button>
   );
 }

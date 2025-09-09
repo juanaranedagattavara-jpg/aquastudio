@@ -15,16 +15,17 @@ export default {
       } 
     },
     extend: {
-      colors: {
-        brand: {
-          deep:   "#000000", // 🖤 fondo principal negro
-          aqua:   "#06B6D4", // 💙 azul del círculo - color secundario
-          waves:  "#0891B2", // 🔹 azul más intenso para hovers
-          pearl:  "#F8FAFC", // ⚪ tipografía sobre oscuro
-          bright: "#22D3EE", // 🟦 azul brillante para CTAs
-          accent: "#0EA5E9", // 🌊 azul medio para detalles
+        colors: {
+          brand: {
+            deep:   "#000000", // 🖤 negro profundo - fondo principal
+            aqua:   "#1F2937", // 🔘 gris oscuro - secciones intermedias
+            waves:  "#374151", // 🔹 gris medio - hovers y detalles
+            pearl:  "#F9FAFB", // ⚪ tipografía sobre oscuro
+            bright: "#3B82F6", // 🟦 azul brillante premium - CTAs
+            accent: "#1D4ED8", // 🌊 azul medio para detalles
+            dark:   "#111827", // 🖤 gris muy oscuro - fondos alternativos
+          },
         },
-      },
       borderRadius: { 
         xl: "1rem", 
         "2xl": "1.25rem", 
