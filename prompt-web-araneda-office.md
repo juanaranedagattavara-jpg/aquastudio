@@ -15,7 +15,7 @@ Crea una landing page / sitio web completo de una sola página (SPA con scroll) 
 **Tono:** Premium, confiable, directo, cercano pero profesional. Sin exageraciones. Sin lenguaje de agencia grande ("nuestro equipo de expertos" NO). Hablar en primera persona cuando sea Juan, en tercera cuando sea Araneda Office.
 **Diferenciador:** "Trabajo directamente contigo — sin intermediarios, sin burocracia de agencia. Combino estrategia de marketing con automatización con IA."
 **Metodología propia:** "Método FLUJO" — Fundación → Landing → Unificación → Jet (IA) → Optimización. Es el framework que diferencia a Araneda Office de freelancers genéricos.
-**Dato de mercado clave:** El 77% de las firmas profesionales en Chile no tiene presencia digital (CCS). Hay ~64,000 firmas sin web. SERCOTEC subsidia hasta $1,200,000 CLP para digitalización (web, marketing, IA).
+**Dato de mercado clave:** El 77% de las firmas profesionales en Chile no tiene presencia digital (CCS). Hay ~64,000 firmas sin web.
 
 ---
 
@@ -96,7 +96,6 @@ Crea una landing page / sitio web completo de una sola página (SPA con scroll) 
   | Diagnóstico Digital | Gratuito (30 min) |
   | Sistema Digital — Método FLUJO | Desde $500.000 CLP |
   | Retainer mensual (growth continuo) | Desde $250.000 CLP/mes |
-- **Banner SERCOTEC** (destacado, abajo del precio): "¿Sabías que SERCOTEC subsidia hasta $1.200.000 CLP para digitalización? Tu firma puede calificar — te ayudamos con la postulación." (Este dato es real y verificable en sercotec.cl)
 - CTA: "Quiero mi diagnóstico gratuito"
 
 ### 5. PROCESO — Método FLUJO en 5 fases
@@ -160,13 +159,10 @@ Crea una landing page / sitio web completo de una sola página (SPA con scroll) 
   5. **"¿Cuál es la inversión?"**
   → "El Método FLUJO parte desde $500.000 CLP. El precio final depende del alcance de tu proyecto. En el diagnóstico gratuito te entrego una propuesta personalizada con precio cerrado."
 
-  6. **"¿Hay algún subsidio o financiamiento disponible?"**
-  → "Sí. SERCOTEC ofrece el Kit Digital con subsidios de hasta $1.200.000 CLP no reembolsables, que cubren exactamente los servicios que ofrecemos: sitio web, marketing digital y software de IA. Te ayudo con la postulación como parte del servicio."
-
-  7. **"¿Qué pasa después de la entrega?"**
+  6. **"¿Qué pasa después de la entrega?"**
   → "Te entrego todo funcionando + documentación + capacitación. Si necesitas soporte continuo, tenemos planes de retainer mensual desde $250.000 CLP/mes. Pero el sistema está diseñado para que funcione de forma autónoma."
 
-  8. **"¿Qué es el Método FLUJO?"**
+  7. **"¿Qué es el Método FLUJO?"**
   → "Es nuestro framework de implementación en 5 fases: Fundación (diagnóstico), Landing (web), Unificación (estrategia), Jet (automatización IA) y Optimización (crecimiento continuo). Cada fase tiene entregables concretos y medibles."
 
 ### 9. COMPARATIVA DE MERCADO (sección nueva — genera confianza por transparencia)
@@ -179,7 +175,6 @@ Crea una landing page / sitio web completo de una sola página (SPA con scroll) 
   | Estrategia digital | Sí | No | Sí |
   | Automatización IA | No | No | Sí |
   | Trato directo con quien ejecuta | No (junior asignado) | Sí | Sí |
-  | Ayuda con subsidio SERCOTEC | No | No | Sí |
   | Inversión | Desde $2.8M CLP/mes | $300K-800K CLP (solo web) | Desde $500K CLP (sistema completo) |
 - Nota: Los datos de competencia son estimaciones basadas en información pública disponible.
 
@@ -187,7 +182,6 @@ Crea una landing page / sitio web completo de una sola página (SPA con scroll) 
 - Banner con fondo degradado sutil
 - Título: "¿Listo para que tu firma deje de depender de referidos?"
 - Subtítulo: "Agenda tu diagnóstico gratuito. 30 minutos, sin costo, sin compromiso."
-- Segunda línea: "Subsidio SERCOTEC disponible — te ayudamos a postular."
 - CTA: "Agendar diagnóstico gratuito"
 
 ### 11. FOOTER
