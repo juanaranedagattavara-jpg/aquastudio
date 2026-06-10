@@ -1,4 +1,4 @@
-# PROMPT PARA CLAUDE DESIGN — Web Araneda Office (v3)
+# PROMPT PARA CLAUDE DESIGN — Web Araneda Office (v4)
 
 ## Instrucción principal
 
@@ -14,6 +14,7 @@ Crea un sitio web multi-página para **Araneda Office**. Dark mode, premium, min
 **Propuesta central:** "Entendemos tu negocio, implementamos lo que funciona, medimos todo."
 **Tono:** Directo, cercano, sin humo. Habla como una persona inteligente que te explica las cosas sin jerga. Nada de "potenciado por inteligencia artificial" ni "soluciones disruptivas". Habla de problemas reales y soluciones concretas.
 **Diferenciador en copy:** En vez de decir qué herramientas usamos, decimos qué problemas resolvemos. En vez de prometer, mostramos.
+**Modelo de negocio:** Implementación (setup único) + mantención mensual de los servicios (automatizaciones, web, marketing). No es "asesoría", es mantención activa de lo implementado.
 
 ---
 
@@ -25,7 +26,7 @@ Crea un sitio web multi-página para **Araneda Office**. Dark mode, premium, min
 - **Tipografía body:** DM Sans o Inter (font-weight 400-500)
 - **Bordes:** Sutiles (#2a2a2a), cards con background ligeramente elevado (#1a1a1a)
 - **Espaciado:** Generoso, mucho aire, secciones con padding 80-120px vertical
-- **Estilo:** Inspirado en Linear, Vercel, Stripe. Limpio, sin ornamentos. Glass morphism sutil en navbar.
+- **Estilo:** Inspirado en Linear, Vercel o Stripe. Limpio, sin ornamentos. Glass morphism sutil en navbar.
 
 ---
 
@@ -35,6 +36,7 @@ Crea un sitio web multi-página para **Araneda Office**. Dark mode, premium, min
 HOME (general)          → /
 SERVICIOS               → /#servicios (scroll en home)
 MÉTODO FLUJO            → /#metodo (scroll en home)
+CASO REAL               → /#caso (scroll en home)
 INDUSTRIAS              → /#industrias (scroll en home, cards clickeables)
 SOBRE MÍ                → /#sobre-mi (scroll en home)
 
@@ -51,7 +53,7 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
 ### 1. NAVBAR (fija, presente en todas las páginas)
 - Logo: "Araneda" + "Office" (Office en color acento)
 - Links: Inicio | Servicios | Industrias | Sobre mí
-- CTA button derecha: "Conversemos" (azul)
+- CTA button derecha: "Agenda tu diagnóstico" (azul)
 - Al hacer scroll: fondo con backdrop-filter blur + borde inferior sutil
 - Mobile: hamburguesa con overlay fullscreen
 
@@ -80,11 +82,11 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
   **Servicio 4 — Página Web** 🌐
   - "Tu sitio web debería trabajar para ti, no solo existir. Diseñamos webs que convierten visitantes en clientes reales."
 
-- CTA debajo: "¿No sabes por dónde empezar? Parte con un diagnóstico gratuito de 30 minutos."
+- CTA debajo: "¿No sabes por dónde empezar? Parte con un diagnóstico gratuito de 15 minutos."
 
 ### 4. MÉTODO FLUJO
 - Título: "Cómo trabajamos"
-- Subtítulo: "Un sistema probado en 5 fases. Sin importar tu industria, el camino es el mismo."
+- Subtítulo: "Un sistema en 5 fases. Sin importar tu industria, el camino es el mismo."
 - 5 pasos, cada uno con la letra del acrónimo destacada en color acento:
 
   **F — Fundación**
@@ -102,7 +104,29 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
   **O — Optimización**
   - "Medimos, ajustamos, repetimos. Si algo no funciona, lo cambiamos. Cero ego, puro dato."
 
-### 5. INDUSTRIAS — Para quién trabajamos
+### 5. CASO REAL — Resultados, no promesas
+- Título: "Esto es lo que pasa cuando implementamos"
+- Subtítulo: "Resultados reales de un cliente real. Sin anuncios pagados, solo trabajo orgánico."
+- **Card de caso de estudio** (fondo elevado, borde degradado sutil):
+
+  **Cliente:** Marcela Sallato Store (marcelasallatostore.com)
+  **Contexto:** PyME que no tenía página web ni presencia en Google. Partió de cero.
+  **Qué hicimos:** Diseño web + optimización de presencia en Google (perfil de negocio).
+  **Resultado:** Todo orgánico, sin un peso en publicidad.
+
+  **Métricas reales** (mostrar en cards/badges destacados):
+  - **775** personas vieron el perfil de negocio en Google
+  - **240** interacciones en el perfil (ene-jun 2026)
+  - **60** sesiones en la web en los últimos 30 días
+  - **52** visitantes únicos
+  - **55%** del tráfico viene de Google Maps móvil
+  - **0** pesos en publicidad
+
+  **Frase destacada (no es testimonio, es dato):** "De no existir en internet a 775 personas encontrándola en Google. En menos de 6 meses. Sin anuncios."
+
+- NO poner testimonio inventado. Las métricas hablan solas.
+
+### 6. INDUSTRIAS — Para quién trabajamos
 - Título: "Trabajamos con industrias que conocemos"
 - Subtítulo: "Cada sector tiene sus propios desafíos. No damos soluciones genéricas — nos especializamos."
 - **3 cards de industria en grid:**
@@ -128,7 +152,7 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
 
 - Nota debajo: "¿Tu industria no aparece? No importa — agenda una llamada y conversamos."
 
-### 6. SOBRE MÍ (Juan Araneda)
+### 7. SOBRE MÍ (Juan Araneda)
 - Título: "La persona detrás de Araneda Office"
 - Layout: 2 columnas (texto izquierda, valores derecha)
 - Copy: "Soy Juan Araneda. Creé Araneda Office porque me frustraba ver negocios buenos que nadie conocía — no por falta de calidad, sino porque nadie les mostraba cómo hacerse visibles. Trabajo directamente contigo. Sin intermediarios, sin ejecutivos de cuentas, sin burocracia."
@@ -138,13 +162,13 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
   2. "Resultados medibles" — "Todo se mide. Si no funciona, se ajusta."
   3. "Sin humo" — "No prometo lo que no puedo cumplir. Prefiero sorprenderte."
 
-### 7. CTA FINAL
+### 8. CTA FINAL
 - Banner con fondo degradado sutil
 - Título: "¿Conversamos?"
-- Subtítulo: "30 minutos. Sin costo. Sin compromiso. Solo para entender si podemos ayudarte."
+- Subtítulo: "15 minutos. Sin costo. Sin compromiso. Solo para entender si podemos ayudarte."
 - CTA: "Agendar diagnóstico gratuito"
 
-### 8. FOOTER
+### 9. FOOTER
 - Logo Araneda Office
 - Descripción breve: "Growth partner digital. Marketing, consultoría, automatizaciones y web."
 - Links: Inicio | Servicios | Industrias | Firmas Profesionales | Sobre mí
@@ -163,7 +187,6 @@ Se accede desde la card de "Industrias" en el Home. Es una página completa y de
 - Título H1: "Tu firma es excelente en lo que hace. El problema es que nadie lo sabe."
 - Subtítulo: "La mayoría de las firmas profesionales en Chile dependen 100% de referidos. Nosotros te ayudamos a que los clientes correctos te encuentren — sin esperar a que alguien te recomiende."
 - CTA primario: "Agenda tu diagnóstico gratuito"
-- CTA secundario: "Ver caso de estudio"
 - Dato real (texto muted, pequeño): "El 77% de las firmas profesionales en Chile no tiene presencia digital. — Cámara de Comercio de Santiago"
 
 ### 2. PROBLEMA vs SOLUCIÓN
@@ -203,20 +226,13 @@ Se accede desde la card de "Industrias" en el Home. Es una página completa y de
 - **Precios:**
   | Servicio | Inversión |
   |----------|----------|
-  | Diagnóstico Digital | Gratuito (30 min) |
-  | Sistema Digital — Método FLUJO | Desde $500.000 CLP |
-  | Acompañamiento mensual | Desde $250.000 CLP/mes |
+  | Diagnóstico Digital | Gratuito (15 min) |
+  | Implementación — Método FLUJO | Desde $500.000 CLP |
+  | Mantención mensual | Desde $250.000 CLP/mes |
+- Nota pequeña bajo precios: "La mantención incluye actualizaciones, soporte y operación continua de automatizaciones y marketing. No es solo asesoría — mantenemos todo funcionando."
 - CTA: "Quiero mi diagnóstico gratuito"
 
-### 4. CASO DE ESTUDIO (placeholder)
-- Card grande con fondo elevado
-- Título: "De depender 100% de referidos a recibir consultas cada semana"
-- Subtipo: Estudio de inteligencia de mercado
-- 3 métricas: "Primera consulta digital" → Semana 2 | "Horas ahorradas/mes" → +15 | "Implementación" → 3 semanas
-- Testimonio placeholder: "[Próximamente]"
-- Nota sutil: "Caso de estudio en desarrollo — resultados preliminares"
-
-### 5. COMPARATIVA DE MERCADO
+### 4. COMPARATIVA DE MERCADO
 - Título: "¿Cómo se compara?"
 - Tabla:
   | | Agencia premium | Freelancer | Araneda Office |
@@ -227,36 +243,38 @@ Se accede desde la card de "Industrias" en el Home. Es una página completa y de
   | Trato directo | No (te asignan un junior) | Sí | ✅ Sí |
   | Inversión | Desde $2.8M CLP/mes | $300K-800K CLP | ✅ Desde $500K CLP |
 
-### 6. FAQ
+### 5. FAQ
 - Accordion:
   1. **"¿Para quién es esto?"** → "Consultoras, estudios de abogados, contadores, ingenieros y cualquier firma de servicios profesionales B2B en Chile."
   2. **"¿Cuánto toma?"** → "3-4 semanas la implementación completa. Los primeros resultados se ven dentro del primer mes."
-  3. **"¿Qué incluye el diagnóstico gratuito?"** → "Una videollamada de 30 minutos donde analizamos tu web, tu Google, tu LinkedIn y te mostramos 3 oportunidades concretas para atraer más clientes."
+  3. **"¿Qué incluye el diagnóstico gratuito?"** → "Una videollamada de 15 minutos donde analizamos tu presencia digital y te mostramos oportunidades concretas para atraer más clientes."
   4. **"¿Es solo diseño web?"** → "No. Es web + estrategia + automatización. Un sistema completo."
-  5. **"¿Cuál es la inversión?"** → "Desde $500.000 CLP por el sistema completo. Te entregamos una propuesta personalizada en el diagnóstico."
-  6. **"¿Y después qué?"** → "Queda todo funcionando, documentado y con capacitación. Si quieres acompañamiento continuo, hay un plan mensual desde $250.000 CLP."
+  5. **"¿Cuál es la inversión?"** → "Desde $500.000 CLP por la implementación completa. Te entregamos una propuesta personalizada en el diagnóstico."
+  6. **"¿Qué es la mantención mensual?"** → "No es asesoría. Es la operación continua de todo lo que implementamos: actualización de contenido, monitoreo de automatizaciones, ajustes de estrategia, soporte técnico. Mantenemos tu sistema digital funcionando y creciendo."
 
-### 7. CTA FINAL
+### 6. CTA FINAL
 - Título: "Tu firma merece ser encontrada."
-- Subtítulo: "Agenda tu diagnóstico gratuito. 30 minutos, sin costo, sin compromiso."
+- Subtítulo: "Agenda tu diagnóstico gratuito. 15 minutos, sin costo, sin compromiso."
 - CTA: "Agendar diagnóstico gratuito"
 
 ---
 
 ## REGLAS IMPORTANTES
 
-1. **NO inventar testimonios.** Placeholders marcados claramente.
-2. **NO inventar métricas.** No poner "500+ clientes" ni nada falso.
+1. **NO inventar testimonios.** Solo usar datos reales verificables.
+2. **NO inventar métricas.** Solo las métricas reales de Marcela Sallato Store en la sección de caso real.
 3. **NO usar jerga técnica.** Nunca mencionar herramientas específicas (nada de n8n, Make, Claude, ChatGPT, Zapier). Hablar de lo que se resuelve, no de cómo.
 4. **NO sonar como "agencia de IA genérica".** Nada de "potenciado por inteligencia artificial", "soluciones disruptivas", "tecnología de punta". Hablar como persona, no como landing page.
 5. **NO usar lenguaje de agencia grande.** Nada de "nuestro equipo de expertos". Juan es una persona y eso es su ventaja.
 6. **Hablar como "Araneda Office"** en el Home. Como "yo/Juan" en Sobre mí.
 7. **Todo en español** (Chile). Usar "tú" no "usted".
 8. **Mobile-first.**
-9. **CTA principal:** "Diagnóstico gratuito" o "Conversemos".
+9. **CTA principal en toda la web:** "Agenda tu diagnóstico gratuito". La duración es 15 minutos (no 30).
 10. **Colores:** Dark mode (#0a0a0a), azul (#3B82F6), texto (#f5f5f5 y #a0a0a0).
 11. **Animaciones sutiles.** Hover en cards y botones. Nada exagerado.
 12. **Navegación entre páginas** con hash routing (#). Home = / o /#, Firmas = /#firmas-profesionales. Transición suave.
 13. **Las páginas de nicho futuras** seguirán la misma estructura de "Firmas Profesionales".
 14. **Cards de "Próximamente"** en Industrias deben verse deshabilitadas (opacity reducida, sin link, badge "Próximamente").
 15. **El copy debe sentirse conversacional.** Como si Juan te estuviera explicando en una videollamada, no como si estuvieras leyendo un folleto corporativo.
+16. **El caso de estudio usa datos 100% reales** de Marcela Sallato Store. No exagerar ni redondear las métricas.
+17. **"Mantención mensual"** (no "acompañamiento mensual") — dejar claro que es operación activa de los servicios, no solo asesoría o coaching.
