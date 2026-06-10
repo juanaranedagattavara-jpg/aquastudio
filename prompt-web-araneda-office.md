@@ -1,21 +1,19 @@
-# PROMPT PARA CLAUDE DESIGN — Web Araneda Office (v2 Multi-nicho)
+# PROMPT PARA CLAUDE DESIGN — Web Araneda Office (v3)
 
 ## Instrucción principal
 
-Crea un sitio web multi-página para **Araneda Office**, un growth partner con IA que ofrece soluciones digitales para distintas industrias en Chile. El sitio tiene un **Home general** (la empresa y sus servicios) + **páginas por nicho** (empezando con firmas profesionales). Dark mode, premium, minimalista, orientado a conversión. Tecnología: React con JSX + routing por hash (#), CSS moderno, responsive.
+Crea un sitio web multi-página para **Araneda Office**. Dark mode, premium, minimalista. React con JSX + routing por hash (#), CSS moderno, responsive. El diseño debe sentirse como Linear, Vercel o Stripe — limpio, con mucho aire, sin ornamentos innecesarios. NO debe verse como "otra landing de agencia de IA" genérica.
 
 ---
 
 ## CONTEXTO DE MARCA
 
 **Nombre:** Araneda Office
-**Modelo:** Growth partner con IA. Empresa con fundador visible (Juan Araneda como cara).
-**Qué ofrece:** Soluciones de crecimiento digital potenciadas por IA — automatizaciones, páginas web, marketing digital y consultoría estratégica.
-**Para quién:** Empresas y negocios que necesitan crecer digitalmente. Múltiples nichos, empezando por firmas profesionales B2B.
-**Propuesta de valor general:** "Hacemos crecer tu negocio con IA. Automatizaciones, web y marketing digital — todo en un solo lugar."
-**Tono:** Premium, confiable, directo, cercano. Sin lenguaje de agencia grande. Juan es una persona, y eso es su ventaja.
-**Diferenciador:** "Growth partner, no agencia. Trabajo directo contigo. IA aplicada a resultados reales, no buzzwords."
-**Metodología:** "Método FLUJO" — Fundación → Landing → Unificación → Jet (IA) → Optimización.
+**Fundador:** Juan Araneda — trabaja directo contigo, sin intermediarios.
+**Qué es:** Un growth partner digital. No una agencia. No un freelancer. Un socio que se involucra en tu negocio.
+**Propuesta central:** "Entendemos tu negocio, implementamos lo que funciona, medimos todo."
+**Tono:** Directo, cercano, sin humo. Habla como una persona inteligente que te explica las cosas sin jerga. Nada de "potenciado por inteligencia artificial" ni "soluciones disruptivas". Habla de problemas reales y soluciones concretas.
+**Diferenciador en copy:** En vez de decir qué herramientas usamos, decimos qué problemas resolvemos. En vez de prometer, mostramos.
 
 ---
 
@@ -35,9 +33,9 @@ Crea un sitio web multi-página para **Araneda Office**, un growth partner con I
 
 ```
 HOME (general)          → /
-SERVICIOS (general)     → /#servicios (scroll en home)
+SERVICIOS               → /#servicios (scroll en home)
 MÉTODO FLUJO            → /#metodo (scroll en home)
-NICHOS                  → /#industrias (scroll en home, con cards que linkan a páginas)
+INDUSTRIAS              → /#industrias (scroll en home, cards clickeables)
 SOBRE MÍ                → /#sobre-mi (scroll en home)
 
 PÁGINA NICHO 1:
@@ -48,113 +46,107 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
 
 ---
 
-## PÁGINA 1: HOME (general)
+## PÁGINA 1: HOME
 
 ### 1. NAVBAR (fija, presente en todas las páginas)
 - Logo: "Araneda" + "Office" (Office en color acento)
 - Links: Inicio | Servicios | Industrias | Sobre mí
-- CTA button derecha: "Agenda una llamada" (azul)
+- CTA button derecha: "Conversemos" (azul)
 - Al hacer scroll: fondo con backdrop-filter blur + borde inferior sutil
 - Mobile: hamburguesa con overlay fullscreen
 
 ### 2. HERO
-- Eyebrow badge: "Growth partner con IA"
-- Título H1 (grande, bold): "Hacemos crecer tu negocio con IA"
-- Subtítulo: "Automatizaciones inteligentes, páginas web que convierten y marketing digital — todo potenciado por inteligencia artificial. Tu growth partner en Chile."
+- Eyebrow badge: "Growth partner digital"
+- Título H1 (grande, bold): "Tu negocio tiene potencial. Nosotros lo hacemos visible."
+- Subtítulo: "Marketing digital, consultoría estratégica, automatizaciones y diseño web. Todo lo que necesitas para crecer, en un solo lugar — y con alguien que realmente entiende tu negocio."
 - CTA primario: "Agenda tu diagnóstico gratuito" (botón azul)
-- CTA secundario: "Conoce nuestros servicios" (botón outline/ghost)
+- CTA secundario: "Conoce cómo trabajamos" (botón outline/ghost, scrollea a Método FLUJO)
 - NO poner métricas inventadas, NO poner logos de clientes falsos
 
 ### 3. SERVICIOS — Qué hacemos
-- Título de sección: "Soluciones digitales con IA para tu negocio"
-- Subtítulo: "Combinamos estrategia, tecnología e inteligencia artificial para que tu negocio crezca de forma predecible."
-- **4 servicios en grid** (cada uno una card con icono, título, descripción breve):
+- Título de sección: "Lo que hacemos"
+- Subtítulo: "No vendemos humo. Resolvemos problemas concretos."
+- **4 servicios en grid** (cada uno una card con icono, título, descripción breve). En este orden exacto:
 
-  **Servicio 1 — Automatizaciones con IA**
-  - Icono: ⚡
-  - "Eliminamos tareas manuales con flujos inteligentes. Seguimiento de leads, respuestas automáticas, reportes, y más — tu negocio trabaja mientras tú duermes."
-  - Tecnologías: n8n, Make, Claude, ChatGPT
+  **Servicio 1 — Marketing Digital** 📈
+  - "Que te encuentren los clientes que te están buscando. Posicionamiento, contenido y estrategia de visibilidad — para que no dependas solo del boca a boca."
 
-  **Servicio 2 — Diseño y desarrollo web**
-  - Icono: 🌐
-  - "Sitios web profesionales diseñados para convertir visitantes en clientes. SEO, velocidad y diseño premium incluidos."
+  **Servicio 2 — Consultoría** 🎯
+  - "Antes de hacer, hay que entender. Analizamos tu negocio, tu mercado y tu competencia para armar un plan que tenga sentido — no un PowerPoint bonito."
 
-  **Servicio 3 — Marketing digital**
-  - Icono: 📈
-  - "Estrategia de posicionamiento, contenido y visibilidad digital. Que tus clientes te encuentren donde buscan."
+  **Servicio 3 — Automatizaciones** ⚡
+  - "Las tareas repetitivas matan tu tiempo. Creamos flujos automáticos que responden, organizan y hacen seguimiento — para que tú te enfoques en lo que importa."
 
-  **Servicio 4 — Consultoría de growth**
-  - Icono: 🎯
-  - "Diagnóstico digital, roadmap personalizado y acompañamiento estratégico para escalar tu negocio con datos y tecnología."
+  **Servicio 4 — Página Web** 🌐
+  - "Tu sitio web debería trabajar para ti, no solo existir. Diseñamos webs que convierten visitantes en clientes reales."
 
-- CTA debajo: "¿No sabes por dónde empezar? Agenda un diagnóstico gratuito."
+- CTA debajo: "¿No sabes por dónde empezar? Parte con un diagnóstico gratuito de 30 minutos."
 
 ### 4. MÉTODO FLUJO
-- Título: "Método FLUJO: nuestro framework de crecimiento"
-- Subtítulo: "Un sistema en 5 fases para transformar tu presencia digital — sin importar tu industria."
+- Título: "Cómo trabajamos"
+- Subtítulo: "Un sistema probado en 5 fases. Sin importar tu industria, el camino es el mismo."
 - 5 pasos, cada uno con la letra del acrónimo destacada en color acento:
 
   **F — Fundación**
-  - "Diagnóstico digital completo. Analizamos tu situación actual, competencia y oportunidades."
+  - "Escuchamos. Analizamos dónde estás, qué hace tu competencia y dónde están las oportunidades reales."
 
   **L — Landing**
-  - "Diseñamos y construimos tu presencia web. Optimizada para convertir y posicionar."
+  - "Construimos tu presencia digital. Una web que se ve bien y que, más importante, funciona."
 
   **U — Unificación**
-  - "Conectamos tu estrategia: contenido, canales, posicionamiento. Todo alineado."
+  - "Conectamos todo: tu marca, tu contenido, tus canales. Que tu negocio cuente una sola historia, coherente."
 
-  **J — Jet (IA)**
-  - "Automatizamos procesos con IA: formularios inteligentes, seguimiento de leads, respuestas automáticas."
+  **J — Jet**
+  - "Aceleramos con automatización. Lo que antes tomaba horas, ahora pasa solo."
 
   **O — Optimización**
-  - "Medimos resultados, ajustamos y crecemos. Dashboard con métricas claras."
+  - "Medimos, ajustamos, repetimos. Si algo no funciona, lo cambiamos. Cero ego, puro dato."
 
 ### 5. INDUSTRIAS — Para quién trabajamos
-- Título: "Soluciones especializadas por industria"
-- Subtítulo: "Cada industria tiene desafíos únicos. Adaptamos nuestro Método FLUJO a tu sector."
-- **Cards de industria en grid** (cada una es clickeable y lleva a la página del nicho):
+- Título: "Trabajamos con industrias que conocemos"
+- Subtítulo: "Cada sector tiene sus propios desafíos. No damos soluciones genéricas — nos especializamos."
+- **3 cards de industria en grid:**
 
-  **Card 1 — Firmas Profesionales** (activa, con link)
-  - Icono/ilustración: ⚖️
+  **Card 1 — Firmas Profesionales** (activa, clickeable)
+  - Icono: ⚖️
   - Título: "Firmas profesionales y consultoras"
-  - Descripción: "Consultoras, abogados, contadores, ingenieros. Ayudamos a firmas B2B a dejar de depender de referidos y atraer clientes de forma digital."
+  - Descripción: "Abogados, consultores, contadores, ingenieros. Si tu negocio vive de la confianza y los referidos, te ayudamos a que también te encuentren online."
   - Badge: "Ver solución →"
-  - Link: va a la página /#firmas-profesionales
+  - Link: /#firmas-profesionales
 
-  **Card 2 — Próximamente** (estilo deshabilitado/coming soon)
+  **Card 2 — Negocios con Agendas** (coming soon)
+  - Icono: 📅
+  - Título: "Salones, clínicas y servicios con agenda"
+  - Descripción: "Si tu negocio depende de citas y reservas, estamos preparando algo para ti."
+  - Badge: "Próximamente"
+
+  **Card 3 — PyMEs** (coming soon)
   - Icono: 🏪
-  - Título: "Comercio y retail"
-  - Descripción: "Próximamente — estamos preparando soluciones específicas para este sector."
+  - Título: "Pequeñas y medianas empresas"
+  - Descripción: "Soluciones adaptadas al presupuesto y los desafíos reales de las PyMEs chilenas."
   - Badge: "Próximamente"
 
-  **Card 3 — Próximamente** (estilo deshabilitado/coming soon)
-  - Icono: 🏥
-  - Título: "Salud y bienestar"
-  - Descripción: "Próximamente"
-  - Badge: "Próximamente"
-
-- Nota debajo: "¿Tu industria no aparece? No importa — nuestro Método FLUJO se adapta. Agenda una llamada y conversamos."
+- Nota debajo: "¿Tu industria no aparece? No importa — agenda una llamada y conversamos."
 
 ### 6. SOBRE MÍ (Juan Araneda)
-- Título: "¿Quién está detrás de Araneda Office?"
+- Título: "La persona detrás de Araneda Office"
 - Layout: 2 columnas (texto izquierda, valores derecha)
-- Copy: "Soy Juan Araneda. Fundé Araneda Office porque creo que toda empresa merece acceso a herramientas de crecimiento con IA — sin necesitar presupuestos de agencia. Trabajo directamente contigo, sin intermediarios ni burocracia."
-- Segundo párrafo: "Combino estrategia de marketing con automatización inteligente. Mi enfoque: entender tu negocio, implementar lo que funciona, y medir todo."
-- **Valores** (lista con iconos):
-  1. "Trato directo" — "Trabajas conmigo, no con un ejecutivo de cuentas."
-  2. "IA aplicada" — "Implemento IA para automatizar procesos reales, no como buzzword."
-  3. "Resultados medibles" — "Todo se mide. Si no genera resultados, lo ajustamos."
-  4. "Multi-industria" — "Adapto el Método FLUJO a los desafíos específicos de tu sector."
+- Copy: "Soy Juan Araneda. Creé Araneda Office porque me frustraba ver negocios buenos que nadie conocía — no por falta de calidad, sino porque nadie les mostraba cómo hacerse visibles. Trabajo directamente contigo. Sin intermediarios, sin ejecutivos de cuentas, sin burocracia."
+- Segundo párrafo: "Mi enfoque es simple: entender tu negocio, implementar lo que funciona, y medir todo. Si algo no da resultados, lo cambiamos."
+- **3 valores** (lista con iconos):
+  1. "Trato directo" — "Trabajas conmigo. Punto."
+  2. "Resultados medibles" — "Todo se mide. Si no funciona, se ajusta."
+  3. "Sin humo" — "No prometo lo que no puedo cumplir. Prefiero sorprenderte."
 
 ### 7. CTA FINAL
 - Banner con fondo degradado sutil
-- Título: "¿Listo para crecer con IA?"
-- Subtítulo: "Agenda tu diagnóstico gratuito. 30 minutos, sin costo, sin compromiso."
+- Título: "¿Conversamos?"
+- Subtítulo: "30 minutos. Sin costo. Sin compromiso. Solo para entender si podemos ayudarte."
 - CTA: "Agendar diagnóstico gratuito"
 
 ### 8. FOOTER
 - Logo Araneda Office
-- Descripción: "Growth partner con IA. Automatizaciones, web y marketing digital para empresas que quieren crecer."
+- Descripción breve: "Growth partner digital. Marketing, consultoría, automatizaciones y web."
 - Links: Inicio | Servicios | Industrias | Firmas Profesionales | Sobre mí
 - Contacto: Email (juanaranedagattavara@gmail.com) | LinkedIn | Instagram
 - Copyright
@@ -164,89 +156,88 @@ FIRMAS PROFESIONALES    → /#firmas-profesionales (página completa separada)
 
 ## PÁGINA 2: FIRMAS PROFESIONALES (página de nicho)
 
-Esta es una página completa dedicada al nicho de firmas profesionales B2B. Se accede desde la card de "Industrias" en el Home o desde el navbar (submenú de Industrias).
+Se accede desde la card de "Industrias" en el Home. Es una página completa y dedicada.
 
 ### 1. HERO (específico del nicho)
-- Eyebrow badge: "Solución para firmas profesionales"
-- Título H1: "Tu firma merece más que vivir de referidos"
-- Subtítulo: "Diseño web, estrategia digital y automatización con IA para que tu consultora atraiga clientes de forma predecible — sin depender del boca a boca."
+- Eyebrow badge: "Para firmas profesionales"
+- Título H1: "Tu firma es excelente en lo que hace. El problema es que nadie lo sabe."
+- Subtítulo: "La mayoría de las firmas profesionales en Chile dependen 100% de referidos. Nosotros te ayudamos a que los clientes correctos te encuentren — sin esperar a que alguien te recomiende."
 - CTA primario: "Agenda tu diagnóstico gratuito"
 - CTA secundario: "Ver caso de estudio"
-- Dato real (texto muted): "El 77% de las firmas profesionales en Chile no tiene presencia digital. — Cámara de Comercio de Santiago"
+- Dato real (texto muted, pequeño): "El 77% de las firmas profesionales en Chile no tiene presencia digital. — Cámara de Comercio de Santiago"
 
 ### 2. PROBLEMA vs SOLUCIÓN
 - Título: "¿Te suena familiar?"
 - 2 columnas:
-- **"Tu situación actual"** (rojo/warning):
-  1. "Dependes de referidos" — Tu crecimiento depende de que alguien te recomiende.
-  2. "Tu web no genera consultas" — Funciona como tarjeta de presentación, no como herramienta de ventas.
-  3. "No tienes presencia digital real" — Cuando te buscan en Google, no te encuentran.
-  4. "Pierdes tiempo en tareas repetitivas" — Seguimiento, cotizaciones, respuestas... todo manual.
+- **"Hoy"** (rojo/warning):
+  1. "Dependes de referidos" — Si nadie te recomienda, no llegan clientes nuevos.
+  2. "Tu web es una tarjeta de presentación" — Existe, pero no genera ni una consulta.
+  3. "No apareces en Google" — Cuando alguien busca lo que haces, encuentra a otros.
+  4. "Todo es manual" — Seguimiento, cotizaciones, respuestas... todo a mano.
 
 - **"Con Araneda Office"** (verde/check):
-  1. "Atraes clientes sin depender de otros" — Tu web y presencia digital trabajan 24/7.
-  2. "Tu web convierte visitantes en consultas" — Diseñada para que cada visita sea una oportunidad.
-  3. "Apareces donde tus clientes buscan" — SEO, LinkedIn, contenido que genera autoridad.
-  4. "La IA trabaja mientras tú atiendes clientes" — Automatizaciones que eliminan lo manual.
+  1. "Los clientes te encuentran solos" — Tu presencia digital trabaja 24/7 por ti.
+  2. "Tu web convierte" — Cada visita es una oportunidad real de negocio.
+  3. "Apareces donde importa" — Google, LinkedIn, los canales donde buscan tus clientes.
+  4. "Lo repetitivo se automatiza" — Más tiempo para tus clientes, menos para tareas administrativas.
 
 ### 3. OFERTA PARA FIRMAS — Método FLUJO adaptado
 - Card grande con borde degradado superior
 - Badge: "Método FLUJO para firmas profesionales"
 - Título: "Sistema Digital para Firmas Profesionales"
-- Descripción: "Un paquete completo que transforma tu presencia digital y automatiza tu captación de clientes."
+- Descripción: "Todo lo que tu firma necesita para atraer clientes de forma predecible. Un paquete, un precio, un responsable."
 - **3 componentes en grid:**
 
-  **Web Profesional** 🌐
-  - "Sitio de 3-5 páginas diseñado para convertir visitantes en consultas."
+  **Marketing y Estrategia** 📈
+  - "Análisis de mercado, competencia y oportunidades. Estrategia de contenido y posicionamiento para 90 días."
+  - Bullets: Análisis competitivo | Estrategia LinkedIn | Posicionamiento | Roadmap 90 días
+
+  **Página Web** 🌐
+  - "Sitio de 3-5 páginas diseñado para que cada visita se convierta en una consulta."
   - Bullets: Diseño premium responsive | SEO on-page | Optimizado para conversión | Analytics
 
-  **Estrategia Digital** 📈
-  - "Análisis de mercado, competencia y oportunidades. Roadmap de contenido 90 días."
-  - Bullets: Análisis competitivo | Estrategia LinkedIn | Posicionamiento | Roadmap
-
-  **Automatización con IA** ⚡
-  - "Flujos automatizados con IA que eliminan tareas manuales."
-  - Bullets: Formularios inteligentes | Seguimiento de leads | Respuestas con IA | Integraciones
+  **Automatización** ⚡
+  - "Flujos automáticos que hacen seguimiento, responden consultas y organizan tus leads."
+  - Bullets: Formularios inteligentes | Seguimiento automático | Respuestas rápidas | Integraciones
 
 - **Precios:**
-  | Servicio | Precio |
-  |----------|--------|
+  | Servicio | Inversión |
+  |----------|----------|
   | Diagnóstico Digital | Gratuito (30 min) |
   | Sistema Digital — Método FLUJO | Desde $500.000 CLP |
-  | Retainer mensual | Desde $250.000 CLP/mes |
+  | Acompañamiento mensual | Desde $250.000 CLP/mes |
 - CTA: "Quiero mi diagnóstico gratuito"
 
 ### 4. CASO DE ESTUDIO (placeholder)
 - Card grande con fondo elevado
-- Empresa: "[Nombre]" — Estudio de inteligencia de mercado
-- Título: "De depender 100% de referidos a recibir consultas digitales cada semana"
+- Título: "De depender 100% de referidos a recibir consultas cada semana"
+- Subtipo: Estudio de inteligencia de mercado
 - 3 métricas: "Primera consulta digital" → Semana 2 | "Horas ahorradas/mes" → +15 | "Implementación" → 3 semanas
-- Testimonio placeholder: "[Se llenará con caso real]"
-- Nota: "Caso de estudio en desarrollo — resultados preliminares"
+- Testimonio placeholder: "[Próximamente]"
+- Nota sutil: "Caso de estudio en desarrollo — resultados preliminares"
 
 ### 5. COMPARATIVA DE MERCADO
-- Título: "¿Cuánto cuesta digitalizar una firma profesional en Chile?"
-- Tabla comparativa:
-  | | Agencia premium | Freelancer web | Araneda Office |
+- Título: "¿Cómo se compara?"
+- Tabla:
+  | | Agencia premium | Freelancer | Araneda Office |
   |---|---|---|---|
-  | Web profesional | No incluida | Sí | Sí |
-  | Estrategia digital | Sí | No | Sí |
-  | Automatización IA | No | No | Sí |
-  | Trato directo | No (junior) | Sí | Sí |
-  | Inversión | Desde $2.8M CLP/mes | $300K-800K CLP | Desde $500K CLP |
+  | Página web | No incluida | Sí | ✅ Sí |
+  | Estrategia digital | Sí | No | ✅ Sí |
+  | Automatización | No | No | ✅ Sí |
+  | Trato directo | No (te asignan un junior) | Sí | ✅ Sí |
+  | Inversión | Desde $2.8M CLP/mes | $300K-800K CLP | ✅ Desde $500K CLP |
 
-### 6. FAQ (específico del nicho)
+### 6. FAQ
 - Accordion:
-  1. **"¿Para quién es?"** → "Consultoras, abogados, contadores, ingenieros y servicios profesionales B2B en Chile."
-  2. **"¿Cuánto toma?"** → "3-4 semanas implementación. Primeros resultados dentro del primer mes."
-  3. **"¿Qué incluye el diagnóstico?"** → "Videollamada de 30 min: análisis de tu web, Google, LinkedIn + 3 oportunidades concretas."
-  4. **"¿Es solo diseño web?"** → "No. Web + estrategia + automatización IA. Un sistema completo."
-  5. **"¿Cuál es la inversión?"** → "Desde $500.000 CLP. Propuesta personalizada en el diagnóstico."
-  6. **"¿Qué pasa después?"** → "Todo funcionando + documentación + capacitación. Retainer opcional desde $250.000/mes."
-  7. **"¿Qué es el Método FLUJO?"** → "Framework de 5 fases: Fundación, Landing, Unificación, Jet (IA), Optimización."
+  1. **"¿Para quién es esto?"** → "Consultoras, estudios de abogados, contadores, ingenieros y cualquier firma de servicios profesionales B2B en Chile."
+  2. **"¿Cuánto toma?"** → "3-4 semanas la implementación completa. Los primeros resultados se ven dentro del primer mes."
+  3. **"¿Qué incluye el diagnóstico gratuito?"** → "Una videollamada de 30 minutos donde analizamos tu web, tu Google, tu LinkedIn y te mostramos 3 oportunidades concretas para atraer más clientes."
+  4. **"¿Es solo diseño web?"** → "No. Es web + estrategia + automatización. Un sistema completo."
+  5. **"¿Cuál es la inversión?"** → "Desde $500.000 CLP por el sistema completo. Te entregamos una propuesta personalizada en el diagnóstico."
+  6. **"¿Y después qué?"** → "Queda todo funcionando, documentado y con capacitación. Si quieres acompañamiento continuo, hay un plan mensual desde $250.000 CLP."
 
 ### 7. CTA FINAL
-- Título: "¿Listo para que tu firma deje de depender de referidos?"
+- Título: "Tu firma merece ser encontrada."
 - Subtítulo: "Agenda tu diagnóstico gratuito. 30 minutos, sin costo, sin compromiso."
 - CTA: "Agendar diagnóstico gratuito"
 
@@ -256,13 +247,16 @@ Esta es una página completa dedicada al nicho de firmas profesionales B2B. Se a
 
 1. **NO inventar testimonios.** Placeholders marcados claramente.
 2. **NO inventar métricas.** No poner "500+ clientes" ni nada falso.
-3. **NO usar lenguaje de agencia.** Nada de "nuestro equipo de expertos". Juan es una persona.
-4. **Hablar como "Araneda Office"** en el Home (tercera persona). Como "yo/Juan" en Sobre mí.
-5. **Todo en español** (Chile). Usar "tú" no "usted".
-6. **Mobile-first.**
-7. **CTA principal:** "Diagnóstico gratuito" o "Agenda una llamada".
-8. **Colores:** Dark mode (#0a0a0a), azul (#3B82F6), texto (#f5f5f5 y #a0a0a0).
-9. **Animaciones sutiles.** Hover en cards y botones. Nada exagerado.
-10. **Navegación entre páginas** con hash routing (#). Home = / o /#, Firmas = /#firmas-profesionales. Transición suave.
-11. **Las páginas de nicho futuras** seguirán la misma estructura que "Firmas Profesionales" (hero específico → problema/solución → oferta adaptada → caso de estudio → FAQ → CTA).
-12. **Cards de "Próximamente"** en la sección Industrias deben verse deshabilitadas (opacity reducida, sin link, badge "Próximamente").
+3. **NO usar jerga técnica.** Nunca mencionar herramientas específicas (nada de n8n, Make, Claude, ChatGPT, Zapier). Hablar de lo que se resuelve, no de cómo.
+4. **NO sonar como "agencia de IA genérica".** Nada de "potenciado por inteligencia artificial", "soluciones disruptivas", "tecnología de punta". Hablar como persona, no como landing page.
+5. **NO usar lenguaje de agencia grande.** Nada de "nuestro equipo de expertos". Juan es una persona y eso es su ventaja.
+6. **Hablar como "Araneda Office"** en el Home. Como "yo/Juan" en Sobre mí.
+7. **Todo en español** (Chile). Usar "tú" no "usted".
+8. **Mobile-first.**
+9. **CTA principal:** "Diagnóstico gratuito" o "Conversemos".
+10. **Colores:** Dark mode (#0a0a0a), azul (#3B82F6), texto (#f5f5f5 y #a0a0a0).
+11. **Animaciones sutiles.** Hover en cards y botones. Nada exagerado.
+12. **Navegación entre páginas** con hash routing (#). Home = / o /#, Firmas = /#firmas-profesionales. Transición suave.
+13. **Las páginas de nicho futuras** seguirán la misma estructura de "Firmas Profesionales".
+14. **Cards de "Próximamente"** en Industrias deben verse deshabilitadas (opacity reducida, sin link, badge "Próximamente").
+15. **El copy debe sentirse conversacional.** Como si Juan te estuviera explicando en una videollamada, no como si estuvieras leyendo un folleto corporativo.
