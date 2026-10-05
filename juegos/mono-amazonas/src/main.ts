@@ -1,8 +1,11 @@
 import './ui/style.css';
 import { IS_TOUCH_DEVICE } from './core/device';
+import { enableRotatedScroll, updateLayout } from './core/layout';
 import { Game } from './game/game';
 
 if (IS_TOUCH_DEVICE) document.body.classList.add('touch-device');
+updateLayout();
+enableRotatedScroll();
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 

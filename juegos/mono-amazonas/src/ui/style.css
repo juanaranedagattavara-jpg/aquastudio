@@ -13,7 +13,32 @@
   --hp-low: #ff5a3a;
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
   --font: 'Trebuchet MS', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  /* tamaño del escenario (JS lo actualiza; en táctiles siempre horizontal) */
+  --sw: 100vw;
+  --sh: 100vh;
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
   color-scheme: dark;
+}
+
+/* escenario girado: los bordes físicos del teléfono cambian de lado */
+body.rotated {
+  --safe-l: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-left, 0px);
+}
+
+#stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform-origin: 0 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,6 +105,11 @@ body {
   background: linear-gradient(160deg, #10291a, #050d07);
 }
 
+/* girado, el desplazamiento del menú lo hace JS (enableRotatedScroll) */
+body.rotated .screen {
+  touch-action: none;
+}
+
 /* margin:auto centra sin recortar el contenido cuando no cabe (móvil en horizontal) */
 .screen > .panel {
   margin: auto;
@@ -109,7 +139,7 @@ body {
 }
 
 .logo {
-  font-size: clamp(40px, 7vw, 68px);
+  font-size: clamp(40px, calc(var(--sw) * 0.07), 68px);
   font-weight: 900;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -121,7 +151,7 @@ body {
 }
 
 .logo.small {
-  font-size: clamp(30px, 5vw, 44px);
+  font-size: clamp(30px, calc(var(--sw) * 0.05), 44px);
   letter-spacing: 0.06em;
 }
 
@@ -410,8 +440,8 @@ kbd {
 
 .hud-tl {
   position: absolute;
-  left: calc(18px + env(safe-area-inset-left, 0px));
-  top: calc(16px + env(safe-area-inset-top, 0px));
+  left: calc(18px + var(--safe-l));
+  top: calc(16px + var(--safe-t));
 }
 
 .hp-label {
@@ -504,8 +534,8 @@ kbd {
 
 .hud-tr {
   position: absolute;
-  right: calc(18px + env(safe-area-inset-right, 0px));
-  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: calc(18px + var(--safe-r));
+  top: calc(14px + var(--safe-t));
   text-align: right;
   display: flex;
   flex-direction: column;
@@ -575,7 +605,7 @@ kbd {
   top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(460px, 56vw);
+  width: min(460px, calc(var(--sw) * 0.56));
   height: 34px;
   border-radius: 10px;
   background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.42) 15%, rgba(0, 0, 0, 0.42) 85%, transparent);
@@ -720,7 +750,7 @@ kbd {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  width: min(640px, 92vw);
+  width: min(640px, calc(var(--sw) * 0.92));
 }
 
 .toast {
@@ -756,7 +786,7 @@ kbd {
   left: 50%;
   bottom: 28px;
   transform: translateX(-50%);
-  max-width: min(720px, 92vw);
+  max-width: min(720px, calc(var(--sw) * 0.92));
   padding: 10px 18px;
   border-radius: 12px;
   background: rgba(8, 20, 12, 0.72);
@@ -846,8 +876,8 @@ kbd {
 /* El joystick aparece donde se apoya el pulgar (el lienzo recibe el toque). */
 .joy {
   position: absolute;
-  left: calc(28px + env(safe-area-inset-left, 0px));
-  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  left: calc(28px + var(--safe-l));
+  bottom: calc(28px + var(--safe-b));
   width: 140px;
   height: 140px;
   border-radius: 50%;
@@ -876,8 +906,8 @@ kbd {
 
 .tbtns {
   position: absolute;
-  right: calc(14px + env(safe-area-inset-right, 0px));
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  right: calc(14px + var(--safe-r));
+  bottom: calc(12px + var(--safe-b));
   width: 262px;
   height: 190px;
   pointer-events: none;
@@ -976,7 +1006,7 @@ kbd {
 
 .tpause {
   position: absolute;
-  top: calc(54px + env(safe-area-inset-top, 0px));
+  top: calc(54px + var(--safe-t));
   left: 50%;
   transform: translateX(-50%);
   pointer-events: auto;
@@ -995,17 +1025,17 @@ body.touch-mode #objective {
 
 body.touch-mode #hint {
   bottom: auto;
-  top: calc(96px + env(safe-area-inset-top, 0px));
-  max-width: min(520px, 60vw);
+  top: calc(96px + var(--safe-t));
+  max-width: min(520px, calc(var(--sw) * 0.6));
   font-size: 13px;
 }
 
 body.touch-mode #toasts {
-  top: calc(182px + env(safe-area-inset-top, 0px));
+  top: calc(182px + var(--safe-t));
 }
 
 body.touch-mode #compass {
-  width: min(380px, 48vw);
+  width: min(380px, calc(var(--sw) * 0.48));
 }
 
 body.touch-mode .hp-bar {
@@ -1023,52 +1053,27 @@ body.touch-device .desktop-only {
   margin: 8px 0 0;
 }
 
-@media (orientation: portrait) {
-  .tbtns {
-    transform: scale(0.8);
-  }
-  .joy {
-    width: 120px;
-    height: 120px;
-  }
-  .joy-knob {
-    left: 35px;
-    top: 35px;
-  }
-  body.touch-mode #hint {
-    max-width: 88vw;
-  }
-  body.touch-mode #toasts {
-    top: max(270px, 34%);
-  }
-  body.touch-mode #compass {
-    width: 40vw;
-  }
-  body.touch-mode .gold {
-    font-size: 22px;
-  }
-  body.touch-mode .hp-bar {
-    width: 120px;
-  }
+/* escenario estrecho (la clase la pone JS según el ancho del escenario, no de la ventana) */
+body.narrow .cols {
+  grid-template-columns: 1fr;
 }
 
-@media (max-width: 760px) {
-  .cols {
-    grid-template-columns: 1fr;
-  }
-  .hp-bar {
-    width: 150px;
-  }
-  .gold {
-    font-size: 24px;
-  }
-  #objective {
-    display: none;
-  }
-  .panel {
-    padding: 18px;
-  }
-  .play {
-    padding: 12px 36px;
-  }
+body.narrow .hp-bar {
+  width: 150px;
+}
+
+body.narrow .gold {
+  font-size: 24px;
+}
+
+body.narrow #objective {
+  display: none;
+}
+
+body.narrow .panel {
+  padding: 18px;
+}
+
+body.narrow .play {
+  padding: 12px 36px;
 }

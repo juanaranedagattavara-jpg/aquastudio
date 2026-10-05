@@ -1,5 +1,7 @@
 // Entrada unificada: teclado + ratón (pointer lock o arrastre) + controles táctiles.
 
+import { toStage } from './layout';
+
 export type Action = 'jump' | 'sprint' | 'crouch' | 'grab' | 'attack' | 'throw' | 'dodge' | 'pause';
 
 const KEYMAP: Record<string, Action> = {
@@ -260,8 +262,7 @@ export class Input {
     // El joystick aparece donde se apoya el pulgar en la mitad izquierda.
     const startJoy = (t: Touch): void => {
       joyId = t.identifier;
-      cx = t.clientX;
-      cy = t.clientY;
+      [cx, cy] = toStage(t.clientX, t.clientY);
       joy.style.left = `${cx - 70}px`;
       joy.style.top = `${cy - 70}px`;
       joy.style.bottom = 'auto';
@@ -281,11 +282,14 @@ export class Input {
     this.canvas.addEventListener('touchstart', (e) => {
       this.enableTouch();
       for (const t of Array.from(e.changedTouches)) {
-        if (joyId === -1 && t.clientX < window.innerWidth * 0.42) startJoy(t);
+        // coordenadas del escenario: el juego puede estar girado 90° (siempre horizontal)
+        const [x, y] = toStage(t.clientX, t.clientY);
+        const stageW = this.canvas.clientWidth || window.innerWidth;
+        if (joyId === -1 && x < stageW * 0.42) startJoy(t);
         else if (lookId === -1) {
           lookId = t.identifier;
-          this.lastX = t.clientX;
-          this.lastY = t.clientY;
+          this.lastX = x;
+          this.lastY = y;
         }
       }
       if (e.cancelable) e.preventDefault();
@@ -293,8 +297,9 @@ export class Input {
 
     window.addEventListener('touchmove', (e) => {
       for (const t of Array.from(e.changedTouches)) {
+        const [x, y] = toStage(t.clientX, t.clientY);
         if (t.identifier === joyId) {
-          let dx = t.clientX - cx, dy = t.clientY - cy;
+          let dx = x - cx, dy = y - cy;
           const d = Math.hypot(dx, dy);
           if (d > R) {
             dx *= R / d;
@@ -307,10 +312,10 @@ export class Input {
           this.joyY = (-dy / R) * k;
           this.joyFull = d > R * 0.9;
         } else if (t.identifier === lookId) {
-          this.mouseDX += (t.clientX - this.lastX) * 1.5;
-          this.mouseDY += (t.clientY - this.lastY) * 1.5;
-          this.lastX = t.clientX;
-          this.lastY = t.clientY;
+          this.mouseDX += (x - this.lastX) * 1.5;
+          this.mouseDY += (y - this.lastY) * 1.5;
+          this.lastX = x;
+          this.lastY = y;
         }
       }
     }, { passive: true });

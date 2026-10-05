@@ -1,6 +1,7 @@
 import { Vector3, type PerspectiveCamera } from 'three';
 import { GOLDEN_COUNT, PLAYER, POWERS, type PowerKind } from '../config';
 import { vibrate } from '../core/device';
+import { layout } from '../core/layout';
 import type { Hunter } from '../enemies/hunter';
 import type { Monkey } from '../player/monkey';
 
@@ -253,7 +254,7 @@ export class HUD {
 
   private updateThreats(f: HudFrame): void {
     let i = 0;
-    const R = Math.min(window.innerWidth, window.innerHeight) * 0.2 + 40;
+    const R = Math.min(layout.w, layout.h) * 0.2 + 40;
     for (const h of f.hunters) {
       if (!h.active) continue;
       const drawing = h.drawing;
@@ -279,7 +280,7 @@ export class HUD {
   }
 
   private updatePopups(dt: number, cam: PerspectiveCamera): void {
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = layout.w, h = layout.h;
     for (let i = this.popups.length - 1; i >= 0; i--) {
       const p = this.popups[i];
       p.t += dt;

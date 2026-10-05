@@ -18,11 +18,14 @@ dan poderes.
   funciona sin internet y sin servidor.
 - **Celular / tablet:** abre `jugar.html` desde una URL (súbelo a cualquier hosting
   estático, o usa el enlace compartido del juego). En Android también funciona
-  abriéndolo desde el gestor de archivos con Chrome. Se juega mejor en horizontal.
+  abriéndolo desde el gestor de archivos con Chrome. Se juega en horizontal.
 
 ## Jugar en el celular
 
-El juego detecta pantallas táctiles y cambia a un modo pensado para el teléfono:
+El juego detecta pantallas táctiles y cambia a un modo pensado para el teléfono.
+**Se juega siempre en horizontal**: si la pantalla no gira (giro bloqueado, o una app
+que no rota), el juego se dibuja girado 90° para sostener el teléfono de lado, con la
+parte de arriba del teléfono hacia la izquierda. Si el teléfono sí gira, se ve normal.
 
 - **Joystick dinámico**: aparece donde apoyas el pulgar en la mitad izquierda; al
   fondo corres. La mitad derecha gira la cámara.
@@ -35,9 +38,8 @@ El juego detecta pantallas táctiles y cambia a un modo pensado para el teléfon
 - **Rendimiento**: modo ligero (sin antialiasing, menos vegetación, menos distancia
   de dibujado, menos draw calls) y **resolución dinámica** que baja o sube la
   resolución interna según los FPS reales del teléfono.
-- Pantalla completa y orientación horizontal cuando el navegador lo permite,
-  respeta el notch, vibración al recibir daño (Android) y también se puede jugar en
-  vertical (el campo de visión se abre).
+- Pantalla completa y bloqueo en horizontal cuando el navegador lo permite, respeta
+  el notch (también con el juego girado) y vibra al recibir daño (Android).
 
 ## Objetivo
 
@@ -177,6 +179,7 @@ reduce la resolución interna; Baja además desactiva las sombras).
 ## Limitaciones conocidas
 
 - En iPhone, Safari no permite la pantalla completa ni bloquear la orientación a
-  páginas web: gira el teléfono a mano (o usa "Añadir a pantalla de inicio").
+  páginas web: el juego se ve igualmente en horizontal (girado si hace falta). Con
+  "Añadir a pantalla de inicio" se abre sin las barras del navegador.
 - No hay guardado de partida (sólo se recuerda el récord y los ajustes).
 - El rendimiento depende de la GPU; en equipos modestos usa la calidad Media o Baja.

@@ -13,6 +13,8 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%236e4a2c'/%3E%3Ccircle cx='12' cy='30' r='8' fill='%23e3c69c'/%3E%3Ccircle cx='52' cy='30' r='8' fill='%23e3c69c'/%3E%3Cellipse cx='32' cy='40' rx='14' ry='12' fill='%23e3c69c'/%3E%3Ccircle cx='25' cy='31' r='3' fill='%23120c08'/%3E%3Ccircle cx='39' cy='31' r='3' fill='%23120c08'/%3E%3C/svg%3E" />
   </head>
   <body>
+    <!-- escenario: en táctiles siempre horizontal (se gira 90° si la pantalla está en vertical) -->
+    <div id="stage">
     <canvas id="game"></canvas>
     <div id="vignette"></div>
     <div id="slowmo"></div>
@@ -107,7 +109,7 @@
                 <tr><td>Subir · bajar por la liana</td><td>▲ ▼ (aparecen al colgar)</td></tr>
                 <tr><td>Golpe al suelo</td><td>Caída (aparece en el aire)</td></tr>
               </table>
-              <p class="touch-tip">Mejor en horizontal. Al pulsar Jugar se intenta poner la pantalla completa.</p>
+              <p class="touch-tip">Se juega con el teléfono en horizontal. Al pulsar Jugar se intenta poner la pantalla completa.</p>
             </div>
             <div class="desktop-only">
               <h3>Controles</h3>
@@ -165,6 +167,7 @@
     </div>
 
     <div id="lockhint" class="hidden">Haz clic para controlar la cámara con el ratón</div>
+    </div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

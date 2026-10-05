@@ -5,6 +5,7 @@ import {
 import { DIFFICULTIES, GOLDEN_COUNT, type Difficulty } from '../config';
 import { AudioSys } from '../core/audio';
 import { IS_TOUCH_DEVICE, LITE } from '../core/device';
+import { layout, updateLayout } from '../core/layout';
 import { Input } from '../core/input';
 import { ThirdPersonCamera } from '../camera/thirdPersonCamera';
 import { Projectiles } from '../combat/projectiles';
@@ -73,7 +74,8 @@ export class Game implements GameContext {
     this.renderer.toneMappingExposure = 1.05;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFShadowMap;
-    this.cam = new ThirdPersonCamera(window.innerWidth / window.innerHeight);
+    updateLayout();
+    this.cam = new ThirdPersonCamera(layout.w / layout.h);
     this.input = new Input(canvas);
     this.input.onPointerLockLost = () => {
       if (this.mode === 'playing') this.pause();
@@ -214,9 +216,6 @@ export class Game implements GameContext {
     } catch {
       /* sin pantalla completa */
     }
-    if (window.innerHeight > window.innerWidth) {
-      this.hud.toast('Gira el teléfono: se juega mejor en horizontal', '#cfe6a0', 4);
-    }
   }
 
   private pause(): void {
@@ -284,9 +283,10 @@ export class Game implements GameContext {
   }
 
   private resize(): void {
-    const w = window.innerWidth, h = window.innerHeight;
+    updateLayout();
+    const w = layout.w, h = layout.h;
     this.renderer.setSize(w, h, false);
-    // en vertical se abre el FOV para no ver el mundo por una rendija
+    // ventana estrecha (sólo escritorio: en táctil el escenario es siempre horizontal): FOV más abierto
     const aspect = w / h;
     this.cam.baseFov = aspect < 1 ? Math.min(95, 70 + (1 / aspect - 1) * 18) : 70;
     this.cam.camera.aspect = w / h;
