@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="description" content="Juego 3D: un mono capuchino que se balancea por lianas y escapa de cazadores en la Amazonía." />
+    <title>Macaco: Fuga en la Amazonía</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%236e4a2c'/%3E%3Ccircle cx='12' cy='30' r='8' fill='%23e3c69c'/%3E%3Ccircle cx='52' cy='30' r='8' fill='%23e3c69c'/%3E%3Cellipse cx='32' cy='40' rx='14' ry='12' fill='%23e3c69c'/%3E%3Ccircle cx='25' cy='31' r='3' fill='%23120c08'/%3E%3Ccircle cx='39' cy='31' r='3' fill='%23120c08'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+    <div id="vignette"></div>
+    <div id="slowmo"></div>
+
+    <div id="hud" class="hidden">
+      <div class="hud-tl">
+        <div class="hp">
+          <div class="hp-label">Vida</div>
+          <div class="hp-bar"><div class="hp-ghost"></div><div class="hp-fill"></div></div>
+        </div>
+        <div class="powers"></div>
+      </div>
+      <div class="hud-tr">
+        <div class="gold" title="Frutos dorados"><span class="ico ico-gold"></span><b class="gold-n">0</b><span class="gold-of">/8</span></div>
+        <div class="nuts" title="Castañas"><span class="ico ico-nut"></span><b class="nuts-n">3</b></div>
+        <div class="score">0</div>
+      </div>
+      <div id="compass"><div class="compass-track"></div><div class="compass-center"></div></div>
+      <div id="crosshair"></div>
+      <div id="threats"></div>
+      <div id="combo"></div>
+      <div id="toasts"></div>
+      <div id="popups"></div>
+      <div id="hint"></div>
+      <div id="objective"></div>
+    </div>
+
+    <div id="touch" class="hidden">
+      <div class="joy"><div class="joy-knob"></div></div>
+      <div class="tbtns">
+        <button data-act="jump" class="tb big">Saltar</button>
+        <button data-act="attack" class="tb">Golpe</button>
+        <button data-act="throw" class="tb">Lanzar</button>
+        <button data-act="grab" class="tb">Trepar</button>
+        <button data-act="dodge" class="tb">Esquivar</button>
+        <button data-act="sprint" class="tb sm">▲ Subir</button>
+        <button data-act="crouch" class="tb sm">▼ Bajar</button>
+      </div>
+      <button class="tpause" data-pause>❚❚</button>
+    </div>
+
+    <div id="loading" class="screen">
+      <div class="panel center">
+        <div class="logo">MACACO</div>
+        <div class="sub">Fuga en la Amazonía</div>
+        <div class="loading-bar"><div class="loading-fill"></div></div>
+        <div class="loading-text">Generando la selva…</div>
+      </div>
+    </div>
+
+    <div id="menu" class="screen hidden">
+      <div class="panel wide">
+        <div class="menu-head">
+          <div>
+            <div class="logo">MACACO</div>
+            <div class="sub">Fuga en la Amazonía</div>
+          </div>
+          <div class="best">Récord: <b class="best-n">0</b></div>
+        </div>
+        <p class="pitch">
+          Eres un mono capuchino en la selva amazónica de Brasil. Balancéate por las lianas, trepa los árboles
+          gigantes y escapa de los cazadores con arco. Reúne los <b>8 frutos dorados</b> (columnas de luz) y sube
+          a la copa del <b>Gran Sumaúma</b> para ser libre.
+        </p>
+        <div class="opts">
+          <div class="opt">
+            <span>Dificultad</span>
+            <div class="seg" data-opt="diff">
+              <button data-v="facil">Fácil</button><button data-v="normal" class="on">Normal</button><button data-v="dificil">Difícil</button>
+            </div>
+          </div>
+          <div class="opt">
+            <span>Calidad</span>
+            <div class="seg" data-opt="quality">
+              <button data-v="alta" class="on">Alta</button><button data-v="media">Media</button><button data-v="baja">Baja</button>
+            </div>
+          </div>
+        </div>
+        <button class="play">Jugar</button>
+        <div class="cols">
+          <div>
+            <h3>Controles</h3>
+            <table class="keys">
+              <tr><td>Mover</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td></tr>
+              <tr><td>Cámara</td><td>Ratón · <kbd>←</kbd><kbd>→</kbd> · rueda = zoom</td></tr>
+              <tr><td>Saltar · soltar liana</td><td><kbd>Espacio</kbd> (mantén = más alto)</td></tr>
+              <tr><td>Correr · subir por la liana</td><td><kbd>Shift</kbd></td></tr>
+              <tr><td>Bajar por la liana · golpe al suelo</td><td><kbd>C</kbd></td></tr>
+              <tr><td>Trepar / soltarse</td><td><kbd>E</kbd> o saltar contra un tronco</td></tr>
+              <tr><td>Golpe · patada voladora</td><td>Clic izq. / <kbd>J</kbd></td></tr>
+              <tr><td>Lanzar castaña</td><td>Clic der. / <kbd>K</kbd></td></tr>
+              <tr><td>Esquivar</td><td><kbd>Q</kbd></td></tr>
+              <tr><td>Pausa</td><td><kbd>Esc</kbd> / <kbd>P</kbd></td></tr>
+            </table>
+          </div>
+          <div>
+            <h3>Frutas de poder</h3>
+            <ul class="fruits"></ul>
+            <h3>Consejos</h3>
+            <ul class="tips">
+              <li>Suelta la liana al final del arco para ganar altura, y en el punto bajo para ganar distancia.</li>
+              <li>En las copas y tras los troncos los cazadores no te ven bien. Corriendo por el suelo te oyen.</li>
+              <li>Lanza una castaña lejos para distraerlos. Cae sobre ellos con una patada voladora.</li>
+              <li>Si un cazador tensa el arco verás un aviso rojo: cambia de dirección o rompe su línea de visión.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pause" class="screen hidden">
+      <div class="panel center">
+        <div class="logo small">Pausa</div>
+        <button class="resume">Continuar</button>
+        <button class="restart ghost">Reiniciar</button>
+        <button class="tomenu ghost">Menú principal</button>
+        <div class="settings">
+          <label>Sensibilidad <input type="range" class="sens" min="0.0008" max="0.006" step="0.0002" /></label>
+          <label><input type="checkbox" class="invert" /> Invertir eje vertical</label>
+          <label><input type="checkbox" class="mute" /> Silenciar sonido</label>
+        </div>
+      </div>
+    </div>
+
+    <div id="over" class="screen hidden">
+      <div class="panel center">
+        <div class="logo small over-title">¡Te atraparon!</div>
+        <div class="over-sub"></div>
+        <table class="stats"></table>
+        <button class="again">Jugar de nuevo</button>
+        <button class="tomenu ghost">Menú principal</button>
+      </div>
+    </div>
+
+    <div id="lockhint" class="hidden">Haz clic para controlar la cámara con el ratón</div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

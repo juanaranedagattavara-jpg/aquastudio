@@ -1,0 +1,21 @@
+{
+  "name": "macaco-amazonia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Macaco: Fuga en la Amazonía — juego 3D de un mono que se balancea por lianas y escapa de cazadores.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build && node scripts/empaquetar.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.186.0",
+    "typescript": "5.9.3",
+    "vite": "^7.1.0"
+  }
+}
