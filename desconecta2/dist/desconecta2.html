@@ -1,0 +1,2215 @@
+<title>Desconecta2</title>
+<meta name="description" content="Prototipo de Desconecta2: clima laboral, canal de denuncias anónimo y pausas activas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Desconecta2 · prototipo
+   Layout: app shell — barra superior con selector de vista, menú lateral en escritorio,
+   barra de pestañas inferior en celular. Pausa activa = pantalla completa verde bosque. */
+:root {
+  --bg: #F1F4F0;
+  --surface: #FFFFFF;
+  --surface-2: #E7ECE6;
+  --surface-3: #DCE4DB;
+  --ink: #15211A;
+  --ink-2: #44554A;
+  --muted: #6E7D73;
+  --line: #D3DCD2;
+  --brand: #22603F;
+  --brand-hover: #1A4E33;
+  --brand-ink: #FFFFFF;
+  --brand-soft: #D9EADF;
+  --accent: #D98A1E;
+  --accent-soft: #FBEBD2;
+  --accent-ink: #5A3605;
+  --ok: #1E7A4C;
+  --ok-soft: #DDF0E4;
+  --warn: #A86A00;
+  --warn-soft: #FAEBC8;
+  --crit: #B83A24;
+  --crit-soft: #F8DFD8;
+  --info: #3B62A3;
+  --info-soft: #DFE7F5;
+  --series-1: #2A8156;
+  --series-2: #5571B0;
+  --div-low: #C9502F;
+  --div-high: #2A8156;
+  --pause-bg: #0D2A1D;
+  --pause-bg-2: #143826;
+  --pause-fg: #EAF3EC;
+  --pause-muted: #9DBBA8;
+  --pause-glow: #7FD3A3;
+  --shadow: 0 1px 2px rgba(21, 33, 26, .06), 0 6px 20px rgba(21, 33, 26, .06);
+
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --fs-xs: .75rem;
+  --fs-sm: .8125rem;
+  --fs-md: .9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.75rem;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --sidebar: 248px;
+  --topbar: 60px;
+  --tabbar: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1511;
+    --surface: #16201A;
+    --surface-2: #1D2A22;
+    --surface-3: #25352B;
+    --ink: #E5EEE7;
+    --ink-2: #B2C2B7;
+    --muted: #84958A;
+    --line: #2A3A30;
+    --brand: #5CB98A;
+    --brand-hover: #74C99D;
+    --brand-ink: #0A1A11;
+    --brand-soft: #1C3829;
+    --accent: #F0AE4E;
+    --accent-soft: #3A2A12;
+    --accent-ink: #FBE3BC;
+    --ok: #5CC28E;
+    --ok-soft: #173525;
+    --warn: #E8B44A;
+    --warn-soft: #3A2C10;
+    --crit: #F08068;
+    --crit-soft: #3D1D16;
+    --info: #85A6E0;
+    --info-soft: #1C2840;
+    --series-1: #3E9E6C;
+    --series-2: #7088CC;
+    --div-low: #E2734F;
+    --div-high: #3E9E6C;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1511;
+  --surface: #16201A;
+  --surface-2: #1D2A22;
+  --surface-3: #25352B;
+  --ink: #E5EEE7;
+  --ink-2: #B2C2B7;
+  --muted: #84958A;
+  --line: #2A3A30;
+  --brand: #5CB98A;
+  --brand-hover: #74C99D;
+  --brand-ink: #0A1A11;
+  --brand-soft: #1C3829;
+  --accent: #F0AE4E;
+  --accent-soft: #3A2A12;
+  --accent-ink: #FBE3BC;
+  --ok: #5CC28E;
+  --ok-soft: #173525;
+  --warn: #E8B44A;
+  --warn-soft: #3A2C10;
+  --crit: #F08068;
+  --crit-soft: #3D1D16;
+  --info: #85A6E0;
+  --info-soft: #1C2840;
+  --series-1: #3E9E6C;
+  --series-2: #7088CC;
+  --div-low: #E2734F;
+  --div-high: #3E9E6C;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: var(--f-display); margin: 0; line-height: 1.15; text-wrap: balance; letter-spacing: -.01em; }
+h1 { font-size: var(--fs-2xl); font-weight: 800; }
+h2 { font-size: var(--fs-xl); font-weight: 700; }
+h3 { font-size: var(--fs-lg); font-weight: 700; }
+h4 { font-size: var(--fs-md); font-weight: 700; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--f-mono); }
+.muted { color: var(--muted); }
+.ink2 { color: var(--ink-2); }
+.small { font-size: var(--fs-sm); }
+.xs { font-size: var(--fs-xs); }
+.eyebrow { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--muted); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Shell ---------- */
+.shell { min-height: 100%; display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); grid-template-rows: var(--topbar) minmax(0, 1fr); }
+.topbar {
+  grid-column: 1 / -1; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+  display: flex; align-items: center; gap: 16px; padding-inline: 20px;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.logo { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; letter-spacing: -.02em; color: var(--ink); text-decoration: none; }
+.logo-mark { width: 32px; height: 32px; border-radius: 10px; background: var(--brand); display: grid; place-items: center; flex: none; }
+.logo-mark span { display: block; width: 4px; height: 14px; border-radius: 2px; background: var(--brand-ink); box-shadow: 8px 0 0 var(--brand-ink); transform: translateX(-4px); }
+.logo b { color: var(--brand); font-weight: 800; }
+.demo-chip { font-size: var(--fs-xs); font-weight: 600; color: var(--accent-ink); background: var(--accent-soft); padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+.topbar-spacer { flex: 1; }
+.role-switch { display: flex; align-items: center; gap: 10px; }
+.role-switch-label { font-size: var(--fs-xs); color: var(--muted); font-weight: 600; }
+.segmented { display: inline-flex; background: var(--surface-2); padding: 3px; border-radius: 99px; gap: 2px; }
+.segmented button { border: 0; background: transparent; padding: 6px 14px; border-radius: 99px; font-size: var(--fs-sm); font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.segmented button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.user-chip { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: var(--fs-sm); background: var(--brand-soft); color: var(--brand); flex: none; }
+.user-chip .who { line-height: 1.2; }
+.user-chip .who b { display: block; font-size: var(--fs-sm); }
+.user-chip .who span { font-size: var(--fs-xs); color: var(--muted); }
+
+.sidebar { position: sticky; top: calc(var(--topbar) + env(safe-area-inset-top, 0px)); align-self: start; height: calc(100vh - var(--topbar)); padding: 20px 14px; border-right: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; gap: 4px; }
+.sidebar .eyebrow { padding: 0 12px 8px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--r-sm); border: 0; background: transparent; text-align: left; font-weight: 600; color: var(--ink-2); width: 100%; }
+.nav-item svg { width: 20px; height: 20px; flex: none; }
+.nav-item:hover { background: var(--surface-2); color: var(--ink); }
+.nav-item[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
+.nav-badge { margin-left: auto; font-size: var(--fs-xs); background: var(--crit); color: #fff; border-radius: 99px; padding: 0 7px; line-height: 18px; font-weight: 700; }
+.sidebar-foot { margin-top: auto; padding: 14px 12px; border-radius: var(--r-md); background: var(--surface-2); font-size: var(--fs-sm); color: var(--ink-2); display: grid; gap: 6px; }
+.sidebar-foot b { color: var(--ink); }
+
+.main { min-width: 0; padding: 28px 32px 48px; }
+.page { max-width: 1180px; margin: 0 auto; display: grid; gap: 22px; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.page-head > div { display: grid; gap: 6px; min-width: 0; }
+.page-head p { color: var(--ink-2); max-width: 62ch; }
+
+.tabbar { display: none; }
+
+/* ---------- Building blocks ---------- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.card-head > div { display: grid; gap: 3px; min-width: 0; }
+.card-head p { color: var(--muted); font-size: var(--fs-sm); }
+.card.flat { background: var(--surface-2); border-color: transparent; }
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.g-main { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+.stack { display: grid; gap: 12px; }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.row.nowrap { flex-wrap: nowrap; }
+.divider { height: 1px; background: var(--line); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 99px; padding: 10px 18px; font-weight: 700; font-size: var(--fs-sm); text-decoration: none; transition: background .15s, border-color .15s, transform .1s; white-space: nowrap; }
+.btn:active { transform: translateY(1px); }
+.btn svg { width: 18px; height: 18px; }
+.btn-primary { background: var(--brand); color: var(--brand-ink); }
+.btn-primary:hover { background: var(--brand-hover); }
+.btn-accent { background: var(--accent); color: #241400; }
+.btn-ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { background: var(--surface-2); }
+.btn-quiet { background: var(--surface-2); color: var(--ink); }
+.btn-quiet:hover { background: var(--surface-3); }
+.btn-danger { background: transparent; border-color: var(--crit); color: var(--crit); }
+.btn-sm { padding: 6px 12px; font-size: var(--fs-xs); }
+.btn-block { width: 100%; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.link { background: none; border: 0; padding: 0; color: var(--brand); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font-size: var(--fs-xs); font-weight: 700; white-space: nowrap; }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.nodot::before { display: none; }
+.pill-ok { background: var(--ok-soft); color: var(--ok); }
+.pill-warn { background: var(--warn-soft); color: var(--warn); }
+.pill-crit { background: var(--crit-soft); color: var(--crit); }
+.pill-info { background: var(--info-soft); color: var(--info); }
+.pill-neutral { background: var(--surface-2); color: var(--ink-2); }
+.pill-brand { background: var(--brand-soft); color: var(--brand); }
+
+.kpi { display: grid; gap: 6px; }
+.kpi-value { font-family: var(--f-display); font-size: var(--fs-3xl); font-weight: 800; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.kpi-value small { font-size: var(--fs-lg); color: var(--muted); font-weight: 600; letter-spacing: 0; }
+.delta { font-size: var(--fs-sm); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+.delta.up { color: var(--ok); }
+.delta.down { color: var(--crit); }
+
+.notice { display: flex; gap: 12px; padding: 14px 16px; border-radius: var(--r-md); background: var(--brand-soft); color: var(--ink); font-size: var(--fs-sm); align-items: flex-start; }
+.notice svg { width: 20px; height: 20px; flex: none; color: var(--brand); margin-top: 1px; }
+.notice.warn { background: var(--warn-soft); }
+.notice.warn svg { color: var(--warn); }
+.notice.info { background: var(--info-soft); }
+.notice.info svg { color: var(--info); }
+.notice b { display: block; margin-bottom: 2px; }
+
+.list { display: grid; }
+.list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); min-width: 0; }
+.list-item:first-child { border-top: 0; }
+.list-item .grow { flex: 1; min-width: 0; }
+.list-item .grow b { display: block; }
+.icon-dot { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--surface-2); color: var(--ink-2); }
+.icon-dot svg { width: 18px; height: 18px; }
+.icon-dot.crit { background: var(--crit-soft); color: var(--crit); }
+.icon-dot.warn { background: var(--warn-soft); color: var(--warn); }
+.icon-dot.ok { background: var(--ok-soft); color: var(--ok); }
+.icon-dot.info { background: var(--info-soft); color: var(--info); }
+.icon-dot.brand { background: var(--brand-soft); color: var(--brand); }
+
+/* Forms */
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > label, .field > .label { font-weight: 700; font-size: var(--fs-sm); }
+.field .hint { font-size: var(--fs-xs); color: var(--muted); }
+.input, .select, .textarea { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-sm); padding: 10px 12px; font-size: var(--fs-md); }
+.textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+.input:focus, .select:focus, .textarea:focus { outline: 2px solid var(--brand); outline-offset: 0; border-color: transparent; }
+.choice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.choice { position: relative; display: grid; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer; background: var(--surface); }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice b { font-size: var(--fs-sm); }
+.choice span { font-size: var(--fs-xs); color: var(--muted); }
+.choice:has(input:checked) { border-color: var(--brand); background: var(--brand-soft); box-shadow: inset 0 0 0 1px var(--brand); }
+.choice:has(input:focus-visible) { outline: 2px solid var(--brand); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip-radio { position: relative; }
+.chip-radio input { position: absolute; opacity: 0; pointer-events: none; }
+.chip-radio span { display: inline-block; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); font-size: var(--fs-sm); font-weight: 600; cursor: pointer; background: var(--surface); }
+.chip-radio input:checked + span { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.chip-radio input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); cursor: pointer; }
+.switch:first-child { border-top: 0; }
+.switch .txt { display: grid; gap: 2px; min-width: 0; }
+.switch .txt b { font-size: var(--fs-sm); }
+.switch .txt span { font-size: var(--fs-xs); color: var(--muted); }
+.switch input { appearance: none; -webkit-appearance: none; width: 44px; height: 26px; border-radius: 99px; background: var(--surface-3); position: relative; flex: none; cursor: pointer; transition: background .15s; margin: 0; }
+.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s; }
+.switch input:checked { background: var(--brand); }
+.switch input:checked::after { transform: translateX(18px); }
+
+.range-row { display: grid; gap: 6px; }
+.range-row .row { justify-content: space-between; }
+input[type="range"] { width: 100%; accent-color: var(--brand); }
+
+/* Likert */
+.likert { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.likert label { position: relative; }
+.likert input { position: absolute; opacity: 0; pointer-events: none; }
+.likert span { display: grid; place-items: center; gap: 2px; padding: 10px 4px; border: 1px solid var(--line); border-radius: var(--r-sm); font-weight: 800; font-family: var(--f-display); font-size: var(--fs-lg); cursor: pointer; background: var(--surface); text-align: center; }
+.likert span small { font-family: var(--f-body); font-weight: 600; font-size: 10px; color: var(--muted); line-height: 1.2; }
+.likert input:checked + span { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.likert input:checked + span small { color: var(--brand-ink); }
+.likert input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+.q { display: grid; gap: 10px; padding: 18px 0; border-top: 1px solid var(--line); }
+.q:first-of-type { border-top: 0; padding-top: 0; }
+.q-title { display: flex; gap: 10px; align-items: baseline; }
+.q-title .qn { font-family: var(--f-mono); font-size: var(--fs-xs); color: var(--muted); flex: none; }
+.q-title b { font-size: var(--fs-md); }
+.q-dim { font-size: var(--fs-xs); color: var(--muted); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin-inline: -4px; }
+table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+th { text-align: left; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+tbody tr.clickable { cursor: pointer; }
+tbody tr.clickable:hover td { background: var(--surface-2); }
+td.r, th.r { text-align: right; }
+
+/* Mini bar */
+.minibar { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+.minibar .track { flex: 1; height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.minibar .fill { height: 100%; border-radius: 99px; background: var(--series-1); }
+.minibar .fill.low { background: var(--warn); }
+.minibar .fill.crit { background: var(--crit); }
+
+/* Horizontal bars */
+.hbars { display: grid; gap: 14px; }
+.hbar { display: grid; grid-template-columns: minmax(110px, 160px) minmax(0, 1fr) 44px; gap: 12px; align-items: center; }
+.hbar .lbl { font-size: var(--fs-sm); font-weight: 600; min-width: 0; }
+.hbar .lbl small { display: block; color: var(--muted); font-weight: 500; font-size: var(--fs-xs); }
+.hbar .bars { display: grid; gap: 3px; position: relative; }
+.hbar .bar { height: 12px; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 4px; }
+.hbar .bar.s2 { background: var(--series-2); height: 8px; }
+.hbar .bars .target { position: absolute; top: -3px; bottom: -3px; width: 0; border-left: 1.5px dashed var(--muted); }
+.hbar .val { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; font-size: var(--fs-sm); }
+.hbar[data-tip] { cursor: default; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: var(--fs-xs); color: var(--ink-2); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -2px; }
+.legend i.dash { border-left: 1.5px dashed var(--muted); border-radius: 0; width: 2px; }
+
+/* Heatmap */
+.heat td.cell { text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; border-bottom: 2px solid var(--surface); border-right: 2px solid var(--surface); border-radius: 6px; min-width: 48px; padding-inline: 6px; }
+.heat td.hidden-cell { text-align: left; color: var(--muted); font-size: var(--fs-xs); font-weight: 500; background: repeating-linear-gradient(135deg, var(--surface-2) 0 6px, var(--surface) 6px 12px); }
+.heat th { white-space: normal; vertical-align: bottom; padding-inline: 6px; letter-spacing: .03em; }
+.heat-legend { display: flex; align-items: center; gap: 8px; font-size: var(--fs-xs); color: var(--ink-2); flex-wrap: wrap; }
+.heat-legend .ramp { width: 160px; height: 10px; border-radius: 99px; background: linear-gradient(90deg, var(--div-low), var(--surface-2), var(--div-high)); }
+
+/* Charts */
+.chart { width: 100%; min-height: 200px; position: relative; }
+.chart svg { display: block; overflow: visible; }
+.chart .grid-line { stroke: var(--line); stroke-width: 1; }
+.chart .axis-label { fill: var(--muted); font-size: 11px; font-family: var(--f-body); }
+.chart .end-label { fill: var(--ink); font-size: 12px; font-weight: 700; font-family: var(--f-body); }
+.chart .line { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .area { fill: var(--series-1); opacity: .12; }
+.chart .dot { fill: var(--series-1); stroke: var(--surface); stroke-width: 2; }
+.chart .hit { fill: transparent; }
+.chart .cross { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
+.chart .goal { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.chart .goal-label { fill: var(--accent); font-size: 11px; font-weight: 700; }
+
+#tip { position: fixed; z-index: 100; pointer-events: none; background: var(--ink); color: var(--bg); padding: 7px 10px; border-radius: 8px; font-size: var(--fs-xs); line-height: 1.4; max-width: 240px; box-shadow: var(--shadow); }
+#tip b { display: block; font-size: var(--fs-sm); }
+
+/* Steps / stepper */
+.stepper { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.stepper .st { display: grid; gap: 6px; font-size: var(--fs-xs); color: var(--muted); font-weight: 600; }
+.stepper .st i { height: 6px; border-radius: 99px; background: var(--surface-3); }
+.stepper .st.done i { background: var(--brand); }
+.stepper .st.current { color: var(--ink); }
+.stepper .st.current i { background: var(--accent); }
+
+/* Chat */
+.chat { display: grid; gap: 10px; max-height: 420px; overflow-y: auto; padding: 4px; }
+.msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: var(--fs-sm); display: grid; gap: 4px; }
+.msg .meta { font-size: 11px; color: var(--muted); font-weight: 600; }
+.msg.me { justify-self: end; background: var(--brand); color: var(--brand-ink); border-bottom-right-radius: 4px; }
+.msg.me .meta { color: var(--brand-ink); opacity: .75; }
+.msg.them { justify-self: start; background: var(--surface-2); border-bottom-left-radius: 4px; }
+.msg.system { justify-self: center; background: transparent; color: var(--muted); font-size: var(--fs-xs); text-align: center; max-width: 100%; padding: 2px; }
+.chat-input { display: flex; gap: 8px; align-items: flex-end; }
+.chat-input .textarea { min-height: 46px; height: 46px; }
+
+/* Code box */
+.code-box { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: var(--r-md); background: var(--surface-2); border: 1.5px dashed var(--brand); flex-wrap: wrap; }
+.code-box .code { font-family: var(--f-mono); font-size: clamp(1.1rem, 4vw, 1.6rem); font-weight: 600; letter-spacing: .06em; user-select: all; word-break: break-all; }
+
+/* Worker home hero */
+.next-pause { background: var(--pause-bg); color: var(--pause-fg); border: 0; position: relative; overflow: hidden; }
+.next-pause .eyebrow { color: var(--pause-muted); }
+.next-pause .count { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.6rem, 8vw, 4rem); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.next-pause .sub { color: var(--pause-muted); font-size: var(--fs-sm); }
+.next-pause .btn-ghost { color: var(--pause-fg); border-color: rgba(234, 243, 236, .3); }
+.next-pause .btn-ghost:hover { background: rgba(234, 243, 236, .08); }
+.next-pause .rings { position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%; border: 1px solid rgba(127, 211, 163, .18); box-shadow: 0 0 0 30px rgba(127, 211, 163, .04), 0 0 0 60px rgba(127, 211, 163, .03); pointer-events: none; }
+.timeline { display: flex; gap: 6px; }
+.timeline .slot { flex: 1; display: grid; gap: 6px; font-size: var(--fs-xs); color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.timeline .slot i { height: 8px; border-radius: 99px; background: var(--surface-3); }
+.timeline .slot.completada i { background: var(--ok); }
+.timeline .slot.saltada i { background: var(--crit); }
+.timeline .slot.pospuesta i { background: var(--warn); }
+.timeline .slot.proxima i { background: var(--accent); }
+.timeline .slot.proxima { color: var(--ink); font-weight: 700; }
+
+.status-strip { display: flex; gap: 10px; flex-wrap: wrap; }
+.status-strip .st { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); font-size: var(--fs-sm); font-weight: 600; }
+.status-strip .st svg { width: 16px; height: 16px; color: var(--brand); }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px var(--ok-soft); flex: none; }
+
+.device { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--r-md); background: var(--surface-2); }
+.device svg { width: 22px; height: 22px; color: var(--ink-2); flex: none; }
+.device .grow { flex: 1; min-width: 0; }
+.device b { display: block; font-size: var(--fs-sm); }
+.device span { font-size: var(--fs-xs); color: var(--muted); }
+
+.app-tiles { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-tile { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 7px; border-radius: 10px; background: var(--surface-2); font-size: var(--fs-sm); font-weight: 600; border: 1px solid transparent; cursor: pointer; }
+.app-tile .ai { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; font-size: 11px; font-weight: 800; color: #fff; flex: none; }
+.app-tile.off { opacity: .55; }
+.app-tile.off .ai { filter: grayscale(1); }
+.app-tile input { position: absolute; opacity: 0; pointer-events: none; }
+.app-tile:has(input:focus-visible) { outline: 2px solid var(--brand); outline-offset: 2px; }
+.app-tile .lock { width: 14px; height: 14px; color: var(--muted); }
+
+.empty { text-align: center; padding: 30px 10px; color: var(--muted); display: grid; gap: 8px; justify-items: center; }
+.empty svg { width: 34px; height: 34px; }
+
+.toggle-tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: 99px; }
+.toggle-tabs button { border: 0; background: transparent; padding: 7px 14px; border-radius: 99px; font-weight: 700; font-size: var(--fs-sm); color: var(--ink-2); }
+.toggle-tabs button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+
+.anon-points { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.anon-points div { display: grid; gap: 4px; font-size: var(--fs-sm); color: var(--ink-2); }
+.anon-points b { color: var(--ink); }
+.anon-points svg { width: 22px; height: 22px; color: var(--brand); }
+
+.comment { padding: 12px 14px; border-radius: var(--r-md); background: var(--surface-2); font-size: var(--fs-sm); display: grid; gap: 6px; }
+.comment q { quotes: "“" "”"; }
+.comment .meta { font-size: var(--fs-xs); color: var(--muted); }
+
+.check-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); cursor: pointer; }
+.check-item:first-child { border-top: 0; }
+.check-item input { width: 20px; height: 20px; accent-color: var(--brand); margin: 2px 0 0; flex: none; }
+.check-item .grow { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.check-item.done b { text-decoration: line-through; color: var(--muted); }
+
+.week-bars { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end; height: 120px; }
+.week-bars .wb { display: grid; gap: 6px; align-content: end; height: 100%; text-align: center; font-size: var(--fs-xs); color: var(--muted); }
+.week-bars .wb i { display: block; background: var(--series-1); border-radius: 4px 4px 0 0; min-height: 4px; }
+.week-bars .wb.today i { background: var(--accent); }
+.week-bars .wb b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* Toasts */
+#toast-root { position: fixed; z-index: 120; left: 50%; transform: translateX(-50%); bottom: 24px; display: grid; gap: 8px; width: min(440px, calc(100% - 32px)); pointer-events: none; }
+.toast { background: var(--ink); color: var(--bg); padding: 12px 16px; border-radius: 12px; font-size: var(--fs-sm); font-weight: 600; box-shadow: var(--shadow); display: flex; gap: 10px; align-items: center; animation: toast-in .25s ease-out; }
+.toast svg { width: 18px; height: 18px; flex: none; color: var(--pause-glow); }
+@keyframes toast-in { from { transform: translateY(10px); opacity: .4; } to { transform: none; opacity: 1; } }
+
+/* ---------- Pause overlay ---------- */
+.overlay { position: fixed; inset: 0; z-index: 90; background: var(--pause-bg); color: var(--pause-fg); overflow-y: auto; padding: calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 24px); }
+.overlay-inner { max-width: 980px; margin: 0 auto; display: grid; gap: 22px; }
+.overlay .eyebrow { color: var(--pause-muted); }
+.overlay h1, .overlay h2 { color: var(--pause-fg); }
+.overlay .muted { color: var(--pause-muted); }
+.overlay .btn-ghost { color: var(--pause-fg); border-color: rgba(234, 243, 236, .28); }
+.overlay .btn-ghost:hover { background: rgba(234, 243, 236, .08); }
+.overlay .btn-primary { background: var(--pause-glow); color: #06180E; }
+.overlay .btn-primary:hover { background: #9BE2B9; }
+.ov-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ov-status { display: flex; flex-wrap: wrap; gap: 8px; }
+.ov-status .st { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 99px; background: rgba(234, 243, 236, .08); font-size: var(--fs-xs); font-weight: 700; color: var(--pause-fg); }
+.ov-status .st svg { width: 15px; height: 15px; color: var(--pause-glow); }
+.ov-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.ov-panel { background: var(--pause-bg-2); border-radius: var(--r-lg); padding: 18px; display: grid; gap: 14px; }
+.ov-panel h4 { color: var(--pause-fg); }
+.blocked-apps { display: flex; flex-wrap: wrap; gap: 8px; }
+.blocked-apps .ba { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px 6px 6px; border-radius: 10px; background: rgba(234, 243, 236, .06); font-size: var(--fs-xs); font-weight: 700; }
+.blocked-apps .ba .ai { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; font-size: 10px; font-weight: 800; color: #fff; filter: grayscale(.85) brightness(.8); }
+.blocked-apps .ba svg { width: 13px; height: 13px; color: var(--pause-muted); }
+
+.player { border-radius: var(--r-lg); overflow: hidden; background: #071A10; position: relative; aspect-ratio: 16 / 10; max-width: 100%; display: grid; }
+.player-stage { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, #1C4A33 0%, #0A2116 70%); }
+.player-top { position: absolute; top: 0; left: 0; right: 0; padding: 14px 16px; display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; background: linear-gradient(rgba(0,0,0,.45), transparent); }
+.player-top .t { display: grid; gap: 2px; }
+.player-top .t b { font-family: var(--f-display); font-size: var(--fs-lg); color: #fff; }
+.player-top .t span { font-size: var(--fs-xs); color: #B9D4C3; }
+.player-badge { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,.12); color: #DCEDE2; white-space: nowrap; }
+.player-bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 16px 14px; display: grid; gap: 8px; background: linear-gradient(transparent, rgba(0,0,0,.55)); }
+.player-progress { height: 5px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
+.player-progress i { display: block; height: 100%; background: var(--pause-glow); width: 0; }
+.player-ctrl { display: flex; align-items: center; gap: 10px; color: #fff; font-size: var(--fs-xs); font-weight: 700; font-variant-numeric: tabular-nums; }
+.player-ctrl button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.14); color: #fff; display: grid; place-items: center; }
+.player-ctrl button:hover { background: rgba(255,255,255,.24); }
+.player-ctrl button svg { width: 16px; height: 16px; }
+.player-ctrl .speed { width: auto; border-radius: 99px; padding: 0 10px; font-size: 11px; font-weight: 800; }
+.player-ctrl .grow { flex: 1; }
+.player-stage svg.figure { width: min(46%, 260px); height: auto; overflow: visible; }
+
+/* Figure animation (video de movilidad) */
+.figure .body { stroke: #EAF6EE; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.figure .head { fill: #EAF6EE; }
+.figure .floor { stroke: rgba(234, 246, 238, .2); stroke-width: 2; }
+.figure .chair { stroke: rgba(234, 246, 238, .25); stroke-width: 5; fill: none; stroke-linecap: round; }
+.figure .hint { stroke: var(--pause-glow); stroke-width: 2.5; fill: none; stroke-dasharray: 4 6; opacity: .7; }
+.figure g, .figure circle, .figure line, .figure path { transform-box: view-box; }
+.paused .figure * { animation-play-state: paused !important; }
+.anim-neck .g-head { transform-origin: 100px 62px; animation: neck 5s ease-in-out infinite; }
+@keyframes neck { 0%, 100% { transform: rotate(0); } 22%, 38% { transform: rotate(-24deg); } 62%, 78% { transform: rotate(24deg); } }
+.anim-shrug .g-upper { animation: shrug 2.6s ease-in-out infinite; }
+@keyframes shrug { 0%, 100% { transform: translateY(0); } 35%, 55% { transform: translateY(-11px); } }
+.anim-shrug .g-head { animation: shrug-head 2.6s ease-in-out infinite; }
+@keyframes shrug-head { 0%, 100% { transform: translateY(0); } 35%, 55% { transform: translateY(-3px); } }
+.anim-circles .arm-l { transform-origin: 78px 76px; animation: circle-l 3s ease-in-out infinite; }
+.anim-circles .arm-r { transform-origin: 122px 76px; animation: circle-r 3s ease-in-out infinite; }
+@keyframes circle-l { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(28deg); } 75% { transform: rotate(-28deg); } }
+@keyframes circle-r { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-28deg); } 75% { transform: rotate(28deg); } }
+.anim-side .g-upper { transform-origin: 100px 140px; animation: side 6s ease-in-out infinite; }
+@keyframes side { 0%, 100% { transform: rotate(0); } 20%, 40% { transform: rotate(-17deg); } 60%, 80% { transform: rotate(17deg); } }
+.anim-twist .g-upper { transform-origin: 100px 140px; animation: twist 5s ease-in-out infinite; }
+@keyframes twist { 0%, 100% { transform: scaleX(1); } 25%, 40% { transform: scaleX(.72) translateX(8px); } 65%, 80% { transform: scaleX(.72) translateX(-8px); } }
+
+.breath { display: grid; place-items: center; position: relative; width: min(64%, 300px); aspect-ratio: 1; }
+.breath .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(127, 211, 163, .25); }
+.breath .ball { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #A7EBC4, #3E9E6C 70%); box-shadow: 0 0 60px rgba(127, 211, 163, .35); transform: scale(.45); transition: transform .25s linear; }
+.breath .word { position: absolute; font-family: var(--f-display); font-weight: 800; font-size: clamp(1.2rem, 4vw, 1.8rem); color: #06180E; text-align: center; line-height: 1.1; }
+.breath .word small { display: block; font-family: var(--f-body); font-size: var(--fs-sm); font-weight: 700; opacity: .7; }
+
+.steps-list { display: grid; gap: 4px; }
+.steps-list .sl { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; font-size: var(--fs-sm); color: var(--pause-muted); }
+.steps-list .sl .n { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 800; background: rgba(234, 243, 236, .08); flex: none; }
+.steps-list .sl.done .n { background: var(--pause-glow); color: #06180E; }
+.steps-list .sl.current { background: rgba(127, 211, 163, .12); color: var(--pause-fg); font-weight: 700; }
+.steps-list .sl .d { margin-left: auto; font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.big-clock { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+
+.alarm { min-height: calc(100% - 20px); display: grid; place-items: center; text-align: center; }
+.alarm-inner { display: grid; gap: 18px; justify-items: center; max-width: 520px; }
+.alarm-bell { width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: rgba(127, 211, 163, .14); color: var(--pause-glow); animation: ring 2.4s ease-in-out infinite; }
+.alarm-bell svg { width: 40px; height: 40px; }
+@keyframes ring { 0%, 100% { box-shadow: 0 0 0 0 rgba(127, 211, 163, .35); } 50% { box-shadow: 0 0 0 22px rgba(127, 211, 163, 0); } }
+.alarm .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.reason-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.reason-chips button { border: 1px solid rgba(234, 243, 236, .3); background: transparent; color: var(--pause-fg); padding: 8px 14px; border-radius: 99px; font-weight: 600; font-size: var(--fs-sm); }
+.reason-chips button:hover { background: rgba(234, 243, 236, .08); }
+.mood { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.mood button { width: 64px; height: 64px; border-radius: 16px; border: 1px solid rgba(234, 243, 236, .25); background: rgba(234, 243, 236, .05); color: var(--pause-fg); display: grid; place-items: center; gap: 2px; font-size: 10px; font-weight: 700; padding: 6px 0; }
+.mood button svg { width: 28px; height: 28px; }
+.mood button:hover { background: rgba(127, 211, 163, .16); border-color: var(--pause-glow); }
+
+.offhours { min-height: calc(100% - 20px); display: grid; place-items: center; text-align: center; }
+.offhours .moon { width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #F7E7BF, #D8B76A); box-shadow: 0 0 80px rgba(247, 231, 191, .25); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g-main { grid-template-columns: minmax(0, 1fr); }
+  .user-chip .who { display: none; }
+}
+@media (max-width: 900px) {
+  :root { --topbar: 56px; }
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { display: none; }
+  .topbar { padding-inline: 16px; gap: 10px; }
+  .logo-text, .demo-chip, .role-switch-label, .user-chip { display: none; }
+  .main { padding: 18px 16px calc(var(--tabbar) + env(safe-area-inset-bottom, 0px) + 28px); }
+  .tabbar { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .tab { border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 6px 2px; font-size: 11px; font-weight: 700; color: var(--muted); border-radius: 10px; position: relative; min-width: 0; }
+  .tab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .tab svg { width: 22px; height: 22px; }
+  .tab[aria-current="page"] { color: var(--brand); }
+  .tab .nav-badge { position: absolute; top: 2px; left: calc(50% + 6px); margin: 0; font-size: 10px; line-height: 16px; padding: 0 5px; }
+  .g2, .g3 { grid-template-columns: minmax(0, 1fr); }
+  .ov-grid { grid-template-columns: minmax(0, 1fr); }
+  .anon-points { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 16px; }
+  h1 { font-size: 1.6rem; }
+  .segmented button { padding: 6px 10px; }
+  #toast-root { bottom: calc(var(--tabbar) + env(safe-area-inset-bottom, 0px) + 12px); }
+  .hide-mobile { display: none; }
+}
+@media (max-width: 520px) {
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-value { font-size: 2.1rem; }
+  .hbar { grid-template-columns: minmax(84px, 110px) minmax(0, 1fr) 38px; gap: 8px; }
+  .likert span small { display: none; }
+  .segmented button { padding: 6px 8px; font-size: var(--fs-xs); }
+  .player { aspect-ratio: 4 / 4; }
+}
+@media (min-width: 901px) {
+  .show-mobile { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .figure * { animation-duration: 12s !important; animation-iteration-count: infinite !important; }
+}
+</style>
+
+<div id="app"></div>
+<div id="overlay-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+/* Desconecta2 · datos de ejemplo del prototipo.
+   Empresa ficticia: Andes Logística SpA (48 personas). Nada de esto es información real. */
+(function () {
+  const D2 = (window.D2 = window.D2 || {});
+
+  // Reloj simulado: lunes 5 de octubre de 2026, 11:46. Avanza en tiempo real desde que se abre la demo.
+  D2.SIM_START = new Date(2026, 9, 5, 11, 46, 0).getTime();
+
+  D2.company = { name: 'Andes Logística SpA', people: 48 };
+
+  D2.DIMS = [
+    { key: 'carga', label: 'Carga de trabajo', q: 'Mi carga de trabajo es manejable dentro de mi jornada.' },
+    { key: 'lider', label: 'Liderazgo', q: 'Mi jefatura me da retroalimentación útil y respetuosa.' },
+    { key: 'rel', label: 'Relaciones', q: 'En mi equipo nos tratamos con respeto.' },
+    { key: 'recon', label: 'Reconocimiento', q: 'Siento que mi trabajo es reconocido.' },
+    { key: 'desc', label: 'Desconexión', q: 'Puedo desconectarme del trabajo fuera de mi horario.' },
+    { key: 'seg', label: 'Seguridad psicológica', q: 'Puedo dar mi opinión sin miedo a represalias.' },
+  ];
+  D2.LIKERT = ['Muy en desacuerdo', 'En desacuerdo', 'Neutral', 'De acuerdo', 'Muy de acuerdo'];
+  D2.MIN_RESPONSES = 5;
+  D2.TARGET = 3.5;
+
+  D2.AREAS = [
+    { id: 'ops', name: 'Operaciones', size: 12, resp: 11, scores: { carga: 2.9, lider: 3.6, rel: 4.1, recon: 3.0, desc: 2.5, seg: 3.4 }, trend: [3.05, 3.08, 3.1, 3.12, 3.18] },
+    { id: 'com', name: 'Comercial', size: 9, resp: 8, scores: { carga: 3.2, lider: 4.1, rel: 4.3, recon: 3.6, desc: 2.9, seg: 3.9 }, trend: [3.4, 3.45, 3.5, 3.58, 3.62] },
+    { id: 'fin', name: 'Finanzas', size: 6, resp: 5, scores: { carga: 3.4, lider: 3.8, rel: 4.0, recon: 3.2, desc: 3.3, seg: 3.6 }, trend: [3.42, 3.44, 3.5, 3.52, 3.55] },
+    { id: 'ti', name: 'Tecnología', size: 7, resp: 7, scores: { carga: 3.3, lider: 4.3, rel: 4.5, recon: 3.7, desc: 2.6, seg: 4.1 }, trend: [3.6, 3.62, 3.7, 3.72, 3.75] },
+    { id: 'bod', name: 'Bodega y despacho', size: 11, resp: 8, scores: { carga: 2.8, lider: 3.5, rel: 4.0, recon: 2.9, desc: 3.0, seg: 3.0 }, trend: [2.85, 2.9, 2.98, 3.02, 3.1] },
+    { id: 'per', name: 'Personas', size: 3, resp: 2, scores: { carga: 3.5, lider: 4.0, rel: 4.2, recon: 3.5, desc: 3.1, seg: 3.9 }, trend: [3.6, 3.6, 3.65, 3.68, 3.7] },
+  ];
+  D2.MONTHS = ['Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'];
+
+  D2.COMMENTS = [
+    { area: 'ops', dim: 'carga', text: 'Los cierres de mes se alargan y nadie avisa con tiempo los turnos extra.' },
+    { area: 'ops', dim: 'desc', text: 'Siguen llegando mensajes por WhatsApp después de las 20:00, aunque sea "para mañana".' },
+    { area: 'ops', dim: 'recon', text: 'Las pausas activas ayudan, pero a veces da vergüenza hacerlas frente al resto.' },
+    { area: 'ops', dim: 'lider', text: 'Me gustaría que las reuniones de los lunes fueran más cortas y con agenda.' },
+    { area: 'bod', dim: 'recon', text: 'Falta reconocimiento cuando sacamos despachos urgentes un viernes en la tarde.' },
+    { area: 'bod', dim: 'carga', text: 'Necesitamos mejores sillas y mesas a la altura correcta en embalaje.' },
+    { area: 'com', dim: 'carga', text: 'Buen ambiente, pero las metas cambian a mitad de mes.' },
+    { area: 'ti', dim: 'desc', text: 'Las guardias de fin de semana no se compensan con días libres.' },
+    { area: 'fin', dim: 'lider', text: 'Me siento escuchada por mi jefatura. Ojalá se mantenga así.' },
+  ];
+
+  // Cumplimiento semanal de pausas (% de pausas completadas sobre programadas)
+  D2.WEEKS = ['10 ago', '17 ago', '24 ago', '31 ago', '7 sep', '14 sep', '21 sep', '28 sep'];
+  D2.WEEKLY_COMPANY = [58, 63, 67, 71, 70, 74, 78, 81];
+  D2.WEEKLY_OPS = [52, 57, 60, 66, 64, 70, 73, 76];
+  D2.SKIP_REASONS = [
+    { label: 'Estaba en reunión', n: 38 },
+    { label: 'Atención a cliente', n: 22 },
+    { label: 'Mucha carga de trabajo', n: 17 },
+    { label: 'Otro motivo', n: 9 },
+  ];
+
+  // Personas (generadas de forma determinista)
+  const FIRST = ['Camila', 'Benjamín', 'Valentina', 'Matías', 'Javiera', 'Vicente', 'Fernanda', 'Tomás', 'Catalina', 'Joaquín', 'Constanza', 'Diego', 'Antonia', 'Sebastián', 'Isidora', 'Felipe', 'Francisca', 'Nicolás', 'Martina', 'Cristóbal', 'Josefa', 'Ignacio', 'Daniela', 'Gonzalo', 'Paula', 'Rodrigo', 'Carolina', 'Pablo', 'Macarena', 'Andrés', 'Bárbara', 'Cristian', 'Trinidad', 'Patricio', 'Florencia', 'Esteban', 'Natalia', 'Álvaro', 'Rocío', 'Claudio', 'Gabriela', 'Héctor', 'Pía', 'Mauricio', 'Sofía', 'Raúl', 'Amanda', 'Jorge'];
+  const LAST = ['Rojas', 'González', 'Muñoz', 'Díaz', 'Pérez', 'Soto', 'Contreras', 'Silva', 'Martínez', 'Sepúlveda', 'Morales', 'Rodríguez', 'López', 'Fuentes', 'Hernández', 'Torres', 'Araya', 'Flores', 'Espinoza', 'Valenzuela', 'Castillo', 'Tapia', 'Reyes', 'Gutiérrez', 'Castro', 'Pizarro', 'Álvarez', 'Vásquez', 'Sánchez', 'Fernández', 'Ramírez', 'Carrasco', 'Gómez', 'Cortés', 'Herrera', 'Núñez', 'Jara', 'Vergara', 'Rivera', 'Figueroa', 'Riquelme', 'García', 'Miranda', 'Bravo', 'Vera', 'Molina', 'Vega', 'Campos'];
+  const CARGOS = {
+    ops: ['Analista de operaciones', 'Coordinador/a de rutas', 'Planificador/a', 'Asistente de operaciones'],
+    com: ['Ejecutivo/a comercial', 'Key account', 'Asistente comercial'],
+    fin: ['Analista contable', 'Tesorero/a', 'Analista de cobranza'],
+    ti: ['Desarrollador/a', 'Soporte TI', 'Analista de datos'],
+    bod: ['Operario/a de bodega', 'Despachador/a', 'Supervisor/a de turno'],
+    per: ['Analista de personas', 'Generalista de RR.HH.'],
+  };
+  let seed = 7;
+  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  const people = [];
+  let idx = 0;
+  D2.AREAS.forEach((a) => {
+    for (let i = 0; i < a.size; i++) {
+      const base = { ops: 0.76, com: 0.82, fin: 0.86, ti: 0.84, bod: 0.71, per: 0.9 }[a.id];
+      const scheduled = 20;
+      let completed = Math.max(6, Math.min(20, Math.round(scheduled * (base + (rnd() - 0.5) * 0.36))));
+      const missing = scheduled - completed;
+      const skipped = Math.round(missing * (0.3 + rnd() * 0.4));
+      const postponed = Math.round(rnd() * 5) + (missing > 4 ? 2 : 0);
+      const name = FIRST[idx] + ' ' + LAST[(idx * 7) % LAST.length];
+      people.push({ id: 'p' + idx, name, area: a.id, cargo: CARGOS[a.id][i % CARGOS[a.id].length], scheduled, completed, skipped, postponed });
+      idx++;
+    }
+  });
+  // La trabajadora de la demo
+  Object.assign(people[0], { name: 'Camila Rojas', cargo: 'Analista de operaciones', completed: 17, skipped: 1, postponed: 3 });
+  D2.PEOPLE = people;
+
+  D2.APPS = [
+    { id: 'slack', name: 'Slack', abbr: 'Sl', color: '#4A154B' },
+    { id: 'teams', name: 'Teams', abbr: 'T', color: '#4B53BC' },
+    { id: 'outlook', name: 'Outlook', abbr: 'O', color: '#0F6CBD' },
+    { id: 'gmail', name: 'Gmail', abbr: 'G', color: '#C5221F' },
+    { id: 'sap', name: 'SAP', abbr: 'SAP', color: '#0A6ED1' },
+    { id: 'drive', name: 'Drive', abbr: 'D', color: '#1E8E3E' },
+    { id: 'whatsapp', name: 'WhatsApp Business', abbr: 'WA', color: '#128C4B' },
+  ];
+
+  D2.DEVICES = [
+    { id: 'nb', kind: 'laptop', name: 'Notebook corporativo', model: 'ThinkPad E14 · Windows 11' },
+    { id: 'cel', kind: 'phone', name: 'Celular corporativo', model: 'Samsung A54 · Android 14' },
+  ];
+
+  // Rutina de pausa activa (5 minutos). Los "videos" son animaciones creadas para el prototipo.
+  D2.ROUTINE = [
+    { id: 'r1', type: 'breath', title: 'Respiración 4-2-6', dur: 60, desc: 'Inhala por la nariz en 4 tiempos, sostén 2 y exhala lento por la boca en 6. Suelta los hombros.' },
+    { id: 'm1', type: 'move', anim: 'neck', title: 'Movilidad de cuello', dur: 50, desc: 'Inclina la cabeza hacia un hombro, vuelve al centro y cambia de lado. Movimientos lentos, sin forzar.' },
+    { id: 'm2', type: 'move', anim: 'shrug', title: 'Elevación de hombros', dur: 40, desc: 'Sube los hombros hacia las orejas, sostén un segundo y suéltalos de golpe. Repite.' },
+    { id: 'm3', type: 'move', anim: 'circles', title: 'Círculos de brazos', dur: 50, desc: 'Brazos extendidos a los lados. Dibuja círculos amplios hacia atrás, sin tensar el cuello.' },
+    { id: 'm4', type: 'move', anim: 'side', title: 'Estiramiento lateral', dur: 50, desc: 'De pie, brazos arriba. Inclina el tronco hacia un lado, mantén 3 respiraciones y cambia.' },
+    { id: 'r2', type: 'breath', title: 'Respiración de cierre', dur: 50, desc: 'Vuelve a la respiración 4-2-6. Nota cómo están tus hombros y tu mandíbula antes de volver.' },
+  ];
+
+  D2.CATEGORIES = [
+    { id: 'acoso-laboral', name: 'Acoso laboral', hint: 'Agresiones, humillaciones o maltrato reiterado' },
+    { id: 'acoso-sexual', name: 'Acoso sexual', hint: 'Requerimientos o conductas de connotación sexual no consentidas' },
+    { id: 'violencia', name: 'Violencia en el trabajo', hint: 'Agresiones de clientes, proveedores o terceros' },
+    { id: 'discriminacion', name: 'Discriminación', hint: 'Trato distinto por género, origen, edad, etc.' },
+    { id: 'otra', name: 'Otra situación', hint: 'Seguridad, ética u otro problema' },
+  ];
+  D2.STATUSES = ['Recibida', 'En revisión', 'En investigación', 'Resuelta'];
+  D2.DEADLINE_DAYS = 30;
+
+  D2.seedComplaints = function () {
+    return [
+      {
+        code: 'D2-6PVJ-48DS', cat: 'acoso-sexual', received: '2026-10-03', status: 0, unread: true, where: 'Prefiero no decirlo', when: 'Último mes', recurrent: 'Sí', witnesses: '', protection: true, files: [], dtReport: false,
+        desc: 'Un compañero de turno me envía mensajes con comentarios sobre mi cuerpo, también fuera del horario de trabajo. Le dije que no me interesa salir con él y sigue insistiendo. Me incomoda trabajar en el mismo turno.',
+        messages: [{ from: 'system', text: 'Denuncia recibida', at: '2026-10-03 22:14' }],
+      },
+      {
+        code: 'D2-4HQM-72KP', cat: 'acoso-laboral', received: '2026-09-29', status: 2, unread: false, where: 'Prefiero no decirlo', when: 'Hace más de un mes', recurrent: 'Sí', witnesses: 'Sí, otras personas del equipo lo han visto', protection: true, files: ['captura_chat.png'], dtReport: false,
+        desc: 'Desde hace dos meses una persona con cargo superior me grita frente al equipo cuando hay errores en los despachos y hace comentarios sobre mi capacidad. La última vez fue el jueves en la reunión de las 9:00.',
+        messages: [
+          { from: 'system', text: 'Denuncia recibida', at: '2026-09-29 08:02' },
+          { from: 'rrhh', text: 'Hola. Recibimos tu denuncia y la estamos revisando. Gracias por usar este canal. ¿Te sientes en condiciones de seguir trabajando en tu área esta semana?', at: '2026-09-29 10:31' },
+          { from: 'me', text: 'Por ahora sí, pero preferiría no estar en las reuniones con esa persona.', at: '2026-09-29 13:05' },
+          { from: 'rrhh', text: 'Entendido. Como medida de resguardo, desde mañana el seguimiento de despachos será por escrito y sin esa jefatura presente. Iniciamos la investigación y te escribiremos por aquí.', at: '2026-09-30 09:12' },
+          { from: 'system', text: 'Estado cambiado a "En investigación"', at: '2026-09-30 09:13' },
+        ],
+      },
+      {
+        code: 'D2-8TXN-31BW', cat: 'violencia', received: '2026-09-18', status: 2, unread: false, where: 'Bodega y despacho', when: 'Esta semana', recurrent: 'Sí', witnesses: 'Compañeros del turno mañana', protection: false, files: [], dtReport: false,
+        desc: 'Un cliente que retira pedidos en bodega ha insultado y amenazado a compañeros en tres ocasiones. Tenemos miedo de atenderlo y nadie ha hecho nada todavía.',
+        messages: [
+          { from: 'system', text: 'Denuncia recibida', at: '2026-09-18 16:40' },
+          { from: 'rrhh', text: 'Gracias por avisar. Desde hoy ese cliente será atendido solo por la supervisión de turno y en el mesón principal. ¿Recuerdas las fechas aproximadas de los episodios?', at: '2026-09-19 09:05' },
+          { from: 'me', text: 'Fue el 2, el 11 y el 17 de septiembre, todos en la mañana.', at: '2026-09-19 11:22' },
+        ],
+      },
+      {
+        code: 'D2-2LCE-95RA', cat: 'discriminacion', received: '2026-08-21', status: 3, unread: false, where: 'Comercial', when: 'Último mes', recurrent: 'No', witnesses: '', protection: false, files: [], dtReport: true,
+        desc: 'En la asignación de cuentas grandes siempre se deja fuera a las personas mayores de 50 años del equipo, con el argumento de que "no manejan las herramientas nuevas".',
+        resolution: 'Se revisó el criterio de asignación de cuentas. Ahora es por cartera y desempeño, con capacitación disponible para todo el equipo.',
+        messages: [
+          { from: 'system', text: 'Denuncia recibida', at: '2026-08-21 19:47' },
+          { from: 'rrhh', text: 'Revisamos la asignación de cuentas de los últimos seis meses y confirmamos el patrón que describes. Cambiamos el criterio y lo comunicaremos al equipo esta semana.', at: '2026-09-12 12:00' },
+          { from: 'system', text: 'Estado cambiado a "Resuelta"', at: '2026-09-15 10:00' },
+        ],
+      },
+    ];
+  };
+
+  D2.seedActions = function () {
+    return [
+      { id: 'a1', dim: 'desc', text: 'Acordar con el equipo que no se envían mensajes después de las 19:00. Usar envío programado.', done: false },
+      { id: 'a2', dim: 'desc', text: 'Sacar a las personas del grupo de WhatsApp de turno cuando no están de turno.', done: true },
+      { id: 'a3', dim: 'carga', text: 'Planificar el cierre de mes con una semana de anticipación y repartir los turnos extra.', done: false },
+      { id: 'a4', dim: 'recon', text: 'En la reunión semanal, reconocer un logro concreto del equipo con nombre y apellido.', done: false },
+    ];
+  };
+
+  D2.SUGGESTIONS = {
+    carga: ['Revisar la distribución de tareas del cierre de mes.', 'Definir prioridades semanales y qué puede esperar.'],
+    lider: ['Agendar conversaciones 1:1 de 20 minutos cada dos semanas.', 'Dar retroalimentación en privado y con ejemplos concretos.'],
+    rel: ['Hacer una actividad de equipo dentro del horario laboral.'],
+    recon: ['Reconocer logros concretos en la reunión semanal.', 'Agradecer por escrito los esfuerzos extra.'],
+    desc: ['Acordar un horario sin mensajes y usar envío programado.', 'No esperar respuestas fuera del horario laboral.'],
+    seg: ['Abrir un espacio para preguntas sin que haya consecuencias.', 'Reconocer públicamente cuando alguien levanta un problema.'],
+  };
+})();
+</script>
+<script>
+/* Desconecta2 · utilidades de interfaz: íconos, formato, gráficos, tooltip y avisos. */
+(function () {
+  const D2 = (window.D2 = window.D2 || {});
+
+  const P = {
+    home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    pause: '<circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>',
+    survey: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/>',
+    shield: '<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    chart: '<path d="M4 20V4"/><path d="M4 20h16"/><path d="m7 15 4-4 3 3 5-6"/>',
+    sliders: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.5c2.5 0 4.5 1.6 5 4.5"/>',
+    listcheck: '<path d="M11 6h9M11 12h9M11 18h9"/><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"/>',
+    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    bell: '<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+    bellOff: '<path d="M6 16v-5a6 6 0 0 1 9-5.2M18 11v5l2 2H8"/><path d="M10 20a2 2 0 0 0 4 0"/><path d="M3 3l18 18"/>',
+    moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/>',
+    phone: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+    laptop: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
+    send: '<path d="M21 3 10 14"/><path d="m21 3-7 18-4-7-7-4z"/>',
+    copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+    play: '<path d="M8 5v14l11-7z" fill="currentColor"/>',
+    pauseFill: '<path d="M8 5v14M16 5v14" stroke-width="3.2"/>',
+    next: '<path d="M6 5v14l9-7z" fill="currentColor"/><path d="M18 5v14"/>',
+    check: '<path d="m5 12 5 5 9-10"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    alert: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17v.5"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+    eyeOff: '<path d="M3 3l18 18"/><path d="M10.6 6.1A9.8 9.8 0 0 1 12 6c5 0 9 6 9 6a17 17 0 0 1-2.6 3.2M6.6 7.6C4.3 9.2 3 12 3 12s4 6 9 6a9 9 0 0 0 4-.9"/><path d="M10 10a3 3 0 0 0 4 4"/>',
+    message: '<path d="M4 5h16v11H9l-5 4z"/>',
+    file: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',
+    back: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+    up: '<path d="m4 16 6-6 4 4 6-7"/><path d="M15 7h5v5"/>',
+    down: '<path d="m4 8 6 6 4-4 6 7"/><path d="M15 17h5v-5"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    leaf: '<path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="m5 19 8-8"/>',
+    inbox: '<path d="M3 13h5l2 3h4l2-3h5"/><path d="M5 5h14l2 8v6H3v-6z"/>',
+    flag: '<path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/>',
+    refresh: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
+    skip: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    snooze: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M19 3l3 3"/>',
+    wind: '<path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/>',
+    person: '<circle cx="12" cy="5" r="2.5"/><path d="M12 8v7M8 11l4-2 4 2M9 21l3-6 3 6"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    door: '<path d="M14 3H6v18h8"/><path d="M14 3l5 2v14l-5 2z"/><path d="M11 12h.01"/>',
+  };
+  D2.icon = function (name, cls) {
+    return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[name] || '') + '</svg>';
+  };
+  D2.face = function (level) {
+    // level 1..5 → boca de triste a feliz
+    const mouths = ['M8 16.5c1.2-2 6.8-2 8 0', 'M8.5 16c1.5-1 5.5-1 7 0', 'M8.5 15.5h7', 'M8.5 15c1.5 1 5.5 1 7 0', 'M8 14.5c1.2 2.4 6.8 2.4 8 0'];
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 10v.5M15 10v.5" stroke-width="2.4"/><path d="' + mouths[level - 1] + '"/></svg>';
+  };
+
+  D2.esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  };
+  D2.f1 = (n) => Number(n).toLocaleString('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  D2.f2 = (n) => Number(n).toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  D2.pct = (n) => Math.round(n) + '%';
+  const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  D2.parseDate = (s) => { const [y, m, d] = s.slice(0, 10).split('-').map(Number); return new Date(y, m - 1, d); };
+  D2.fmtDate = (s) => { const d = D2.parseDate(s); return d.getDate() + ' ' + MES[d.getMonth()]; };
+  D2.fmtDateTime = (s) => D2.fmtDate(s) + (s.length > 10 ? ' · ' + s.slice(11, 16) : '');
+  D2.daysSince = (s) => Math.floor((D2.simToday() - D2.parseDate(s)) / 86400000);
+  D2.simToday = () => { const n = new Date(D2.now()); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); };
+  D2.hhmm = (ms) => { const d = new Date(ms); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+  D2.stamp = () => { const d = new Date(D2.now()); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + D2.hhmm(d.getTime()); };
+  D2.mmss = (sec) => { sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); };
+  D2.initials = (name) => name.split(' ').map((w) => w[0]).slice(0, 2).join('');
+  D2.avg = (arr) => arr.reduce((a, b) => a + b, 0) / (arr.length || 1);
+
+  // Escala divergente para el mapa de calor (meta 3,5 = neutro)
+  D2.heatBg = function (v) {
+    const t = Math.max(-1, Math.min(1, (v - D2.TARGET) / 1.2));
+    const pctv = Math.round(Math.abs(t) * 62);
+    const pole = t < 0 ? 'var(--div-low)' : 'var(--div-high)';
+    return 'background: color-mix(in oklab, ' + pole + ' ' + pctv + '%, var(--surface-2))';
+  };
+
+  /* ---------- Gráficos (SVG dibujado al ancho real del contenedor) ---------- */
+  const charts = {};
+  let chartId = 0;
+  D2.chartSlot = function (spec) {
+    const id = 'c' + ++chartId;
+    charts[id] = spec;
+    return '<div class="chart" data-chart="' + id + '" style="height:' + (spec.height || 220) + 'px" role="img" aria-label="' + D2.esc(spec.aria || '') + '"></div>';
+  };
+  D2.drawCharts = function () {
+    document.querySelectorAll('[data-chart]').forEach((el) => {
+      const spec = charts[el.dataset.chart];
+      if (spec) el.innerHTML = lineChart(spec, el.clientWidth || 600);
+    });
+  };
+  D2.resetCharts = function () { for (const k in charts) delete charts[k]; };
+
+  function lineChart(s, W) {
+    const H = s.height || 220;
+    const padL = 36, padR = 58, padT = 14, padB = 28;
+    const iw = Math.max(80, W - padL - padR), ih = H - padT - padB;
+    const n = s.values.length;
+    const x = (i) => padL + (n === 1 ? iw / 2 : (iw * i) / (n - 1));
+    const y = (v) => padT + ih - ((v - s.min) / (s.max - s.min)) * ih;
+    const fmt = s.fmt || ((v) => v);
+    let out = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">';
+    s.ticks.forEach((t) => {
+      out += '<line class="grid-line" x1="' + padL + '" x2="' + (padL + iw) + '" y1="' + y(t) + '" y2="' + y(t) + '"/>';
+      out += '<text class="axis-label" x="' + (padL - 8) + '" y="' + (y(t) + 4) + '" text-anchor="end">' + fmt(t) + '</text>';
+    });
+    if (s.goal != null) {
+      out += '<line class="goal" x1="' + padL + '" x2="' + (padL + iw) + '" y1="' + y(s.goal) + '" y2="' + y(s.goal) + '"/>';
+      out += '<text class="goal-label" x="' + (padL + iw + 6) + '" y="' + (y(s.goal) + 4) + '">' + D2.esc(s.goalLabel || 'Meta') + '</text>';
+    }
+    const step = iw / Math.max(1, n - 1) < 46 ? 2 : 1;
+    s.labels.forEach((l, i) => {
+      if (i % step && i !== n - 1) return;
+      out += '<text class="axis-label" x="' + x(i) + '" y="' + (H - 8) + '" text-anchor="middle">' + D2.esc(l) + '</text>';
+    });
+    const pts = s.values.map((v, i) => x(i) + ',' + y(v));
+    out += '<path class="area" d="M' + x(0) + ',' + (padT + ih) + ' L' + pts.join(' L') + ' L' + x(n - 1) + ',' + (padT + ih) + ' Z"/>';
+    out += '<polyline class="line" points="' + pts.join(' ') + '"/>';
+    out += '<line class="cross" x1="0" x2="0" y1="' + padT + '" y2="' + (padT + ih) + '"/>';
+    const last = s.values[n - 1];
+    out += '<circle class="dot" cx="' + x(n - 1) + '" cy="' + y(last) + '" r="5"/>';
+    // Evita que la etiqueta final choque con la de la meta
+    let ly = y(last) + 4;
+    if (s.goal != null && Math.abs(y(last) - y(s.goal)) < 14) ly = y(last) + (y(last) < y(s.goal) ? -6 : 16);
+    out += '<text class="end-label" x="' + (x(n - 1) + 10) + '" y="' + ly + '">' + (s.endFmt || fmt)(last) + '</text>';
+    const colW = iw / Math.max(1, n - 1);
+    s.values.forEach((v, i) => {
+      const tip = '<b>' + D2.esc((s.endFmt || fmt)(v)) + '</b>' + D2.esc((s.tipPrefix || '') + s.labels[i]);
+      out += '<rect class="hit" x="' + (x(i) - colW / 2) + '" y="' + padT + '" width="' + colW + '" height="' + ih + '" data-cx="' + x(i) + '" data-tip="' + D2.esc(tip) + '"/>';
+    });
+    out += '</svg>';
+    return out;
+  }
+
+  /* ---------- Tooltip global ---------- */
+  function placeTip(e) {
+    const tip = document.getElementById('tip');
+    const pad = 14;
+    let left = e.clientX + pad, top = e.clientY + pad;
+    const r = tip.getBoundingClientRect();
+    if (left + r.width > window.innerWidth - 8) left = e.clientX - r.width - pad;
+    if (top + r.height > window.innerHeight - 8) top = e.clientY - r.height - pad;
+    tip.style.left = Math.max(8, left) + 'px';
+    tip.style.top = Math.max(8, top) + 'px';
+  }
+  function showTip(e) {
+    const t = e.target.closest && e.target.closest('[data-tip]');
+    const tip = document.getElementById('tip');
+    if (!tip) return;
+    document.querySelectorAll('.cross').forEach((c) => (c.style.opacity = 0));
+    if (!t) { tip.hidden = true; return; }
+    tip.innerHTML = t.getAttribute('data-tip');
+    tip.hidden = false;
+    placeTip(e);
+    if (t.dataset.cx) {
+      const cross = t.ownerSVGElement && t.ownerSVGElement.querySelector('.cross');
+      if (cross) { cross.setAttribute('x1', t.dataset.cx); cross.setAttribute('x2', t.dataset.cx); cross.style.opacity = 1; }
+    }
+  }
+  document.addEventListener('pointerover', showTip);
+  document.addEventListener('pointermove', (e) => { const tip = document.getElementById('tip'); if (tip && !tip.hidden) placeTip(e); });
+  document.addEventListener('pointerout', (e) => { if (!e.relatedTarget || !(e.relatedTarget.closest && e.relatedTarget.closest('[data-tip]'))) { const tip = document.getElementById('tip'); if (tip) tip.hidden = true; document.querySelectorAll('.cross').forEach((c) => (c.style.opacity = 0)); } });
+
+  /* ---------- Avisos ---------- */
+  D2.toast = function (msg, icon) {
+    const root = document.getElementById('toast-root');
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = D2.icon(icon || 'check') + '<span>' + D2.esc(msg) + '</span>';
+    root.appendChild(el);
+    setTimeout(() => el.remove(), 3600);
+  };
+
+  /* ---------- Piezas comunes ---------- */
+  D2.statusPill = function (status) {
+    const cls = ['pill-crit', 'pill-warn', 'pill-info', 'pill-ok'][status];
+    return '<span class="pill ' + cls + '">' + D2.STATUSES[status] + '</span>';
+  };
+  D2.catName = (id) => (D2.CATEGORIES.find((c) => c.id === id) || {}).name || 'Otra situación';
+  D2.appTile = function (app) {
+    return '<span class="ai" style="background:' + app.color + '">' + app.abbr + '</span>';
+  };
+  D2.minibar = function (value, max) {
+    const p = Math.round((value / max) * 100);
+    const cls = p < 60 ? 'crit' : p < 75 ? 'low' : '';
+    return '<div class="minibar"><div class="track"><div class="fill ' + cls + '" style="width:' + p + '%"></div></div><span class="num small" style="width:38px;text-align:right">' + p + '%</span></div>';
+  };
+})();
+</script>
+<script>
+/* Desconecta2 · núcleo: estado, reloj simulado, navegación y eventos. */
+(function () {
+  const D2 = (window.D2 = window.D2 || {});
+  const STORE_KEY = 'desconecta2-demo-v1';
+  const LOAD_REAL = Date.now();
+  let clockOffset = 0;
+
+  D2.now = () => D2.SIM_START + (Date.now() - LOAD_REAL) + clockOffset;
+  D2.advanceClockTo = (ms) => { clockOffset += ms - D2.now(); };
+
+  function freshState() {
+    return {
+      role: 'worker',
+      view: { worker: 'inicio', rrhh: 'resumen', jefe: 'equipo' },
+      worker: {
+        name: 'Camila Rojas', cargo: 'Analista de operaciones', area: 'ops',
+        prefs: { freq: 90, routine: 'mixta', remind: 1 },
+        slotStatus: { '10:30': 'completada' },
+        snooze: {}, postponesUsed: 0, moods: [], skipReasons: [],
+        week: [{ d: 'Lun 28', v: 4 }, { d: 'Mar 29', v: 3 }, { d: 'Mié 30', v: 4 }, { d: 'Jue 1', v: 2 }, { d: 'Vie 2', v: 4 }],
+        survey: null,
+      },
+      policy: {
+        freq: 90, freqMin: 60, freqMax: 120, dur: 5, start: '09:00', end: '18:00',
+        maxPostpones: 2, postponeMin: 10, allowSkip: true, offHours: true, dnd: true,
+        apps: { slack: true, teams: true, outlook: true, gmail: false, sap: true, drive: true, whatsapp: true },
+      },
+      complaints: D2.seedComplaints(),
+      actions: D2.seedActions(),
+    };
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) return Object.assign(freshState(), JSON.parse(raw));
+    } catch (e) { /* almacenamiento no disponible: la demo funciona igual en memoria */ }
+    return freshState();
+  }
+  D2.save = function () {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(D2.state)); } catch (e) { /* sin almacenamiento */ }
+  };
+  D2.state = load();
+  D2.ui = { complaintTab: 'nueva', newCode: null, followCode: null, followError: '', rrhhCase: null, rrhhFilter: 'abiertas', peopleQuery: '', peopleArea: 'all', copied: false };
+
+  /* ---------- Horario de pausas ---------- */
+  const toMs = (hhmm) => { const [h, m] = hhmm.split(':').map(Number); const d = D2.simToday(); d.setHours(h, m, 0, 0); return d.getTime(); };
+  D2.toMs = toMs;
+  D2.effectiveFreq = function () {
+    const p = D2.state.policy;
+    return Math.max(p.freqMin, Math.min(p.freqMax, D2.state.worker.prefs.freq));
+  };
+  D2.slots = function () {
+    const p = D2.state.policy;
+    const freq = D2.effectiveFreq();
+    const out = [];
+    const start = toMs(p.start), end = toMs(p.end), lunchA = toMs('13:00'), lunchB = toMs('14:00');
+    for (let t = start + freq * 60000; t < end - 15 * 60000; t += freq * 60000) {
+      if (t >= lunchA && t < lunchB) continue;
+      const label = D2.hhmm(t);
+      out.push({ label, at: t, status: D2.state.worker.slotStatus[label] || null, snooze: D2.state.worker.snooze[label] || null });
+    }
+    return out;
+  };
+  D2.nextSlot = function () {
+    return D2.slots().find((s) => !s.status) || null;
+  };
+  D2.slotTarget = (s) => (s.snooze || s.at);
+
+  /* ---------- Navegación ---------- */
+  D2.NAV = {
+    worker: [
+      { id: 'inicio', label: 'Inicio', icon: 'home' },
+      { id: 'pausas', label: 'Mis pausas', icon: 'pause' },
+      { id: 'encuesta', label: 'Encuesta', icon: 'survey' },
+      { id: 'denuncias', label: 'Denuncias', icon: 'shield' },
+    ],
+    rrhh: [
+      { id: 'resumen', label: 'Resumen', icon: 'chart' },
+      { id: 'denuncias', label: 'Denuncias', icon: 'inbox', badge: () => D2.state.complaints.filter((c) => c.unread).length },
+      { id: 'clima', label: 'Clima laboral', icon: 'survey' },
+      { id: 'pausas', label: 'Pausas activas', icon: 'pause' },
+      { id: 'politicas', label: 'Políticas', icon: 'sliders' },
+    ],
+    jefe: [
+      { id: 'equipo', label: 'Mi equipo', icon: 'users' },
+      { id: 'pausas', label: 'Pausas', icon: 'pause' },
+      { id: 'plan', label: 'Plan de acción', icon: 'listcheck' },
+    ],
+  };
+  const PERSONA = {
+    worker: { name: 'Camila Rojas', sub: 'Operaciones', note: 'Estás viendo la app como <b>trabajadora</b>. Las denuncias que envíes aquí llegan a RR.HH. sin tu nombre.' },
+    rrhh: { name: 'Andrea Fuentes', sub: 'Jefa de Personas', note: 'Estás viendo el panel de <b>RR.HH.</b>. Recibe las denuncias y ve todos los datos de pausas y clima.' },
+    jefe: { name: 'Rodrigo Muñoz', sub: 'Jefe de Operaciones', note: 'Estás viendo la vista de <b>jefatura</b>. Ve el clima de su equipo en agregado y no tiene acceso a denuncias.' },
+  };
+
+  D2.render = function (opts) {
+    const st = D2.state;
+    const role = st.role;
+    const view = st.view[role];
+    const nav = D2.NAV[role];
+    const persona = PERSONA[role];
+    D2.resetCharts();
+    const navBtn = (n, cls) => {
+      const b = n.badge ? n.badge() : 0;
+      return '<button class="' + cls + '" data-act="nav" data-view="' + n.id + '"' + (n.id === view ? ' aria-current="page"' : '') + '>' + D2.icon(n.icon) + '<span>' + n.label + '</span>' + (b ? '<span class="nav-badge">' + b + '</span>' : '') + '</button>';
+    };
+    const roles = [['worker', 'Trabajador'], ['rrhh', 'RR.HH.'], ['jefe', 'Jefatura']];
+    const page = (D2.views[role][view] || D2.views[role][nav[0].id])();
+    document.getElementById('app').innerHTML =
+      '<div class="shell">' +
+      '<header class="topbar">' +
+      '<a class="logo" href="#" data-act="nav" data-view="' + nav[0].id + '" aria-label="Desconecta2, inicio"><span class="logo-mark"><span></span></span><span class="logo-text">Desconecta<b>2</b></span></a>' +
+      '<span class="demo-chip">Prototipo · datos de ejemplo</span>' +
+      '<span class="topbar-spacer"></span>' +
+      '<div class="role-switch"><span class="role-switch-label">Ver como</span><div class="segmented" role="group" aria-label="Cambiar vista">' +
+      roles.map((r) => '<button data-act="role" data-role="' + r[0] + '" aria-pressed="' + (r[0] === role) + '">' + r[1] + '</button>').join('') +
+      '</div></div>' +
+      '<div class="user-chip"><span class="avatar">' + D2.initials(persona.name) + '</span><span class="who"><b>' + persona.name + '</b><span>' + persona.sub + '</span></span></div>' +
+      '</header>' +
+      '<nav class="sidebar" aria-label="Secciones"><div class="eyebrow">' + D2.company.name + '</div>' +
+      nav.map((n) => navBtn(n, 'nav-item')).join('') +
+      '<div class="sidebar-foot"><span>' + persona.note + '</span><button class="link small" data-act="reset">Reiniciar demo</button></div>' +
+      '</nav>' +
+      '<main class="main" id="main">' + page + '</main>' +
+      '<nav class="tabbar" aria-label="Secciones">' + nav.map((n) => navBtn(n, 'tab')).join('') + '</nav>' +
+      '</div>';
+    D2.drawCharts();
+    D2.tickDom();
+    if (opts && opts.scroll) window.scrollTo({ top: 0 });
+  };
+
+  /* ---------- Acciones ---------- */
+  D2.actions = {
+    nav(el) { D2.state.view[D2.state.role] = el.dataset.view; D2.ui.rrhhCase = null; D2.save(); D2.render({ scroll: true }); },
+    go(el) { D2.state.view[D2.state.role] = el.dataset.view; if (el.dataset.tab) D2.ui.complaintTab = el.dataset.tab; D2.save(); D2.render({ scroll: true }); },
+    role(el) { D2.state.role = el.dataset.role; D2.ui.rrhhCase = null; D2.save(); D2.render({ scroll: true }); },
+    reset() {
+      try { localStorage.removeItem(STORE_KEY); } catch (e) { /* nada */ }
+      D2.state = freshState();
+      clockOffset = 0;
+      D2.ui = { complaintTab: 'nueva', newCode: null, followCode: null, followError: '', rrhhCase: null, rrhhFilter: 'abiertas', peopleQuery: '', peopleArea: 'all', copied: false };
+      D2.closeOverlay();
+      D2.render({ scroll: true });
+      D2.toast('Demo reiniciada', 'refresh');
+    },
+  };
+  D2.forms = {};
+  D2.changes = {};
+  D2.views = { worker: {}, rrhh: {}, jefe: {} };
+
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-act]');
+    if (!el) return;
+    const fn = D2.actions[el.dataset.act];
+    if (!fn) return;
+    if (el.tagName === 'A' || el.tagName === 'BUTTON') e.preventDefault();
+    fn(el, e);
+  });
+  document.addEventListener('submit', (e) => {
+    const form = e.target.closest('form[data-form]');
+    if (!form) return;
+    e.preventDefault();
+    const fn = D2.forms[form.dataset.form];
+    if (fn) fn(form);
+  });
+  document.addEventListener('change', (e) => {
+    const el = e.target.closest('[data-change]');
+    if (!el) return;
+    const fn = D2.changes[el.dataset.change];
+    if (fn) fn(el, e);
+  });
+  document.addEventListener('input', (e) => {
+    const el = e.target.closest('[data-input]');
+    if (!el) return;
+    const fn = D2.changes[el.dataset.input];
+    if (fn) fn(el, e);
+  });
+
+  /* ---------- Reloj ---------- */
+  D2.tickDom = function () {
+    const now = D2.now();
+    document.querySelectorAll('[data-clock]').forEach((el) => (el.textContent = D2.hhmm(now)));
+    const next = D2.nextSlot();
+    document.querySelectorAll('[data-countdown]').forEach((el) => {
+      if (!next) { el.textContent = '—'; return; }
+      const sec = Math.max(0, Math.round((D2.slotTarget(next) - now) / 1000));
+      const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+      el.textContent = (h ? h + ':' + String(m).padStart(2, '0') : String(m).padStart(2, '0')) + ':' + String(s).padStart(2, '0');
+    });
+  };
+  setInterval(() => {
+    D2.tickDom();
+    if (D2.pauseTick) D2.pauseTick();
+  }, 250);
+
+  let resizeT;
+  window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(D2.drawCharts, 120); });
+
+  document.addEventListener('DOMContentLoaded', () => D2.render());
+  if (document.readyState !== 'loading') setTimeout(() => D2.render(), 0);
+})();
+</script>
+<script>
+/* Desconecta2 · pausa activa: alarma, rutina con videos animados, cierre y desconexión. */
+(function () {
+  const D2 = window.D2;
+  const SPEEDS = [1, 5, 20];
+  D2.pause = null;
+
+  D2.routineSteps = function () {
+    const r = D2.state.worker.prefs.routine;
+    if (r === 'respiracion') return D2.ROUTINE.filter((s) => s.type === 'breath').map((s) => Object.assign({}, s, { dur: 150 }));
+    if (r === 'movilidad') return D2.ROUTINE.filter((s) => s.type === 'move').map((s) => Object.assign({}, s, { dur: 75 }));
+    return D2.ROUTINE;
+  };
+  D2.blockedApps = () => D2.APPS.filter((a) => D2.state.policy.apps[a.id]);
+
+  function figure(anim) {
+    let arms = '<path class="body" d="M78 76 L72 108 L74 136"/><path class="body" d="M122 76 L128 108 L126 136"/>';
+    let hints = '';
+    if (anim === 'circles') {
+      arms = '<g class="arm-l"><path class="body" d="M78 76 L42 80"/></g><g class="arm-r"><path class="body" d="M122 76 L158 80"/></g>';
+      hints = '<path class="hint" d="M34 58 A26 26 0 0 0 34 102"/><path class="hint" d="M166 58 A26 26 0 0 1 166 102"/>';
+    }
+    if (anim === 'side') {
+      arms = '<path class="body" d="M78 76 L74 46 L88 14"/><path class="body" d="M122 76 L126 46 L112 14"/>';
+      hints = '<path class="hint" d="M40 40 Q100 -14 160 40"/>';
+    }
+    if (anim === 'neck') hints = '<path class="hint" d="M70 26 Q100 4 130 26"/>';
+    if (anim === 'shrug') hints = '<path class="hint" d="M62 74 V50 M56 58 L62 50 L68 58 M138 74 V50 M132 58 L138 50 L144 58"/>';
+    return '<svg class="figure anim-' + anim + '" viewBox="0 0 200 220" aria-hidden="true">' +
+      '<line class="floor" x1="30" y1="208" x2="170" y2="208"/>' + hints +
+      '<path class="body" d="M100 140 L86 206 M100 140 L114 206"/>' +
+      '<g class="g-upper"><path class="body" d="M100 72 L100 140"/><path class="body" d="M78 76 L122 76"/>' + arms +
+      '<g class="g-head"><path class="body" d="M100 61 L100 72"/><circle class="head" cx="100" cy="45" r="15"/></g></g></svg>';
+  }
+
+  function totalLeft(p) {
+    const steps = p.steps;
+    let left = steps[p.step].dur - p.elapsed;
+    for (let i = p.step + 1; i < steps.length; i++) left += steps[i].dur;
+    return left;
+  }
+
+  function statusChips() {
+    const pol = D2.state.policy;
+    const apps = D2.blockedApps();
+    return '<div class="ov-status">' +
+      (pol.dnd ? '<span class="st">' + D2.icon('bellOff') + 'No molestar activo en ' + D2.DEVICES.length + ' dispositivos</span>' : '') +
+      '<span class="st">' + D2.icon('lock') + apps.length + ' apps de trabajo en pausa</span></div>';
+  }
+  function blockedList() {
+    return '<div class="blocked-apps">' + D2.blockedApps().map((a) => '<span class="ba">' + D2.appTile(a) + a.name + D2.icon('lock') + '</span>').join('') + '</div>';
+  }
+
+  D2.renderOverlay = function () {
+    const root = document.getElementById('overlay-root');
+    const p = D2.pause;
+    if (!p) { root.innerHTML = ''; document.body.style.overflow = ''; return; }
+    document.body.style.overflow = 'hidden';
+    const pol = D2.state.policy;
+    let html = '';
+    if (p.phase === 'alarm') {
+      const left = pol.maxPostpones - D2.state.worker.postponesUsed;
+      html = '<div class="alarm"><div class="alarm-inner">' +
+        '<div class="alarm-bell">' + D2.icon('bell') + '</div>' +
+        '<div class="eyebrow">' + p.slot + ' · Pausa activa</div>' +
+        '<h1>Es hora de tu pausa activa</h1>' +
+        '<p class="muted">' + pol.dur + ' minutos de respiración y movilidad. Al comenzar se activa No molestar y tus apps de trabajo quedan en pausa hasta que termines.</p>' +
+        '<div class="actions"><button class="btn btn-primary" data-act="pause-start">' + D2.icon('play') + 'Comenzar pausa</button>' +
+        '<button class="btn btn-ghost" data-act="pause-snooze"' + (left > 0 ? '' : ' disabled') + '>' + D2.icon('snooze') + 'Posponer ' + pol.postponeMin + ' min</button>' +
+        (pol.allowSkip ? '<button class="btn btn-ghost" data-act="pause-skip">' + D2.icon('skip') + 'Saltar</button>' : '') + '</div>' +
+        '<p class="small muted">' + (left > 0 ? 'Puedes posponer ' + left + (left === 1 ? ' vez más' : ' veces más') + ' hoy.' : 'Ya usaste tus aplazamientos de hoy.') + '</p>' +
+        '</div></div>';
+    } else if (p.phase === 'skip') {
+      html = '<div class="alarm"><div class="alarm-inner">' +
+        '<h1>¿Por qué saltas esta pausa?</h1>' +
+        '<p class="muted">Tu empresa ve los motivos para ajustar horarios y cargas de trabajo.</p>' +
+        '<div class="reason-chips">' + ['Estaba en reunión', 'Atención a cliente', 'Mucha carga de trabajo', 'Otro motivo'].map((r) => '<button data-act="pause-skip-reason" data-reason="' + r + '">' + r + '</button>').join('') + '</div>' +
+        '<button class="btn btn-ghost" data-act="pause-back">' + D2.icon('back') + 'Volver</button>' +
+        '</div></div>';
+    } else if (p.phase === 'run') {
+      const s = p.steps[p.step];
+      const stage = s.type === 'breath'
+        ? '<div class="breath"><div class="ring"></div><div class="ball" id="pl-ball"></div><div class="word" id="pl-word">Inhala</div></div>'
+        : figure(s.anim);
+      html = '<div class="overlay-inner">' +
+        '<div class="ov-top"><div><div class="eyebrow">Pausa activa · ' + p.slot + '</div><h2>' + s.title + '</h2></div>' + statusChips() + '</div>' +
+        '<div class="ov-grid">' +
+        '<div class="stack">' +
+        '<div class="player' + (p.playing ? '' : ' paused') + '" id="player">' +
+        '<div class="player-stage">' + stage + '</div>' +
+        '<div class="player-top"><div class="t"><b>' + s.title + '</b><span>Paso ' + (p.step + 1) + ' de ' + p.steps.length + '</span></div><span class="player-badge">Video guiado</span></div>' +
+        '<div class="player-bottom"><div class="player-progress"><i id="pl-progress"></i></div>' +
+        '<div class="player-ctrl"><button data-act="pause-toggle" aria-label="' + (p.playing ? 'Pausar video' : 'Reproducir video') + '">' + D2.icon(p.playing ? 'pauseFill' : 'play') + '</button>' +
+        '<button data-act="pause-next" aria-label="Siguiente ejercicio">' + D2.icon('next') + '</button>' +
+        '<span id="pl-time">0:00 / ' + D2.mmss(s.dur) + '</span><span class="grow"></span>' +
+        '<button class="speed" data-act="pause-speed" title="Velocidad de la demo">x' + p.speed + '</button></div></div>' +
+        '</div>' +
+        '<p class="muted">' + s.desc + '</p>' +
+        '</div>' +
+        '<div class="stack">' +
+        '<div class="ov-panel"><div class="eyebrow">Tiempo restante</div><div class="big-clock" id="pl-total">' + D2.mmss(totalLeft(p)) + '</div>' +
+        '<div class="steps-list">' + p.steps.map((st, i) => '<div class="sl ' + (i < p.step ? 'done' : i === p.step ? 'current' : '') + '"><span class="n">' + (i < p.step ? '✓' : i + 1) + '</span>' + st.title + '<span class="d">' + D2.mmss(st.dur) + '</span></div>').join('') + '</div></div>' +
+        '<div class="ov-panel"><h4>En pausa mientras descansas</h4>' + blockedList() + '<p class="small muted">Las llamadas de emergencia siguen funcionando.</p></div>' +
+        '<button class="btn btn-ghost" data-act="pause-finish">Terminar antes</button>' +
+        '</div></div></div>';
+    } else if (p.phase === 'done') {
+      const next = D2.nextSlot();
+      html = '<div class="alarm"><div class="alarm-inner">' +
+        '<div class="alarm-bell">' + D2.icon('check') + '</div>' +
+        '<h1>Pausa completada</h1>' +
+        '<p class="muted">Tus apps de trabajo se reactivaron.' + (next ? ' Tu próxima pausa es a las ' + next.label + '.' : ' No te quedan pausas hoy.') + '</p>' +
+        '<h3>¿Cómo te sientes ahora?</h3>' +
+        '<div class="mood">' + ['Mal', 'Regular', 'Igual', 'Bien', 'Muy bien'].map((m, i) => '<button data-act="pause-mood" data-mood="' + (i + 1) + '">' + D2.face(i + 1) + m + '</button>').join('') + '</div>' +
+        '<button class="link" style="color:var(--pause-muted)" data-act="pause-mood" data-mood="0">Prefiero no responder</button>' +
+        '</div></div>';
+    } else if (p.phase === 'offhours') {
+      html = '<div class="offhours"><div class="alarm-inner">' +
+        '<div class="moon"></div>' +
+        '<div class="eyebrow">' + pol.end + ' · Fin de tu jornada</div>' +
+        '<h1>Ya estás desconectada</h1>' +
+        '<p class="muted">Hasta mañana a las ' + pol.start + ', estas apps quedan en pausa en tus dispositivos de trabajo. Los mensajes que lleguen te van a esperar mañana.</p>' +
+        blockedList() +
+        '<div class="ov-panel" style="text-align:left;width:100%"><div class="row nowrap">' + D2.icon('shield') + '<span class="small">Derecho a desconexión: tu empresa se compromete a no pedirte respuestas fuera de tu jornada. Si hay una emergencia real, te van a llamar por teléfono.</span></div></div>' +
+        '<button class="btn btn-primary" data-act="pause-close">Volver a la demo</button>' +
+        '</div></div>';
+    }
+    root.innerHTML = '<div class="overlay" role="dialog" aria-modal="true" aria-label="Pausa activa">' + html + '</div>';
+    D2.pauseTick(true);
+  };
+
+  D2.openAlarm = function (slot) { D2.pause = { phase: 'alarm', slot }; D2.renderOverlay(); };
+  D2.closeOverlay = function () { D2.pause = null; D2.renderOverlay(); };
+
+  D2.pauseTick = function (domOnly) {
+    const p = D2.pause;
+    const st = D2.state;
+    if (!p) {
+      if (st.role !== 'worker') return;
+      const next = D2.nextSlot();
+      if (next && D2.now() >= D2.slotTarget(next)) D2.openAlarm(next.label);
+      return;
+    }
+    if (p.phase !== 'run') return;
+    if (!domOnly && p.playing) {
+      p.elapsed += 0.25 * p.speed;
+      if (p.elapsed >= p.steps[p.step].dur) {
+        if (p.step < p.steps.length - 1) { p.step++; p.elapsed = 0; D2.renderOverlay(); return; }
+        finish(); return;
+      }
+    }
+    const s = p.steps[p.step];
+    const prog = document.getElementById('pl-progress');
+    if (prog) prog.style.width = Math.min(100, (p.elapsed / s.dur) * 100) + '%';
+    const t = document.getElementById('pl-time');
+    if (t) t.textContent = D2.mmss(p.elapsed) + ' / ' + D2.mmss(s.dur);
+    const tot = document.getElementById('pl-total');
+    if (tot) tot.textContent = D2.mmss(totalLeft(p));
+    const ball = document.getElementById('pl-ball');
+    const word = document.getElementById('pl-word');
+    if (ball && word) {
+      const c = p.elapsed % 12; // 4 inhala · 2 sostén · 6 exhala
+      let scale, label, left;
+      if (c < 4) { scale = 0.45 + (c / 4) * 0.55; label = 'Inhala'; left = 4 - c; }
+      else if (c < 6) { scale = 1; label = 'Sostén'; left = 6 - c; }
+      else { scale = 1 - ((c - 6) / 6) * 0.55; label = 'Exhala'; left = 12 - c; }
+      ball.style.transform = 'scale(' + scale.toFixed(3) + ')';
+      word.innerHTML = label + '<small>' + Math.ceil(left) + '</small>';
+    }
+  };
+
+  function finish() {
+    const p = D2.pause;
+    const w = D2.state.worker;
+    w.slotStatus[p.slot] = 'completada';
+    delete w.snooze[p.slot];
+    D2.save();
+    D2.pause = { phase: 'done', slot: p.slot };
+    D2.renderOverlay();
+    D2.render();
+  }
+
+  Object.assign(D2.actions, {
+    'pause-test'() {
+      const next = D2.nextSlot();
+      if (!next) { D2.toast('No quedan pausas programadas hoy', 'clock'); return; }
+      D2.advanceClockTo(D2.slotTarget(next) - 1500);
+      D2.tickDom();
+    },
+    'pause-now'() {
+      const next = D2.nextSlot();
+      const slot = next ? next.label : D2.hhmm(D2.now());
+      D2.pause = { phase: 'run', slot, step: 0, elapsed: 0, playing: true, speed: 1, steps: D2.routineSteps() };
+      D2.renderOverlay();
+    },
+    'pause-start'() {
+      const p = D2.pause;
+      D2.pause = { phase: 'run', slot: p.slot, step: 0, elapsed: 0, playing: true, speed: 1, steps: D2.routineSteps() };
+      D2.renderOverlay();
+    },
+    'pause-snooze'() {
+      const pol = D2.state.policy;
+      const w = D2.state.worker;
+      if (w.postponesUsed >= pol.maxPostpones) return;
+      w.postponesUsed++;
+      w.snooze[D2.pause.slot] = D2.now() + pol.postponeMin * 60000;
+      D2.save();
+      D2.closeOverlay();
+      D2.render();
+      D2.toast('Pausa pospuesta ' + pol.postponeMin + ' minutos', 'snooze');
+    },
+    'pause-skip'() { D2.pause.phase = 'skip'; D2.renderOverlay(); },
+    'pause-back'() { D2.pause.phase = 'alarm'; D2.renderOverlay(); },
+    'pause-skip-reason'(el) {
+      const w = D2.state.worker;
+      w.slotStatus[D2.pause.slot] = 'saltada';
+      w.skipReasons.push({ slot: D2.pause.slot, reason: el.dataset.reason });
+      D2.save();
+      D2.closeOverlay();
+      D2.render();
+      D2.toast('Pausa saltada. Motivo registrado.', 'skip');
+    },
+    'pause-toggle'() { D2.pause.playing = !D2.pause.playing; D2.renderOverlay(); },
+    'pause-next'() {
+      const p = D2.pause;
+      if (p.step < p.steps.length - 1) { p.step++; p.elapsed = 0; D2.renderOverlay(); } else finish();
+    },
+    'pause-speed'() {
+      const p = D2.pause;
+      p.speed = SPEEDS[(SPEEDS.indexOf(p.speed) + 1) % SPEEDS.length];
+      D2.renderOverlay();
+    },
+    'pause-finish'() { finish(); },
+    'pause-mood'(el) {
+      const m = Number(el.dataset.mood);
+      if (m) D2.state.worker.moods.push({ slot: D2.pause.slot, mood: m });
+      D2.save();
+      D2.closeOverlay();
+      D2.render();
+      D2.toast(m ? 'Gracias. Pausa registrada.' : 'Pausa registrada.', 'leaf');
+    },
+    'offhours'() { D2.pause = { phase: 'offhours' }; D2.renderOverlay(); },
+    'pause-close'() { D2.closeOverlay(); },
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && D2.pause && (D2.pause.phase === 'offhours' || D2.pause.phase === 'done')) D2.closeOverlay();
+  });
+})();
+</script>
+<script>
+/* Desconecta2 · vista Trabajador (app del colaborador). */
+(function () {
+  const D2 = window.D2;
+  const V = D2.views.worker;
+  const esc = D2.esc;
+  const DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+  /* ---------- Piezas compartidas con RR.HH. ---------- */
+  D2.stepper = function (status) {
+    return '<div class="stepper" aria-label="Estado: ' + D2.STATUSES[status] + '">' + D2.STATUSES.map((s, i) =>
+      '<div class="st ' + (i < status ? 'done' : i === status ? (status === 3 ? 'done current' : 'current') : '') + '"><i></i>' + s + '</div>').join('') + '</div>';
+  };
+  D2.chatHtml = function (c, perspective) {
+    return '<div class="chat" id="chat">' + c.messages.map((m) => {
+      if (m.from === 'system') return '<div class="msg system">' + esc(m.text) + ' · ' + D2.fmtDateTime(m.at) + '</div>';
+      const mine = perspective === 'worker' ? m.from === 'me' : m.from === 'rrhh';
+      const who = m.from === 'me' ? (perspective === 'worker' ? 'Tú' : 'Denunciante (anónimo)') : 'Equipo de Personas';
+      return '<div class="msg ' + (mine ? 'me' : 'them') + '"><span class="meta">' + who + ' · ' + D2.fmtDateTime(m.at) + '</span>' + esc(m.text) + '</div>';
+    }).join('') + '</div>';
+  };
+  D2.deadlineInfo = function (c) {
+    const days = D2.daysSince(c.received);
+    const left = D2.DEADLINE_DAYS - days;
+    return { days, left };
+  };
+  function scrollChat() { const ch = document.getElementById('chat'); if (ch) ch.scrollTop = ch.scrollHeight; }
+  D2.scrollChat = scrollChat;
+
+  /* ---------- Inicio ---------- */
+  V.inicio = function () {
+    const st = D2.state, w = st.worker, pol = st.policy;
+    const today = new Date(D2.now());
+    const slots = D2.slots();
+    const next = D2.nextSlot();
+    const done = slots.filter((s) => s.status === 'completada').length;
+    const routineName = { mixta: 'Rutina mixta', respiracion: 'Solo respiración', movilidad: 'Solo movilidad' }[w.prefs.routine];
+    const slotHtml = slots.map((s) => {
+      const cls = s.status || (next && s.label === next.label ? 'proxima' : '');
+      const lbl = { completada: 'Completada', saltada: 'Saltada' }[s.status] || (cls === 'proxima' ? (s.snooze ? 'Pospuesta' : 'Próxima') : 'Pendiente');
+      return '<div class="slot ' + cls + '" data-tip="<b>' + s.label + '</b>' + lbl + '"><i></i>' + s.label + '</div>';
+    }).join('');
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">' + DAYS[today.getDay()] + ' ' + today.getDate() + ' de ' + MONTHS[today.getMonth()] + ' · <span data-clock class="num"></span></span>' +
+      '<h1>Hola, Camila</h1><p>Estás en tu jornada. La desconexión automática empieza a las ' + pol.end + '.</p></div></div>' +
+      '<div class="grid g-main">' +
+      '<div class="stack">' +
+      '<section class="card next-pause"><div class="rings"></div>' +
+      (next
+        ? '<div class="eyebrow">Próxima pausa activa · ' + (next.snooze ? D2.hhmm(next.snooze) + ' (pospuesta)' : next.label) + '</div>' +
+          '<div class="count" data-countdown aria-live="off"></div>' +
+          '<div class="sub">' + routineName + ' · ' + pol.dur + ' min · No molestar y apps en pausa mientras dura</div>'
+        : '<div class="eyebrow">Pausas de hoy</div><div class="count">Listo</div><div class="sub">No te quedan pausas programadas hoy.</div>') +
+      '<div class="row">' +
+      '<button class="btn btn-primary" data-act="pause-now" style="background:var(--pause-glow);color:#06180E">' + D2.icon('play') + 'Hacer mi pausa ahora</button>' +
+      (next ? '<button class="btn btn-ghost" data-act="pause-test">' + D2.icon('bell') + 'Probar la alarma</button>' : '') +
+      '</div></section>' +
+      '<section class="card"><div class="card-head"><div><h3>Tus pausas de hoy</h3><p>' + done + ' de ' + slots.length + ' completadas · cada ' + D2.effectiveFreq() + ' minutos</p></div>' +
+      '<button class="btn btn-quiet btn-sm" data-act="go" data-view="pausas">Ajustar</button></div>' +
+      '<div class="timeline">' + slotHtml + '</div>' +
+      '<div class="legend"><span><i style="background:var(--ok)"></i>Completada</span><span><i style="background:var(--accent)"></i>Próxima</span><span><i style="background:var(--crit)"></i>Saltada</span><span><i style="background:var(--surface-3)"></i>Pendiente</span></div>' +
+      '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Desconexión</h3><p>Tu jornada: ' + pol.start + ' a ' + pol.end + '</p></div><span class="pill pill-ok">En jornada</span></div>' +
+      D2.DEVICES.map((d) => '<div class="device">' + D2.icon(d.kind) + '<div class="grow"><b>' + d.name + '</b><span>' + d.model + '</span></div><span class="pill pill-neutral nodot">Conectado</span></div>').join('') +
+      '<div class="row"><button class="btn btn-quiet btn-sm" data-act="offhours">' + D2.icon('moon') + 'Ver cómo se ve a las ' + pol.end + '</button></div>' +
+      '</section>' +
+      '</div>' +
+      '<div class="stack">' +
+      (w.survey
+        ? '<section class="card"><div class="row nowrap"><span class="icon-dot ok">' + D2.icon('check') + '</span><div><h4>Encuesta de septiembre respondida</h4><p class="small muted">Gracias. Los resultados se comparten con tu equipo en noviembre.</p></div></div></section>'
+        : '<section class="card"><div class="row nowrap"><span class="icon-dot brand">' + D2.icon('survey') + '</span><div><span class="eyebrow">Pendiente · cierra el 7 de octubre</span><h4>Encuesta de clima de septiembre</h4></div></div>' +
+          '<p class="small ink2">6 preguntas, 2 minutos. Es anónima: tu jefatura solo ve promedios de equipos con 5 o más respuestas.</p>' +
+          '<button class="btn btn-primary" data-act="go" data-view="encuesta">Responder ahora</button></section>') +
+      '<section class="card"><div class="row nowrap"><span class="icon-dot brand">' + D2.icon('shield') + '</span><div><span class="eyebrow">100% anónimo</span><h4>Canal de denuncias</h4></div></div>' +
+      '<p class="small ink2">Si algo no está bien en tu trabajo, cuéntalo. Llega directo a RR.HH. y nadie sabrá que fuiste tú.</p>' +
+      '<div class="row"><button class="btn btn-ghost" data-act="go" data-view="denuncias" data-tab="nueva">Hacer una denuncia</button><button class="link small" data-act="go" data-view="denuncias" data-tab="seguir">Seguir mi denuncia</button></div></section>' +
+      '<section class="card flat"><h4>Cómo te has sentido después de tus pausas</h4>' + moodSummary() + '</section>' +
+      '</div></div></div>';
+  };
+  function moodSummary() {
+    const moods = D2.state.worker.moods;
+    const base = [4, 4, 3, 5, 4, 4, 3];
+    const all = base.concat(moods.map((m) => m.mood));
+    const a = D2.avg(all);
+    return '<div class="row nowrap"><span style="width:44px;height:44px;color:var(--brand)">' + D2.face(Math.round(a)) + '</span><div><b class="num">' + D2.f1(a) + ' de 5</b><p class="small muted">Promedio de tus últimas ' + all.length + ' pausas. Solo tú ves este dato.</p></div></div>';
+  }
+
+  /* ---------- Mis pausas ---------- */
+  V.pausas = function () {
+    const st = D2.state, w = st.worker, pol = st.policy;
+    const slots = D2.slots();
+    const doneToday = slots.filter((s) => s.status === 'completada').length;
+    const week = w.week.concat([{ d: 'Hoy', v: doneToday, today: true }]);
+    const freq = D2.effectiveFreq();
+    const chip = (name, val, label, cur) => '<label class="chip-radio"><input type="radio" name="' + name + '" value="' + val + '"' + (String(cur) === String(val) ? ' checked' : '') + '><span>' + label + '</span></label>';
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Pausas activas</span><h1>Mis pausas</h1><p>Tu empresa define los límites. Dentro de ellos, tú ajustas tus pausas.</p></div></div>' +
+      '<div class="grid g2">' +
+      '<section class="card"><div class="card-head"><div><h3>Mis preferencias</h3><p>Los cambios se aplican desde la próxima pausa.</p></div></div>' +
+      '<form data-form="prefs" class="stack">' +
+      '<div class="range-row"><div class="row"><label class="small" for="pref-freq"><b>Frecuencia</b></label><span class="num small" id="freq-out">Cada ' + freq + ' min</span></div>' +
+      '<input id="pref-freq" name="freq" type="range" min="' + pol.freqMin + '" max="' + pol.freqMax + '" step="15" value="' + freq + '" data-input="freq-out">' +
+      '<div class="row xs muted" style="justify-content:space-between"><span>' + pol.freqMin + ' min</span><span>' + pol.freqMax + ' min</span></div></div>' +
+      '<div class="field"><span class="label">Tipo de rutina</span><div class="chips">' + chip('routine', 'mixta', 'Mixta', w.prefs.routine) + chip('routine', 'respiracion', 'Solo respiración', w.prefs.routine) + chip('routine', 'movilidad', 'Solo movilidad', w.prefs.routine) + '</div></div>' +
+      '<div class="field"><span class="label">Avisarme antes</span><div class="chips">' + chip('remind', 1, '1 min', w.prefs.remind) + chip('remind', 5, '5 min', w.prefs.remind) + chip('remind', 10, '10 min', w.prefs.remind) + '</div></div>' +
+      '<div class="notice info">' + D2.icon('lock') + '<span><b>Definido por tu empresa</b>Pausas de ' + pol.dur + ' minutos, cada ' + pol.freqMin + ' a ' + pol.freqMax + ' minutos, entre ' + pol.start + ' y ' + pol.end + '. Puedes posponer ' + pol.maxPostpones + ' veces al día.</span></div>' +
+      '<button class="btn btn-primary" type="submit">Guardar preferencias</button>' +
+      '</form></section>' +
+      '<div class="stack">' +
+      '<section class="card"><div class="card-head"><div><h3>Esta semana</h3><p>Pausas completadas por día (de 4)</p></div></div>' +
+      '<div class="week-bars" style="grid-template-columns:repeat(' + week.length + ',minmax(0,1fr))">' + week.map((d) =>
+        '<div class="wb' + (d.today ? ' today' : '') + '" data-tip="<b>' + d.v + ' de 4</b>' + d.d + '"><b>' + d.v + '</b><i style="height:' + Math.max(4, (d.v / 4) * 80) + 'px"></i>' + d.d + '</div>').join('') + '</div>' +
+      '<div class="grid g3" style="gap:10px"><div class="kpi"><span class="eyebrow">Semana pasada</span><span class="num" style="font-weight:800;font-size:1.3rem">85%</span></div><div class="kpi"><span class="eyebrow">Pospuestas</span><span class="num" style="font-weight:800;font-size:1.3rem">' + (3 + w.postponesUsed) + '</span></div><div class="kpi"><span class="eyebrow">Saltadas</span><span class="num" style="font-weight:800;font-size:1.3rem">' + (1 + w.skipReasons.length) + '</span></div></div>' +
+      '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Durante tus pausas</h3><p>Se activa No molestar y estas apps quedan en pausa.</p></div></div>' +
+      D2.DEVICES.map((d) => '<div class="device">' + D2.icon(d.kind) + '<div class="grow"><b>' + d.name + '</b><span>' + d.model + '</span></div><span class="pill pill-ok">Vinculado</span></div>').join('') +
+      '<div class="app-tiles">' + D2.blockedApps().map((a) => '<span class="app-tile">' + D2.appTile(a) + a.name + D2.icon('lock', 'lock') + '</span>').join('') + '</div>' +
+      '</section>' +
+      '<section class="card flat"><h4>Probar en la demo</h4><p class="small ink2">El reloj de la demo parte a las 11:46. Usa estos atajos para ver cada momento.</p>' +
+      '<div class="row"><button class="btn btn-quiet btn-sm" data-act="pause-test">' + D2.icon('bell') + 'Sonar la alarma</button><button class="btn btn-quiet btn-sm" data-act="pause-now">' + D2.icon('play') + 'Pausa ahora</button><button class="btn btn-quiet btn-sm" data-act="offhours">' + D2.icon('moon') + 'Fin de jornada</button></div></section>' +
+      '</div></div></div>';
+  };
+  D2.changes['freq-out'] = (el) => { const o = document.getElementById('freq-out'); if (o) o.textContent = 'Cada ' + el.value + ' min'; };
+  D2.forms.prefs = function (form) {
+    const fd = new FormData(form);
+    const w = D2.state.worker;
+    w.prefs.freq = Number(fd.get('freq'));
+    w.prefs.routine = fd.get('routine') || 'mixta';
+    w.prefs.remind = Number(fd.get('remind') || 1);
+    D2.save();
+    D2.render();
+    D2.toast('Preferencias guardadas. Próxima pausa: ' + (D2.nextSlot() ? D2.nextSlot().label : 'mañana'));
+  };
+
+  /* ---------- Encuesta ---------- */
+  V.encuesta = function () {
+    const w = D2.state.worker;
+    if (w.survey) {
+      return '<div class="page"><div class="page-head"><div><span class="eyebrow">Clima laboral · Septiembre 2026</span><h1>Gracias por responder</h1><p>Tus respuestas se sumaron a las de tu equipo sin tu nombre.</p></div></div>' +
+        '<div class="grid g2"><section class="card"><h3>Qué pasa ahora</h3><div class="list">' +
+        '<div class="list-item"><span class="icon-dot brand">' + D2.icon('users') + '</span><div class="grow"><b>Se suman a tu equipo</b><span class="small muted">Tu jefatura ve promedios solo si responden 5 o más personas.</span></div></div>' +
+        '<div class="list-item"><span class="icon-dot brand">' + D2.icon('listcheck') + '</span><div class="grow"><b>Tu jefatura arma un plan</b><span class="small muted">Con los temas más bajos se definen acciones concretas.</span></div></div>' +
+        '<div class="list-item"><span class="icon-dot brand">' + D2.icon('calendar') + '</span><div class="grow"><b>Próxima encuesta</b><span class="small muted">Fines de octubre. Siempre 6 preguntas.</span></div></div>' +
+        '</div></section>' +
+        '<section class="card flat"><h4>Si necesitas contar algo concreto</h4><p class="small ink2">La encuesta mide el ambiente general. Si viviste una situación de acoso, maltrato o discriminación, usa el canal de denuncias anónimo.</p><button class="btn btn-ghost" data-act="go" data-view="denuncias" data-tab="nueva">Ir al canal de denuncias</button></section></div></div>';
+    }
+    return '<div class="page"><div class="page-head"><div><span class="eyebrow">Clima laboral · Septiembre 2026</span><h1>¿Cómo estuvo tu mes?</h1><p>6 preguntas, 2 minutos. Anónima: nadie ve tus respuestas individuales.</p></div></div>' +
+      '<div class="grid g-main"><section class="card"><form data-form="survey" novalidate>' +
+      D2.DIMS.map((d, i) => '<fieldset class="q" style="border:0;margin:0;padding-inline:0"><legend class="visually-hidden">' + esc(d.q) + '</legend>' +
+        '<div class="q-title"><span class="qn">' + String(i + 1).padStart(2, '0') + '</span><div><b>' + esc(d.q) + '</b><div class="q-dim">' + d.label + '</div></div></div>' +
+        '<div class="likert">' + [1, 2, 3, 4, 5].map((v) => '<label><input type="radio" name="q_' + d.key + '" value="' + v + '"><span>' + v + '<small>' + D2.LIKERT[v - 1] + '</small></span></label>').join('') + '</div></fieldset>').join('') +
+      '<div class="q"><label class="q-title" for="survey-open"><span class="qn">07</span><div><b>¿Qué cambiarías este mes para trabajar mejor?</b><div class="q-dim">Opcional · no escribas nombres si quieres mantener el anonimato</div></div></label>' +
+      '<textarea id="survey-open" name="open" class="textarea" style="min-height:90px" maxlength="400" placeholder="Escribe aquí"></textarea></div>' +
+      '<div class="row" style="padding-top:8px"><button class="btn btn-primary" type="submit">Enviar respuestas</button><span class="small" id="survey-error" style="color:var(--crit)" role="alert"></span></div>' +
+      '</form></section>' +
+      '<aside class="stack"><section class="card flat"><h4>Así protegemos tu anonimato</h4><div class="list">' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('eyeOff') + '</span><div class="grow small">Las respuestas se guardan sin tu nombre ni tu correo.</div></div>' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('users') + '</span><div class="grow small">Los equipos con menos de 5 respuestas no muestran resultados.</div></div>' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('message') + '</span><div class="grow small">Los comentarios se muestran sin fecha ni hora exacta.</div></div>' +
+      '</div></section></aside></div></div>';
+  };
+  D2.forms.survey = function (form) {
+    const fd = new FormData(form);
+    const answers = {};
+    let missing = 0;
+    D2.DIMS.forEach((d) => { const v = fd.get('q_' + d.key); if (v) answers[d.key] = Number(v); else missing++; });
+    if (missing) {
+      document.getElementById('survey-error').textContent = 'Te falta' + (missing > 1 ? 'n ' + missing + ' preguntas' : ' 1 pregunta') + ' por responder.';
+      return;
+    }
+    D2.state.worker.survey = { answers, open: String(fd.get('open') || '').trim() };
+    D2.save();
+    D2.render({ scroll: true });
+    D2.toast('Respuestas enviadas de forma anónima');
+  };
+
+  /* ---------- Denuncias ---------- */
+  V.denuncias = function () {
+    const ui = D2.ui;
+    const tab = ui.complaintTab;
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Canal anónimo · Ley Karin</span><h1>Canal de denuncias</h1><p>Llega directo al equipo de Personas de ' + D2.company.name + '. Nadie sabrá que fuiste tú.</p></div>' +
+      '<div class="toggle-tabs" role="group" aria-label="Opciones"><button data-act="ctab" data-tab="nueva" aria-pressed="' + (tab === 'nueva') + '">Nueva denuncia</button><button data-act="ctab" data-tab="seguir" aria-pressed="' + (tab === 'seguir') + '">Seguir mi denuncia</button></div></div>' +
+      '<section class="card flat"><div class="anon-points">' +
+      '<div>' + D2.icon('eyeOff') + '<b>Sin nombre ni correo</b>No pedimos ni guardamos quién eres, tu IP ni tu dispositivo.</div>' +
+      '<div>' + D2.icon('inbox') + '<b>Solo RR.HH. la recibe</b>Las jefaturas no tienen acceso a las denuncias.</div>' +
+      '<div>' + D2.icon('message') + '<b>Conversación anónima</b>Con tu código ves el avance y respondes preguntas de RR.HH.</div>' +
+      '</div></section>' +
+      (tab === 'nueva' ? newComplaint() : followComplaint()) +
+      '</div>';
+  };
+
+  function newComplaint() {
+    const ui = D2.ui;
+    if (ui.newCode) {
+      return '<section class="card" style="max-width:720px"><div class="row nowrap"><span class="icon-dot ok">' + D2.icon('check') + '</span><div><h2>Denuncia enviada</h2><p class="small muted">RR.HH. la recibió recién. Tu identidad no quedó registrada.</p></div></div>' +
+        '<div class="field"><span class="label">Tu código de seguimiento</span><div class="code-box"><span class="code" id="new-code">' + ui.newCode + '</span><button class="btn btn-quiet btn-sm" data-act="copy-code">' + D2.icon('copy') + (ui.copied ? 'Copiado' : 'Copiar') + '</button></div></div>' +
+        '<div class="notice warn">' + D2.icon('alert') + '<span><b>Guarda este código ahora</b>Es la única forma de ver el avance y conversar con RR.HH. Si lo pierdes no podemos recuperarlo, porque no sabemos quién eres.</span></div>' +
+        '<div class="row"><button class="btn btn-primary" data-act="follow-new">Ver mi denuncia</button><button class="btn btn-ghost" data-act="new-again">Hacer otra denuncia</button></div></section>';
+    }
+    const areaOpts = '<option>Prefiero no decirlo</option>' + D2.AREAS.map((a) => '<option>' + a.name + '</option>').join('');
+    return '<section class="card"><form data-form="complaint" class="stack" style="gap:20px" novalidate>' +
+      '<div class="field"><span class="label">¿Qué tipo de situación quieres denunciar?</span><div class="choice-grid">' +
+      D2.CATEGORIES.map((c) => '<label class="choice"><input type="radio" name="cat" value="' + c.id + '"><b>' + c.name + '</b><span>' + c.hint + '</span></label>').join('') + '</div></div>' +
+      '<div class="field"><label for="c-desc">¿Qué pasó?</label><textarea id="c-desc" name="desc" class="textarea" maxlength="2000" placeholder="Qué pasó, cuándo y dónde. Puedes escribir con tus palabras."></textarea>' +
+      '<span class="hint">Si quieres mantener el anonimato, evita datos que te identifiquen (tu nombre, tu turno exacto).</span></div>' +
+      '<div class="grid g2"><div class="field"><label for="c-where">¿Dónde ocurrió?</label><select id="c-where" name="where" class="select">' + areaOpts + '</select></div>' +
+      '<div class="field"><label for="c-when">¿Cuándo ocurrió?</label><select id="c-when" name="when" class="select"><option>Esta semana</option><option>Último mes</option><option>Hace más de un mes</option><option>Sigue pasando</option></select></div></div>' +
+      '<div class="field"><span class="label">¿Ha pasado más de una vez?</span><div class="chips">' + ['Sí', 'No', 'No estoy seguro'].map((v, i) => '<label class="chip-radio"><input type="radio" name="recurrent" value="' + v + '"' + (i === 0 ? ' checked' : '') + '><span>' + v + '</span></label>').join('') + '</div></div>' +
+      '<div class="field"><label for="c-wit">¿Hubo testigos? <span class="muted">(opcional)</span></label><input id="c-wit" name="witnesses" class="input" placeholder="Por ejemplo: dos personas del equipo"></div>' +
+      '<div class="field"><label for="c-files">Adjuntar evidencia <span class="muted">(opcional)</span></label><input id="c-files" name="files" type="file" multiple class="input">' +
+      '<span class="hint">Fotos, capturas o documentos. Antes de enviarlos borramos sus metadatos (autor, ubicación y fecha).</span></div>' +
+      '<label class="switch" style="border-top:1px solid var(--line)"><span class="txt"><b>Necesito medidas de protección</b><span>Por ejemplo, separar espacios o turnos mientras se investiga.</span></span><input type="checkbox" name="protection"></label>' +
+      '<div class="notice warn">' + D2.icon('alert') + '<span><b>Si estás en peligro ahora</b>Llama al 133 (Carabineros). Este canal no es para emergencias.</span></div>' +
+      '<div class="row"><button class="btn btn-primary" type="submit">' + D2.icon('send') + 'Enviar denuncia anónima</button><span class="small" id="c-error" style="color:var(--crit)" role="alert"></span></div>' +
+      '</form></section>';
+  }
+
+  function followComplaint() {
+    const ui = D2.ui;
+    const c = ui.followCode && D2.state.complaints.find((x) => x.code === ui.followCode);
+    let html = '<section class="card"><form data-form="follow" class="row" style="align-items:flex-end" novalidate>' +
+      '<div class="field" style="flex:1;min-width:220px"><label for="f-code">Código de seguimiento</label><input id="f-code" name="code" class="input mono" placeholder="D2-XXXX-XXXX" autocomplete="off" value="' + esc(ui.followCode || '') + '"></div>' +
+      '<button class="btn btn-primary" type="submit">Ver estado</button></form>' +
+      (ui.followError ? '<p class="small" style="color:var(--crit)" role="alert">' + esc(ui.followError) + '</p>' : '') +
+      (!c ? '<p class="small muted">Para la demo puedes usar el código <button class="link mono" data-act="demo-code">D2-4HQM-72KP</button>.</p>' : '') +
+      '</section>';
+    if (c) {
+      const dl = D2.deadlineInfo(c);
+      html += '<div class="grid g-main">' +
+        '<section class="card"><div class="card-head"><div><span class="eyebrow mono">' + c.code + '</span><h3>' + D2.catName(c.cat) + '</h3><p>Enviada el ' + D2.fmtDate(c.received) + '</p></div>' + D2.statusPill(c.status) + '</div>' +
+        D2.stepper(c.status) +
+        '<div class="divider"></div><h4>Conversación con RR.HH.</h4>' + D2.chatHtml(c, 'worker') +
+        (c.status < 3
+          ? '<form data-form="worker-msg" class="chat-input"><label class="visually-hidden" for="w-msg">Mensaje</label><textarea id="w-msg" name="msg" class="textarea" placeholder="Escribe tu mensaje. Sigue siendo anónimo." maxlength="1000"></textarea><button class="btn btn-primary" type="submit" aria-label="Enviar">' + D2.icon('send') + '</button></form>'
+          : '<div class="notice">' + D2.icon('check') + '<span><b>Caso resuelto</b>' + esc(c.resolution || '') + '</span></div>') +
+        '</section>' +
+        '<aside class="stack"><section class="card flat"><h4>Lo que enviaste</h4><p class="small ink2">' + esc(c.desc) + '</p>' +
+        '<div class="small muted">Dónde: ' + esc(c.where) + ' · Cuándo: ' + esc(c.when) + '</div></section>' +
+        (c.status < 3 ? '<section class="card flat"><h4>Plazos</h4><p class="small ink2">RR.HH. tiene ' + D2.DEADLINE_DAYS + ' días para investigar. Van ' + dl.days + ' días.</p><p class="small muted">Para la demo: cambia a la vista RR.HH., responde este caso y vuelve aquí.</p></section>' : '') +
+        '</aside></div>';
+    }
+    return html;
+  }
+
+  const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function newCode() {
+    const pick = (n) => Array.from({ length: n }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join('');
+    return 'D2-' + pick(4) + '-' + pick(4);
+  }
+
+  D2.forms.complaint = function (form) {
+    const fd = new FormData(form);
+    const err = document.getElementById('c-error');
+    const cat = fd.get('cat');
+    const desc = String(fd.get('desc') || '').trim();
+    if (!cat) { err.textContent = 'Elige el tipo de situación.'; return; }
+    if (desc.length < 30) { err.textContent = 'Cuéntanos un poco más (mínimo 30 caracteres).'; document.getElementById('c-desc').focus(); return; }
+    const files = Array.from(form.querySelector('#c-files').files || []).map((f) => f.name);
+    const code = newCode();
+    const today = D2.stamp();
+    D2.state.complaints.unshift({
+      code, cat, received: today.slice(0, 10), status: 0, unread: true,
+      where: fd.get('where'), when: fd.get('when'), recurrent: fd.get('recurrent'), witnesses: String(fd.get('witnesses') || ''),
+      protection: !!fd.get('protection'), files, desc, dtReport: false,
+      messages: [{ from: 'system', text: 'Denuncia recibida', at: today }],
+    });
+    D2.ui.newCode = code;
+    D2.ui.copied = false;
+    D2.save();
+    D2.render({ scroll: true });
+  };
+  D2.forms.follow = function (form) {
+    const code = String(new FormData(form).get('code') || '').trim().toUpperCase();
+    const found = D2.state.complaints.find((c) => c.code === code);
+    D2.ui.followCode = found ? code : null;
+    D2.ui.followError = found ? '' : 'No encontramos ese código. Revisa que esté bien escrito (D2-XXXX-XXXX).';
+    D2.render();
+    scrollChat();
+  };
+  D2.forms['worker-msg'] = function (form) {
+    const text = String(new FormData(form).get('msg') || '').trim();
+    if (!text) return;
+    const c = D2.state.complaints.find((x) => x.code === D2.ui.followCode);
+    c.messages.push({ from: 'me', text, at: D2.stamp() });
+    c.unread = true;
+    D2.save();
+    D2.render();
+    scrollChat();
+  };
+  Object.assign(D2.actions, {
+    ctab(el) { D2.ui.complaintTab = el.dataset.tab; D2.render(); scrollChat(); },
+    'demo-code'() { D2.ui.followCode = 'D2-4HQM-72KP'; D2.ui.followError = ''; D2.render(); scrollChat(); },
+    'follow-new'() { D2.ui.followCode = D2.ui.newCode; D2.ui.newCode = null; D2.ui.complaintTab = 'seguir'; D2.render(); scrollChat(); },
+    'new-again'() { D2.ui.newCode = null; D2.render(); },
+    'copy-code'(el) {
+      const code = D2.ui.newCode;
+      const done = () => { D2.ui.copied = true; el.innerHTML = D2.icon('check') + 'Copiado'; };
+      try {
+        navigator.clipboard.writeText(code).then(done, () => selectCode());
+      } catch (e) { selectCode(); }
+    },
+  });
+  function selectCode() {
+    const el = document.getElementById('new-code');
+    if (!el) return;
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    D2.toast('Código seleccionado. Cópialo con Ctrl+C o mantén presionado.', 'copy');
+  }
+})();
+</script>
+<script>
+/* Desconecta2 · vista RR.HH. (panel de la empresa). */
+(function () {
+  const D2 = window.D2;
+  const V = D2.views.rrhh;
+  const esc = D2.esc;
+
+  /* ---------- Datos agregados ---------- */
+  D2.areaData = function () {
+    const s = D2.state.worker.survey;
+    return D2.AREAS.map((a) => {
+      let resp = a.resp;
+      const scores = Object.assign({}, a.scores);
+      if (s && a.id === 'ops') {
+        resp = a.resp + 1;
+        D2.DIMS.forEach((d) => { scores[d.key] = (a.scores[d.key] * a.resp + s.answers[d.key]) / resp; });
+      }
+      const index = D2.avg(D2.DIMS.map((d) => scores[d.key]));
+      return Object.assign({}, a, { resp, scores, index, visible: resp >= D2.MIN_RESPONSES });
+    });
+  };
+  D2.companyScores = function () {
+    const areas = D2.areaData();
+    const total = areas.reduce((n, a) => n + a.resp, 0);
+    const scores = {};
+    D2.DIMS.forEach((d) => { scores[d.key] = areas.reduce((n, a) => n + a.scores[d.key] * a.resp, 0) / total; });
+    return { scores, index: D2.avg(D2.DIMS.map((d) => scores[d.key])), resp: total };
+  };
+  D2.pauseByArea = function () {
+    return D2.AREAS.map((a) => {
+      const ps = D2.PEOPLE.filter((p) => p.area === a.id);
+      const sch = ps.reduce((n, p) => n + p.scheduled, 0);
+      const done = ps.reduce((n, p) => n + p.completed, 0);
+      return { id: a.id, name: a.name, pct: (done / sch) * 100, done, sch };
+    });
+  };
+  D2.dimLabel = (k) => D2.DIMS.find((d) => d.key === k).label;
+
+  D2.hbars = function (rows, opts) {
+    opts = opts || {};
+    const max = opts.max || 5;
+    return '<div class="hbars">' + rows.map((r) => {
+      const w1 = (r.v / max) * 100;
+      const tip = '<b>' + esc(r.label) + '</b>' + (opts.s1 || '') + ': ' + (opts.fmt || D2.f1)(r.v) + (r.v2 != null ? '<br>' + (opts.s2 || '') + ': ' + (opts.fmt || D2.f1)(r.v2) : '');
+      return '<div class="hbar" data-tip="' + esc(tip) + '"><div class="lbl">' + esc(r.label) + (r.sub ? '<small>' + esc(r.sub) + '</small>' : '') + '</div>' +
+        '<div class="bars"><div class="bar" style="width:' + w1 + '%"></div>' + (r.v2 != null ? '<div class="bar s2" style="width:' + (r.v2 / max) * 100 + '%"></div>' : '') +
+        (opts.target != null ? '<span class="target" style="left:' + (opts.target / max) * 100 + '%"></span>' : '') + '</div>' +
+        '<div class="val">' + (opts.fmt || D2.f1)(r.v) + '</div></div>';
+    }).join('') + '</div>';
+  };
+
+  /* ---------- Resumen ---------- */
+  V.resumen = function () {
+    const comp = D2.companyScores();
+    const areas = D2.areaData();
+    const open = D2.state.complaints.filter((c) => c.status < 3);
+    const unread = D2.state.complaints.filter((c) => c.unread);
+    const totalResp = comp.resp;
+    const lowestDim = D2.DIMS.slice().sort((a, b) => comp.scores[a.key] - comp.scores[b.key])[0];
+    const lowestArea = areas.filter((a) => a.visible).sort((a, b) => a.index - b.index)[0];
+    const trend = [3.21, 3.25, 3.3, 3.34, 3.41, comp.index];
+    const attention = [];
+    unread.forEach((c) => attention.push({ cls: 'crit', icon: 'inbox', t: 'Denuncia sin leer · ' + D2.catName(c.cat), s: c.code + ' · recibida el ' + D2.fmtDate(c.received), act: 'open-case', code: c.code }));
+    open.filter((c) => !c.unread).forEach((c) => { const dl = D2.deadlineInfo(c); if (dl.left <= 20) attention.push({ cls: dl.left <= 10 ? 'crit' : 'warn', icon: 'clock', t: 'Quedan ' + dl.left + ' días para cerrar la investigación', s: c.code + ' · ' + D2.catName(c.cat), act: 'open-case', code: c.code }); });
+    attention.push({ cls: 'warn', icon: 'down', t: lowestDim.label + ' es lo más bajo del mes (' + D2.f1(comp.scores[lowestDim.key]) + ')', s: 'Bajo la meta de 3,5 en ' + areas.filter((a) => a.visible && a.scores[lowestDim.key] < D2.TARGET).length + ' de ' + areas.filter((a) => a.visible).length + ' áreas visibles', act: 'go', view: 'clima' });
+    attention.push({ cls: 'warn', icon: 'users', t: lowestArea.name + ' tiene el clima más bajo (' + D2.f1(lowestArea.index) + ')', s: 'Su jefatura tiene un plan de acción en curso', act: 'go', view: 'clima' });
+    attention.push({ cls: 'info', icon: 'calendar', t: '38 pausas saltadas por reuniones este mes', s: 'Considera no agendar reuniones en horario de pausa', act: 'go', view: 'pausas' });
+
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">' + D2.company.name + ' · 48 personas</span><h1>Resumen</h1><p>Clima laboral, pausas activas y denuncias en un solo lugar.</p></div></div>' +
+      '<div class="grid g4">' +
+      kpi('Cumplimiento de pausas', '81<small>%</small>', '+3 pts', true, 'Semana del 28 sep') +
+      kpi('Índice de clima', D2.f2(comp.index) + '<small> /5</small>', '+' + D2.f2(comp.index - 3.41), true, 'Septiembre vs agosto') +
+      kpi('Participación encuesta', Math.round((totalResp / 48) * 100) + '<small>%</small>', null, null, totalResp + ' de 48 personas') +
+      kpi('Denuncias abiertas', open.length, null, null, unread.length ? '<span class="pill pill-crit">' + unread.length + ' sin leer</span>' : 'Todas revisadas') +
+      '</div>' +
+      '<div class="grid g-main">' +
+      '<div class="stack">' +
+      '<section class="card"><div class="card-head"><div><h3>Cumplimiento semanal de pausas</h3><p>% de pausas completadas sobre las programadas</p></div></div>' +
+      D2.chartSlot({ labels: D2.WEEKS, values: D2.WEEKLY_COMPANY, min: 40, max: 100, ticks: [40, 60, 80, 100], fmt: (v) => v + '%', goal: 80, goalLabel: 'Meta 80%', tipPrefix: 'Semana del ', aria: 'Cumplimiento semanal de pausas, de 58% a 81% en 8 semanas' }) + '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Índice de clima laboral</h3><p>Promedio de las 6 dimensiones, escala 1 a 5</p></div></div>' +
+      D2.chartSlot({ labels: D2.MONTHS, values: trend, min: 3, max: 4, ticks: [3, 3.5, 4], fmt: (v) => D2.f1(v), endFmt: (v) => D2.f2(v), goal: 3.5, goalLabel: 'Meta 3,5', aria: 'Índice de clima de abril a septiembre', height: 200 }) + '</section>' +
+      '</div>' +
+      '<section class="card"><div class="card-head"><div><h3>Requiere atención</h3><p>Ordenado por urgencia</p></div></div><div class="list">' +
+      attention.map((a) => '<button class="list-item" style="border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;width:100%" data-act="' + a.act + '"' + (a.code ? ' data-code="' + a.code + '"' : '') + (a.view ? ' data-view="' + a.view + '"' : '') + '><span class="icon-dot ' + a.cls + '">' + D2.icon(a.icon) + '</span><span class="grow"><b class="small">' + esc(a.t) + '</b><span class="xs muted">' + esc(a.s) + '</span></span></button>').join('') +
+      '</div></section>' +
+      '</div></div>';
+  };
+  function kpi(label, value, delta, up, sub) {
+    return '<section class="card kpi"><span class="eyebrow">' + label + '</span><span class="kpi-value">' + value + '</span>' +
+      '<span class="row small muted" style="gap:8px">' + (delta ? '<span class="delta ' + (up ? 'up' : 'down') + '">' + D2.icon(up ? 'up' : 'down') .replace('<svg', '<svg width="14" height="14"') + delta + '</span>' : '') + sub + '</span></section>';
+  }
+  D2.kpi = kpi;
+
+  /* ---------- Denuncias ---------- */
+  V.denuncias = function () {
+    if (D2.ui.rrhhCase) return caseDetail(D2.state.complaints.find((c) => c.code === D2.ui.rrhhCase));
+    const f = D2.ui.rrhhFilter;
+    const all = D2.state.complaints;
+    const list = all.filter((c) => (f === 'abiertas' ? c.status < 3 : f === 'resueltas' ? c.status === 3 : true));
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Canal anónimo · Ley Karin</span><h1>Denuncias</h1><p>Solo el equipo de Personas ve esta sección. Las jefaturas no tienen acceso.</p></div>' +
+      '<div class="toggle-tabs" role="group" aria-label="Filtrar">' + [['abiertas', 'Abiertas'], ['resueltas', 'Resueltas'], ['todas', 'Todas']].map((t) => '<button data-act="rfilter" data-f="' + t[0] + '" aria-pressed="' + (f === t[0]) + '">' + t[1] + '</button>').join('') + '</div></div>' +
+      '<div class="notice">' + D2.icon('eyeOff') + '<span><b>Identidad protegida</b>Desconecta2 no registra nombre, correo, IP ni dispositivo de quien denuncia. Solo ves lo que la persona escribió y puedes conversar con ella de forma anónima.</span></div>' +
+      '<section class="card">' + (list.length ? '<div class="table-wrap"><table><thead><tr><th>Código</th><th>Tipo</th><th>Recibida</th><th>Estado</th><th>Plazo</th><th class="r">Mensajes</th></tr></thead><tbody>' +
+        list.map((c) => {
+          const dl = D2.deadlineInfo(c);
+          const plazo = c.status === 3 ? '<span class="muted">Cerrada</span>' : '<span class="pill ' + (dl.left <= 10 ? 'pill-crit' : dl.left <= 20 ? 'pill-warn' : 'pill-neutral') + ' nodot num">' + dl.left + ' días</span>';
+          return '<tr class="clickable" data-act="open-case" data-code="' + c.code + '"><td class="mono" style="white-space:nowrap">' + (c.unread ? '<b>' + c.code + '</b> <span class="pill pill-crit nodot">Nueva</span>' : c.code) + '</td><td>' + D2.catName(c.cat) + (c.protection ? '<div class="xs muted">Pide medidas de protección</div>' : '') + '</td><td class="num" style="white-space:nowrap">' + D2.fmtDate(c.received) + '</td><td>' + D2.statusPill(c.status) + '</td><td>' + plazo + '</td><td class="r num">' + c.messages.filter((m) => m.from !== 'system').length + '</td></tr>';
+        }).join('') + '</tbody></table></div>' : '<div class="empty">' + D2.icon('inbox') + '<span>No hay denuncias en esta vista.</span></div>') +
+      '</section></div>';
+  };
+
+  function caseDetail(c) {
+    if (!c) { D2.ui.rrhhCase = null; return V.denuncias(); }
+    const dl = D2.deadlineInfo(c);
+    const pctDays = Math.min(100, (dl.days / D2.DEADLINE_DAYS) * 100);
+    return '<div class="page">' +
+      '<div><button class="btn btn-quiet btn-sm" data-act="close-case">' + D2.icon('back') + 'Todas las denuncias</button></div>' +
+      '<div class="page-head"><div><span class="eyebrow mono">' + c.code + '</span><h1>' + D2.catName(c.cat) + '</h1><p>Recibida el ' + D2.fmtDate(c.received) + ' · denunciante anónimo</p></div>' + D2.statusPill(c.status) + '</div>' +
+      '<div class="grid g-main">' +
+      '<div class="stack">' +
+      '<section class="card"><h3>Relato</h3><p class="ink2">' + esc(c.desc) + '</p>' +
+      '<div class="grid g2" style="gap:10px">' +
+      info('Dónde', c.where) + info('Cuándo', c.when) + info('¿Más de una vez?', c.recurrent) + info('Testigos', c.witnesses || 'No indica') +
+      '</div>' +
+      (c.files && c.files.length ? '<div class="row">' + c.files.map((f) => '<span class="pill pill-neutral nodot">' + D2.icon('file').replace('<svg', '<svg width="14" height="14"') + esc(f) + '</span>').join('') + '</div>' : '') +
+      '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Conversación anónima</h3><p>Respondes como "Equipo de Personas". La persona lo ve con su código.</p></div></div>' +
+      D2.chatHtml(c, 'rrhh') +
+      (c.status < 3 ? '<form data-form="rrhh-msg" class="chat-input"><label class="visually-hidden" for="r-msg">Respuesta</label><textarea id="r-msg" name="msg" class="textarea" placeholder="Escribe una respuesta o pide más antecedentes" maxlength="1000"></textarea><button class="btn btn-primary" type="submit" aria-label="Enviar">' + D2.icon('send') + '</button></form>' : '') +
+      '</section></div>' +
+      '<aside class="stack">' +
+      '<section class="card"><h4>Estado del caso</h4>' + D2.stepper(c.status) +
+      '<div class="row">' + D2.STATUSES.map((s, i) => '<button class="btn btn-sm ' + (i === c.status ? 'btn-primary' : 'btn-ghost') + '" data-act="set-status" data-s="' + i + '"' + (i === c.status ? ' aria-pressed="true"' : '') + '>' + s + '</button>').join('') + '</div>' +
+      (c.status === 3 && c.resolution ? '<p class="small ink2"><b>Resolución:</b> ' + esc(c.resolution) + '</p>' : '') +
+      '</section>' +
+      (c.status < 3 ? '<section class="card"><div class="row between"><h4>Plazo de investigación</h4><span class="num small"><b>Día ' + dl.days + '</b> de ' + D2.DEADLINE_DAYS + '</span></div>' +
+        '<div class="minibar"><div class="track"><div class="fill ' + (dl.left <= 10 ? 'crit' : dl.left <= 20 ? 'low' : '') + '" style="width:' + pctDays + '%"></div></div></div>' +
+        '<p class="xs muted">Vence el ' + venc(c) + '. Configurable según tu reglamento interno.</p></section>' : '') +
+      '<section class="card"><div class="row between"><h4>Medidas de resguardo</h4>' + (c.protection ? '<span class="pill pill-warn">Solicitadas</span>' : '') + '</div>' +
+      ((c.measures || []).length ? '<div class="list">' + c.measures.map((m) => '<div class="list-item small"><span class="icon-dot ok">' + D2.icon('check') + '</span><span class="grow">' + esc(m) + '</span></div>').join('') + '</div>' : '<p class="small muted">Aún no registras medidas.</p>') +
+      (c.status < 3 ? '<form data-form="measure" class="stack"><label class="visually-hidden" for="m-text">Nueva medida</label><input id="m-text" name="m" class="input" placeholder="Ej: separar turnos mientras se investiga"><button class="btn btn-ghost btn-sm" type="submit">Registrar medida</button></form>' : '') +
+      '</section>' +
+      '<section class="card"><h4>Dirección del Trabajo</h4><label class="switch"><span class="txt"><b>Informe de investigación enviado</b><span>Registra cuándo envías las conclusiones.</span></span><input type="checkbox" data-change="dt-report"' + (c.dtReport ? ' checked' : '') + '></label></section>' +
+      '</aside></div></div>';
+  }
+  function info(k, v) { return '<div class="comment" style="gap:2px"><span class="xs muted">' + k + '</span><b class="small">' + esc(v) + '</b></div>'; }
+  function venc(c) { const d = D2.parseDate(c.received); d.setDate(d.getDate() + D2.DEADLINE_DAYS); return d.getDate() + ' ' + ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][d.getMonth()]; }
+  const current = () => D2.state.complaints.find((c) => c.code === D2.ui.rrhhCase);
+
+  Object.assign(D2.actions, {
+    'open-case'(el) {
+      D2.state.role = 'rrhh';
+      D2.state.view.rrhh = 'denuncias';
+      D2.ui.rrhhCase = el.dataset.code;
+      const c = current();
+      if (c) c.unread = false;
+      D2.save();
+      D2.render({ scroll: true });
+      D2.scrollChat();
+    },
+    'close-case'() { D2.ui.rrhhCase = null; D2.render({ scroll: true }); },
+    rfilter(el) { D2.ui.rrhhFilter = el.dataset.f; D2.render(); },
+    'set-status'(el) {
+      const c = current();
+      const s = Number(el.dataset.s);
+      if (s === c.status) return;
+      c.status = s;
+      if (s === 3 && !c.resolution) c.resolution = 'Caso cerrado por el equipo de Personas.';
+      c.messages.push({ from: 'system', text: 'Estado cambiado a "' + D2.STATUSES[s] + '"', at: D2.stamp() });
+      D2.save();
+      D2.render();
+      D2.scrollChat();
+      D2.toast('Estado actualizado: ' + D2.STATUSES[s]);
+    },
+  });
+  D2.forms['rrhh-msg'] = function (form) {
+    const text = String(new FormData(form).get('msg') || '').trim();
+    if (!text) return;
+    current().messages.push({ from: 'rrhh', text, at: D2.stamp() });
+    D2.save();
+    D2.render();
+    D2.scrollChat();
+    D2.toast('Respuesta enviada. La persona la verá con su código.', 'send');
+  };
+  D2.forms.measure = function (form) {
+    const text = String(new FormData(form).get('m') || '').trim();
+    if (!text) return;
+    const c = current();
+    c.measures = (c.measures || []).concat(text);
+    c.messages.push({ from: 'system', text: 'Medida de resguardo registrada', at: D2.stamp() });
+    D2.save();
+    D2.render();
+  };
+  D2.changes['dt-report'] = function (el) {
+    current().dtReport = el.checked;
+    D2.save();
+    D2.toast(el.checked ? 'Envío a la Dirección del Trabajo registrado' : 'Envío desmarcado');
+  };
+
+  /* ---------- Clima ---------- */
+  V.clima = function () {
+    const comp = D2.companyScores();
+    const areas = D2.areaData();
+    const sorted = D2.DIMS.slice().sort((a, b) => comp.scores[b.key] - comp.scores[a.key]);
+    const comments = D2.COMMENTS.slice();
+    const own = D2.state.worker.survey;
+    if (own && own.open) comments.unshift({ area: 'ops', dim: null, text: own.open, isNew: true });
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Encuesta mensual · Septiembre 2026</span><h1>Clima laboral</h1><p>Resultados agregados. Las áreas con menos de ' + D2.MIN_RESPONSES + ' respuestas no se muestran, para proteger el anonimato.</p></div></div>' +
+      '<div class="grid g4">' +
+      kpi('Índice general', D2.f2(comp.index) + '<small> /5</small>', '+' + D2.f2(comp.index - 3.41), true, 'vs agosto') +
+      kpi('Participación', Math.round((comp.resp / 48) * 100) + '<small>%</small>', null, null, comp.resp + ' de 48 respondieron') +
+      kpi('Lo más alto', D2.f1(comp.scores[sorted[0].key]), null, null, sorted[0].label) +
+      kpi('Lo más bajo', D2.f1(comp.scores[sorted[sorted.length - 1].key]), null, null, sorted[sorted.length - 1].label) +
+      '</div>' +
+      '<div class="grid g2">' +
+      '<section class="card"><div class="card-head"><div><h3>Por dimensión</h3><p>Promedio de la empresa, escala 1 a 5</p></div><div class="legend"><span><i class="dash"></i>Meta 3,5</span></div></div>' +
+      D2.hbars(D2.DIMS.map((d) => ({ label: d.label, v: comp.scores[d.key] })), { target: D2.TARGET, s1: 'Empresa' }) + '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Evolución del índice</h3><p>Abril a septiembre 2026</p></div></div>' +
+      D2.chartSlot({ labels: D2.MONTHS, values: [3.21, 3.25, 3.3, 3.34, 3.41, comp.index], min: 3, max: 4, ticks: [3, 3.5, 4], fmt: (v) => D2.f1(v), endFmt: (v) => D2.f2(v), goal: 3.5, goalLabel: 'Meta 3,5', aria: 'Evolución del índice de clima', height: 230 }) + '</section>' +
+      '</div>' +
+      '<section class="card"><div class="card-head"><div><h3>Por área y dimensión</h3><p>Pasa el cursor por una celda para ver el detalle</p></div>' +
+      '<div class="heat-legend"><span>Bajo la meta</span><span class="ramp"></span><span>Sobre la meta</span></div></div>' +
+      '<div class="table-wrap"><table class="heat"><thead><tr><th>Área</th>' + D2.DIMS.map((d) => '<th>' + d.label + '</th>').join('') + '<th>Índice</th><th class="r">Respuestas</th></tr></thead><tbody>' +
+      areas.map((a) => {
+        if (!a.visible) return '<tr><td><b>' + a.name + '</b></td><td class="hidden-cell" colspan="' + (D2.DIMS.length + 1) + '">' + D2.icon('eyeOff').replace('<svg', '<svg width="14" height="14" style="vertical-align:-2px;margin-right:6px"') + 'Oculto para proteger el anonimato: ' + a.resp + ' respuestas, mínimo ' + D2.MIN_RESPONSES + '</td><td class="r num">' + a.resp + '/' + a.size + '</td></tr>';
+        return '<tr><td><b>' + a.name + '</b></td>' + D2.DIMS.map((d) => { const v = a.scores[d.key]; return '<td class="cell" style="' + D2.heatBg(v) + '" data-tip="' + esc('<b>' + D2.f1(v) + '</b>' + a.name + ' · ' + d.label) + '">' + D2.f1(v) + '</td>'; }).join('') +
+          '<td class="cell" style="' + D2.heatBg(a.index) + '"><b>' + D2.f2(a.index) + '</b></td><td class="r num">' + a.resp + '/' + a.size + '</td></tr>';
+      }).join('') + '</tbody></table></div></section>' +
+      '<section class="card"><div class="card-head"><div><h3>Comentarios anónimos</h3><p>Respuestas a "¿Qué cambiarías este mes para trabajar mejor?"</p></div><span class="pill pill-neutral nodot">' + comments.length + ' comentarios</span></div>' +
+      '<div class="grid g2" style="gap:10px">' + comments.map((c) => '<div class="comment"><q>' + esc(c.text) + '</q><span class="meta">' + D2.AREAS.find((a) => a.id === c.area).name + (c.dim ? ' · ' + D2.dimLabel(c.dim) : '') + (c.isNew ? ' · <b style="color:var(--brand)">Nuevo</b>' : '') + '</span></div>').join('') + '</div></section>' +
+      '</div>';
+  };
+
+  /* ---------- Pausas ---------- */
+  V.pausas = function () {
+    const ppl = D2.PEOPLE;
+    const sch = ppl.reduce((n, p) => n + p.scheduled, 0);
+    const done = ppl.reduce((n, p) => n + p.completed, 0);
+    const post = ppl.reduce((n, p) => n + p.postponed, 0);
+    const skip = ppl.reduce((n, p) => n + p.skipped, 0);
+    const byArea = D2.pauseByArea();
+    const areaOpts = '<option value="all">Todas las áreas</option>' + D2.AREAS.map((a) => '<option value="' + a.id + '"' + (D2.ui.peopleArea === a.id ? ' selected' : '') + '>' + a.name + '</option>').join('');
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Semana del 28 de septiembre</span><h1>Pausas activas</h1><p>Cumplimiento por área y por persona. Cada pausa dura ' + D2.state.policy.dur + ' minutos.</p></div></div>' +
+      '<div class="grid g4">' +
+      kpi('Cumplimiento', Math.round((done / sch) * 100) + '<small>%</small>', '+3 pts', true, 'vs semana anterior') +
+      kpi('Completadas', done, null, null, 'de ' + sch + ' programadas') +
+      kpi('Pospuestas', post, null, null, 'Máximo ' + D2.state.policy.maxPostpones + ' por día') +
+      kpi('Saltadas', skip, null, null, 'Con motivo registrado') +
+      '</div>' +
+      '<div class="grid g2">' +
+      '<section class="card"><div class="card-head"><div><h3>Cumplimiento semanal</h3><p>Desde que se activó Desconecta2</p></div></div>' +
+      D2.chartSlot({ labels: D2.WEEKS, values: D2.WEEKLY_COMPANY, min: 40, max: 100, ticks: [40, 60, 80, 100], fmt: (v) => v + '%', goal: 80, goalLabel: 'Meta 80%', tipPrefix: 'Semana del ', aria: 'Cumplimiento semanal de pausas' }) + '</section>' +
+      '<div class="stack">' +
+      '<section class="card"><div class="card-head"><div><h3>Por área</h3><p>% de pausas completadas</p></div><div class="legend"><span><i class="dash"></i>Meta 80%</span></div></div>' +
+      D2.hbars(byArea.map((a) => ({ label: a.name, v: a.pct })), { max: 100, target: 80, fmt: (v) => Math.round(v) + '%', s1: 'Cumplimiento' }) + '</section>' +
+      '<section class="card"><div class="card-head"><div><h3>Motivos para saltar</h3><p>Últimos 30 días</p></div></div>' +
+      D2.hbars(D2.SKIP_REASONS.map((r) => ({ label: r.label, v: r.n })), { max: 40, fmt: (v) => String(v), s1: 'Pausas' }) + '</section>' +
+      '</div></div>' +
+      '<section class="card"><div class="card-head"><div><h3>Por persona</h3><p>Ordenado de menor a mayor cumplimiento</p></div>' +
+      '<div class="row"><label class="visually-hidden" for="pq">Buscar persona</label><input id="pq" class="input" style="width:200px" placeholder="Buscar persona" value="' + esc(D2.ui.peopleQuery) + '" data-input="people-q">' +
+      '<label class="visually-hidden" for="pa">Área</label><select id="pa" class="select" style="width:auto" data-change="people-area">' + areaOpts + '</select></div></div>' +
+      '<div class="notice info">' + D2.icon('alert') + '<span>Estos datos son identificados. Informa en el reglamento interno que se registran las pausas y para qué se usan.</span></div>' +
+      '<div class="table-wrap" id="people-table">' + peopleTable() + '</div></section>' +
+      '</div>';
+  };
+  function peopleTable() {
+    const q = D2.ui.peopleQuery.toLowerCase();
+    const rows = D2.PEOPLE.filter((p) => (D2.ui.peopleArea === 'all' || p.area === D2.ui.peopleArea) && (!q || p.name.toLowerCase().includes(q)))
+      .slice().sort((a, b) => a.completed / a.scheduled - b.completed / b.scheduled);
+    if (!rows.length) return '<div class="empty">' + D2.icon('search') + '<span>Nadie coincide con la búsqueda.</span></div>';
+    return '<table><thead><tr><th>Persona</th><th>Área</th><th class="hide-mobile">Cargo</th><th style="min-width:160px">Cumplimiento</th><th class="r">Completadas</th><th class="r">Pospuestas</th><th class="r">Saltadas</th></tr></thead><tbody>' +
+      rows.map((p) => '<tr><td style="white-space:nowrap"><span class="row nowrap" style="gap:8px"><span class="avatar" style="width:28px;height:28px;font-size:11px">' + D2.initials(p.name) + '</span>' + esc(p.name) + '</span></td><td style="white-space:nowrap">' + D2.AREAS.find((a) => a.id === p.area).name + '</td><td class="hide-mobile muted">' + p.cargo + '</td><td>' + D2.minibar(p.completed, p.scheduled) + '</td><td class="r num">' + p.completed + '/' + p.scheduled + '</td><td class="r num">' + p.postponed + '</td><td class="r num">' + p.skipped + '</td></tr>').join('') +
+      '</tbody></table>';
+  }
+  D2.peopleTable = peopleTable;
+  D2.changes['people-q'] = function (el) { D2.ui.peopleQuery = el.value; document.getElementById('people-table').innerHTML = peopleTable(); };
+  D2.changes['people-area'] = function (el) { D2.ui.peopleArea = el.value; document.getElementById('people-table').innerHTML = peopleTable(); };
+
+  /* ---------- Políticas ---------- */
+  V.politicas = function () {
+    const p = D2.state.policy;
+    const sel = (name, vals, cur, fmt) => '<select id="pol-' + name + '" name="' + name + '" class="select">' + vals.map((v) => '<option value="' + v + '"' + (String(v) === String(cur) ? ' selected' : '') + '>' + (fmt ? fmt(v) : v) + '</option>').join('') + '</select>';
+    const sw = (name, title, sub, on) => '<label class="switch"><span class="txt"><b>' + title + '</b><span>' + sub + '</span></span><input type="checkbox" name="' + name + '"' + (on ? ' checked' : '') + '></label>';
+    const min = (v) => v + ' min';
+    return '<div class="page"><form data-form="policy" class="page" style="gap:22px">' +
+      '<div class="page-head"><div><span class="eyebrow">Configuración de la empresa</span><h1>Políticas</h1><p>Lo que definas aquí se aplica a las 48 personas. Cada trabajador ajusta sus pausas dentro de estos límites.</p></div>' +
+      '<button class="btn btn-primary" type="submit">Guardar cambios</button></div>' +
+      '<div class="grid g2">' +
+      '<section class="card"><h3>Pausas activas</h3>' +
+      '<div class="grid g2" style="gap:14px">' +
+      '<div class="field"><label for="pol-freq">Frecuencia por defecto</label>' + sel('freq', [60, 75, 90, 105, 120], p.freq, (v) => 'Cada ' + v + ' min') + '</div>' +
+      '<div class="field"><label for="pol-dur">Duración de cada pausa</label>' + sel('dur', [3, 5, 7, 10], p.dur, min) + '</div>' +
+      '<div class="field"><label for="pol-freqMin">El trabajador puede elegir desde</label>' + sel('freqMin', [45, 60, 75, 90], p.freqMin, (v) => 'Cada ' + v + ' min') + '</div>' +
+      '<div class="field"><label for="pol-freqMax">Hasta</label>' + sel('freqMax', [90, 105, 120, 150], p.freqMax, (v) => 'Cada ' + v + ' min') + '</div>' +
+      '<div class="field"><label for="pol-maxPostpones">Aplazamientos por día</label>' + sel('maxPostpones', [0, 1, 2, 3], p.maxPostpones, (v) => (v ? v + (v === 1 ? ' vez' : ' veces') : 'No permitir')) + '</div>' +
+      '<div class="field"><label for="pol-postponeMin">Cada aplazamiento</label>' + sel('postponeMin', [5, 10, 15], p.postponeMin, min) + '</div>' +
+      '</div>' +
+      '<div>' + sw('allowSkip', 'Permitir saltar pausas', 'El trabajador indica el motivo y queda registrado.', p.allowSkip) + '</div>' +
+      '</section>' +
+      '<section class="card"><h3>Jornada y desconexión</h3>' +
+      '<div class="grid g2" style="gap:14px"><div class="field"><label for="pol-start">Inicio de jornada</label><input id="pol-start" name="start" type="time" class="input" value="' + p.start + '"></div>' +
+      '<div class="field"><label for="pol-end">Fin de jornada</label><input id="pol-end" name="end" type="time" class="input" value="' + p.end + '"></div></div>' +
+      '<div>' + sw('dnd', 'No molestar durante las pausas', 'Silencia notificaciones en notebook y celular corporativo.', p.dnd) +
+      sw('offHours', 'Desconexión fuera de la jornada', 'Pausa las apps de trabajo desde el fin de la jornada hasta el inicio del día siguiente.', p.offHours) + '</div>' +
+      '</section></div>' +
+      '<section class="card"><div class="card-head"><div><h3>Apps que se pausan</h3><p>Se bloquean durante las pausas y fuera de la jornada. Toca para activar o desactivar.</p></div></div>' +
+      '<div class="app-tiles">' + D2.APPS.map((a) => '<label class="app-tile' + (p.apps[a.id] ? '' : ' off') + '" style="position:relative"><input type="checkbox" name="app_' + a.id + '"' + (p.apps[a.id] ? ' checked' : '') + ' data-change="app-tile">' + D2.appTile(a) + a.name + '</label>').join('') + '</div></section>' +
+      '<section class="card"><div class="card-head"><div><h3>Dispositivos e integraciones</h3><p>96 dispositivos vinculados: 48 notebooks y 48 celulares corporativos.</p></div></div>' +
+      '<div class="grid g3" style="gap:10px">' +
+      [['Microsoft Intune', 'Bloqueo de apps en notebooks'], ['Google Workspace', 'Modo No molestar en Gmail y Chat'], ['Slack', 'Estado "En pausa" automático']].map((i) => '<div class="device">' + D2.icon('laptop') + '<div class="grow"><b>' + i[0] + '</b><span>' + i[1] + '</span></div><span class="pill pill-ok">Conectado</span></div>').join('') +
+      '</div></section>' +
+      '<div class="row"><button class="btn btn-primary" type="submit">Guardar cambios</button><button class="btn btn-ghost" type="button" data-act="reset">Reiniciar demo</button></div>' +
+      '</form></div>';
+  };
+  D2.changes['app-tile'] = function (el) { el.closest('.app-tile').classList.toggle('off', !el.checked); };
+  D2.forms.policy = function (form) {
+    const fd = new FormData(form);
+    const p = D2.state.policy;
+    const freqMin = Number(fd.get('freqMin')), freqMax = Number(fd.get('freqMax'));
+    if (freqMin > freqMax) { D2.toast('El mínimo de frecuencia no puede ser mayor que el máximo', 'alert'); return; }
+    if (String(fd.get('start')) >= String(fd.get('end'))) { D2.toast('El fin de jornada debe ser después del inicio', 'alert'); return; }
+    Object.assign(p, {
+      freq: Math.max(freqMin, Math.min(freqMax, Number(fd.get('freq')))), dur: Number(fd.get('dur')), freqMin, freqMax,
+      maxPostpones: Number(fd.get('maxPostpones')), postponeMin: Number(fd.get('postponeMin')),
+      allowSkip: !!fd.get('allowSkip'), dnd: !!fd.get('dnd'), offHours: !!fd.get('offHours'),
+      start: String(fd.get('start')), end: String(fd.get('end')),
+    });
+    D2.APPS.forEach((a) => { p.apps[a.id] = !!fd.get('app_' + a.id); });
+    D2.save();
+    D2.render();
+    D2.toast('Política guardada. Ya se aplica a las 48 personas.');
+  };
+})();
+</script>
+<script>
+/* Desconecta2 · vista Jefatura (Operaciones). */
+(function () {
+  const D2 = window.D2;
+  const V = D2.views.jefe;
+  const esc = D2.esc;
+  const TEAM = 'ops';
+
+  const team = () => D2.areaData().find((a) => a.id === TEAM);
+  const legend2 = '<div class="legend"><span><i style="background:var(--series-1)"></i>Tu equipo</span><span><i style="background:var(--series-2)"></i>Empresa</span><span><i class="dash"></i>Meta 3,5</span></div>';
+
+  V.equipo = function () {
+    const t = team();
+    const comp = D2.companyScores();
+    const weakest = D2.DIMS.slice().sort((a, b) => t.scores[a.key] - t.scores[b.key]).slice(0, 2);
+    const acts = D2.state.actions;
+    const pauseTeam = D2.pauseByArea().find((a) => a.id === TEAM);
+    const comments = D2.COMMENTS.filter((c) => c.area === TEAM);
+    const own = D2.state.worker.survey;
+    if (own && own.open) comments.unshift({ area: TEAM, dim: null, text: own.open, isNew: true });
+    const diff = t.index - comp.index;
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Operaciones · 12 personas</span><h1>Mi equipo</h1><p>Ves promedios de tu equipo. No ves respuestas individuales ni denuncias.</p></div></div>' +
+      '<div class="grid g4">' +
+      D2.kpi('Clima del equipo', D2.f2(t.index) + '<small> /5</small>', (diff >= 0 ? '+' : '−') + D2.f2(Math.abs(diff)), diff >= 0, 'vs empresa') +
+      D2.kpi('Respondieron', t.resp + '<small> de ' + t.size + '</small>', null, null, 'Encuesta de septiembre') +
+      D2.kpi('Pausas completadas', Math.round(pauseTeam.pct) + '<small>%</small>', '+3 pts', true, 'vs semana anterior') +
+      D2.kpi('Plan de acción', acts.filter((a) => a.done).length + '<small> de ' + acts.length + '</small>', null, null, 'acciones hechas') +
+      '</div>' +
+      '<div class="grid g2">' +
+      '<section class="card"><div class="card-head"><div><h3>Tu equipo vs la empresa</h3><p>Septiembre 2026, escala 1 a 5</p></div>' + legend2 + '</div>' +
+      D2.hbars(D2.DIMS.map((d) => ({ label: d.label, v: t.scores[d.key], v2: comp.scores[d.key] })), { target: D2.TARGET, s1: 'Tu equipo', s2: 'Empresa' }) + '</section>' +
+      '<div class="stack">' +
+      '<section class="card"><div class="card-head"><div><h3>Evolución del clima del equipo</h3><p>Índice de Operaciones, abril a septiembre</p></div></div>' +
+      D2.chartSlot({ labels: D2.MONTHS, values: t.trend.concat([t.index]), min: 2.8, max: 3.8, ticks: [3, 3.5], fmt: (v) => D2.f1(v), endFmt: (v) => D2.f2(v), goal: 3.5, goalLabel: 'Meta 3,5', aria: 'Evolución del clima del equipo', height: 190 }) + '</section>' +
+      '<div class="notice">' + D2.icon('shield') + '<span><b>Las denuncias no pasan por ti</b>El canal anónimo llega directo a RR.HH. Así quien denuncia está protegido, incluso si la situación involucra a una jefatura.</span></div>' +
+      '</div></div>' +
+      '<section class="card"><div class="card-head"><div><h3>Dónde enfocarte este mes</h3><p>Las dos dimensiones más bajas de tu equipo y acciones sugeridas</p></div><button class="btn btn-quiet btn-sm" data-act="go" data-view="plan">Ver plan de acción</button></div>' +
+      '<div class="grid g2">' + weakest.map((d) => '<div class="card flat"><div class="row between"><h4>' + d.label + '</h4><span class="pill pill-warn nodot num">' + D2.f1(t.scores[d.key]) + ' / 5</span></div>' +
+        '<p class="small muted">"' + esc(d.q) + '"</p><div class="list">' + D2.SUGGESTIONS[d.key].map((s) => {
+          const added = D2.state.actions.some((a) => a.text === s);
+          return '<div class="list-item small"><span class="grow">' + esc(s) + '</span>' + (added ? '<span class="pill pill-ok">En el plan</span>' : '<button class="btn btn-ghost btn-sm" data-act="add-sugg" data-dim="' + d.key + '" data-text="' + esc(s) + '">Agregar</button>') + '</div>';
+        }).join('') + '</div></div>').join('') + '</div></section>' +
+      '<section class="card"><div class="card-head"><div><h3>Lo que dice tu equipo</h3><p>Comentarios anónimos de septiembre</p></div></div>' +
+      '<div class="grid g2" style="gap:10px">' + comments.map((c) => '<div class="comment"><q>' + esc(c.text) + '</q><span class="meta">' + (c.dim ? D2.dimLabel(c.dim) : 'Sin clasificar') + (c.isNew ? ' · <b style="color:var(--brand)">Nuevo</b>' : '') + '</span></div>').join('') + '</div></section>' +
+      '</div>';
+  };
+
+  V.pausas = function () {
+    const ppl = D2.PEOPLE.filter((p) => p.area === TEAM);
+    const done = ppl.reduce((n, p) => n + p.completed, 0), sch = ppl.reduce((n, p) => n + p.scheduled, 0);
+    const skip = ppl.reduce((n, p) => n + p.skipped, 0);
+    const slots = D2.slots().map((s) => s.label);
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Operaciones · semana del 28 sep</span><h1>Pausas del equipo</h1><p>Tu equipo descansa mejor si tú también haces tus pausas y no agendas reuniones encima.</p></div></div>' +
+      '<div class="grid g3">' +
+      D2.kpi('Cumplimiento', Math.round((done / sch) * 100) + '<small>%</small>', '+3 pts', true, 'Meta 80%') +
+      D2.kpi('Pausas saltadas', skip, null, null, 'Motivo principal: reuniones') +
+      D2.kpi('Personas bajo 60%', ppl.filter((p) => p.completed / p.scheduled < 0.6).length, null, null, 'de ' + ppl.length + ' en tu equipo') +
+      '</div>' +
+      '<div class="grid g-main">' +
+      '<section class="card"><div class="card-head"><div><h3>Cumplimiento semanal</h3><p>Operaciones, % de pausas completadas</p></div></div>' +
+      D2.chartSlot({ labels: D2.WEEKS, values: D2.WEEKLY_OPS, min: 40, max: 100, ticks: [40, 60, 80, 100], fmt: (v) => v + '%', goal: 80, goalLabel: 'Meta 80%', tipPrefix: 'Semana del ', aria: 'Cumplimiento semanal del equipo' }) + '</section>' +
+      '<section class="card flat"><h4>Evita agendar reuniones a estas horas</h4><div class="row">' + slots.map((s) => '<span class="pill pill-brand nodot num">' + D2.icon('clock').replace('<svg', '<svg width="14" height="14"') + s + '</span>').join('') + '</div>' +
+      '<p class="small ink2">El 44% de las pausas saltadas en tu equipo coincide con reuniones.</p></section>' +
+      '</div>' +
+      '<section class="card"><div class="card-head"><div><h3>Por persona</h3><p>Ordenado de menor a mayor cumplimiento</p></div></div><div class="table-wrap">' +
+      '<table><thead><tr><th>Persona</th><th class="hide-mobile">Cargo</th><th style="min-width:160px">Cumplimiento</th><th class="r">Pospuestas</th><th class="r">Saltadas</th></tr></thead><tbody>' +
+      ppl.slice().sort((a, b) => a.completed / a.scheduled - b.completed / b.scheduled).map((p) => '<tr><td style="white-space:nowrap"><span class="row nowrap" style="gap:8px"><span class="avatar" style="width:28px;height:28px;font-size:11px">' + D2.initials(p.name) + '</span>' + esc(p.name) + '</span></td><td class="hide-mobile muted">' + p.cargo + '</td><td>' + D2.minibar(p.completed, p.scheduled) + '</td><td class="r num">' + p.postponed + '</td><td class="r num">' + p.skipped + '</td></tr>').join('') +
+      '</tbody></table></div></section>' +
+      '</div>';
+  };
+
+  V.plan = function () {
+    const acts = D2.state.actions;
+    const t = team();
+    const dimOpts = D2.DIMS.map((d) => '<option value="' + d.key + '">' + d.label + '</option>').join('');
+    return '<div class="page">' +
+      '<div class="page-head"><div><span class="eyebrow">Operaciones · octubre 2026</span><h1>Plan de acción</h1><p>Acciones concretas para mejorar lo que tu equipo marcó más bajo. RR.HH. ve el avance.</p></div></div>' +
+      '<div class="grid g-main">' +
+      '<section class="card"><div class="card-head"><div><h3>Acciones del mes</h3><p>' + acts.filter((a) => a.done).length + ' de ' + acts.length + ' hechas</p></div></div>' +
+      '<div class="list">' + acts.map((a) => '<label class="check-item' + (a.done ? ' done' : '') + '"><input type="checkbox" data-change="action-done" data-id="' + a.id + '"' + (a.done ? ' checked' : '') + '><span class="grow"><b class="small">' + esc(a.text) + '</b><span class="xs muted">' + D2.dimLabel(a.dim) + ' · equipo en ' + D2.f1(t.scores[a.dim]) + '</span></span></label>').join('') + '</div>' +
+      '<form data-form="add-action" class="stack" style="padding-top:6px"><div class="divider"></div><h4>Agregar acción</h4>' +
+      '<div class="grid g2" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px"><div class="field"><label class="visually-hidden" for="act-text">Acción</label><input id="act-text" name="text" class="input" placeholder="Ej: reunión de 15 minutos los lunes con agenda"></div>' +
+      '<div class="field"><label class="visually-hidden" for="act-dim">Dimensión</label><select id="act-dim" name="dim" class="select">' + dimOpts + '</select></div></div>' +
+      '<div><button class="btn btn-primary btn-sm" type="submit">Agregar al plan</button></div></form>' +
+      '</section>' +
+      '<aside class="stack"><section class="card flat"><h4>Cómo armar un buen plan</h4><div class="list small">' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('check') + '</span><span class="grow">Máximo 3 a 5 acciones por mes.</span></div>' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('check') + '</span><span class="grow">Que dependan de ti, no de otra área.</span></div>' +
+      '<div class="list-item"><span class="icon-dot brand">' + D2.icon('check') + '</span><span class="grow">Cuéntale al equipo qué vas a cambiar. La próxima encuesta mide si funcionó.</span></div>' +
+      '</div></section></aside></div></div>';
+  };
+
+  Object.assign(D2.actions, {
+    'add-sugg'(el) {
+      D2.state.actions.push({ id: 'a' + Date.now(), dim: el.dataset.dim, text: el.dataset.text, done: false });
+      D2.save();
+      D2.render();
+      D2.toast('Acción agregada al plan');
+    },
+  });
+  D2.changes['action-done'] = function (el) {
+    const a = D2.state.actions.find((x) => x.id === el.dataset.id);
+    a.done = el.checked;
+    D2.save();
+    D2.render();
+  };
+  D2.forms['add-action'] = function (form) {
+    const fd = new FormData(form);
+    const text = String(fd.get('text') || '').trim();
+    if (!text) { document.getElementById('act-text').focus(); return; }
+    D2.state.actions.push({ id: 'a' + Date.now(), dim: String(fd.get('dim')), text, done: false });
+    D2.save();
+    D2.render();
+    D2.toast('Acción agregada al plan');
+  };
+})();
+</script>
