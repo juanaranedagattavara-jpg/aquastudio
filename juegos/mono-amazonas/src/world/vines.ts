@@ -1,10 +1,11 @@
 import {
-  CylinderGeometry, DoubleSide, DynamicDrawUsage, InstancedMesh, Matrix4, MeshLambertMaterial, PlaneGeometry,
+  CylinderGeometry, DoubleSide, DynamicDrawUsage, Group, InstancedMesh, Matrix4, MeshLambertMaterial, PlaneGeometry,
   Quaternion, Texture, Vector3,
 } from 'three';
 import { distToSegmentSq, segmentT } from '../core/math';
 import { Rng } from '../core/random';
 import { SpatialHash, type Spatial } from '../core/spatial';
+import { CHUNK, LITE } from '../core/device';
 import { addNearFade } from './nearFade';
 import type { VineSpec } from './types';
 
@@ -132,11 +133,23 @@ export interface GrabResult {
   along: number;
 }
 
+interface VineChunk {
+  mesh: InstancedMesh;
+  /** Hojitas de la liana (se omiten en modo ligero: ahorran un draw call por zona). */
+  leaves: InstancedMesh | null;
+  dirty: boolean;
+}
+
+const VINE_CHUNK = CHUNK;
+
 export class VineSystem {
   readonly vines: Vine[] = [];
   readonly hash = new SpatialHash<Vine>(12);
-  readonly mesh: InstancedMesh;
-  readonly leaves: InstancedMesh;
+  /** Mallas de lianas troceadas por zonas: se descartan las que no se ven y sólo se suben las que se mueven. */
+  readonly group = new Group();
+  private chunks: VineChunk[] = [];
+  private chunkOf: VineChunk[] = [];
+  private slotOf: number[] = [];
   private tmp: Vine[] = [];
   private a = new Vector3();
   private b = new Vector3();
@@ -157,25 +170,47 @@ export class VineSystem {
     const geo = new CylinderGeometry(1, 1, 1, 4, 1, true);
     geo.translate(0, 0.5, 0);
     const mat = new MeshLambertMaterial({ color: '#6b6230' });
-    this.mesh = new InstancedMesh(geo, mat, this.vines.length * VINE_SEGMENTS);
-    this.mesh.instanceMatrix.setUsage(DynamicDrawUsage);
-    this.mesh.frustumCulled = false;
-
     const lg = new PlaneGeometry(0.34, 0.6);
     lg.translate(0.17, 0, 0);
     const lm = new MeshLambertMaterial({ map: leafTex, alphaTest: 0.4, side: DoubleSide, color: '#9cc070' });
     addNearFade(lm, 0.8, 2);
-    this.leaves = new InstancedMesh(lg, lm, this.vines.length * LEAVES_PER_VINE);
-    this.leaves.instanceMatrix.setUsage(DynamicDrawUsage);
-    this.leaves.frustumCulled = false;
 
-    for (const v of this.vines) this.writeInstances(v);
-    this.mesh.instanceMatrix.needsUpdate = true;
-    this.leaves.instanceMatrix.needsUpdate = true;
+    const groups = new Map<string, Vine[]>();
+    for (const v of this.vines) {
+      const k = `${Math.floor(v.anchor.x / VINE_CHUNK)},${Math.floor(v.anchor.z / VINE_CHUNK)}`;
+      let g = groups.get(k);
+      if (!g) {
+        g = [];
+        groups.set(k, g);
+      }
+      g.push(v);
+    }
+    for (const list of groups.values()) {
+      const mesh = new InstancedMesh(geo, mat, list.length * VINE_SEGMENTS);
+      mesh.instanceMatrix.setUsage(DynamicDrawUsage);
+      const leaves = LITE ? null : new InstancedMesh(lg, lm, list.length * LEAVES_PER_VINE);
+      leaves?.instanceMatrix.setUsage(DynamicDrawUsage);
+      const chunk: VineChunk = { mesh, leaves, dirty: false };
+      list.forEach((v, slot) => {
+        this.chunkOf[v.index] = chunk;
+        this.slotOf[v.index] = slot;
+        this.writeInstances(v);
+      });
+      // margen para el balanceo: una liana agarrada puede alejarse bastante de su reposo
+      for (const im of leaves ? [mesh, leaves] : [mesh]) {
+        im.instanceMatrix.needsUpdate = true;
+        im.computeBoundingSphere();
+        im.boundingSphere!.radius += 25;
+        this.group.add(im);
+      }
+      this.chunks.push(chunk);
+    }
   }
 
   private writeInstances(v: Vine): void {
-    const base = v.index * VINE_SEGMENTS;
+    const chunk = this.chunkOf[v.index];
+    const slot = this.slotOf[v.index];
+    const base = slot * VINE_SEGMENTS;
     for (let i = 0; i < VINE_SEGMENTS; i++) {
       v.point(i, this.a);
       v.point(i + 1, this.b);
@@ -186,10 +221,10 @@ export class VineSystem {
       const r = 0.075 - (i / VINE_SEGMENTS) * 0.03;
       this.s.set(r, len + 0.02, r);
       this.m.compose(this.a, this.q, this.s);
-      this.mesh.setMatrixAt(base + i, this.m);
+      chunk.mesh.setMatrixAt(base + i, this.m);
     }
-    const lb = v.index * LEAVES_PER_VINE;
-    for (let j = 0; j < LEAVES_PER_VINE; j++) {
+    const lb = slot * LEAVES_PER_VINE;
+    for (let j = 0; chunk.leaves && j < LEAVES_PER_VINE; j++) {
       const seg = 1 + j * 2;
       v.point(seg, this.a);
       v.point(seg + 1, this.b);
@@ -200,13 +235,13 @@ export class VineSystem {
       this.a.lerp(this.b, 0.4);
       this.s.set(1, 1, 1);
       this.m.compose(this.a, this.q, this.s);
-      this.leaves.setMatrixAt(lb + j, this.m);
+      chunk.leaves.setMatrixAt(lb + j, this.m);
     }
+    chunk.dirty = true;
     v.dirty = false;
   }
 
   update(dt: number, center: Vector3, time: number): void {
-    let changed = false;
     this.hash.query(center.x, center.z, SIM_RADIUS, this.tmp);
     const r2 = SIM_RADIUS * SIM_RADIUS;
     for (const v of this.tmp) {
@@ -215,11 +250,12 @@ export class VineSystem {
       v.awake = true;
       v.simulate(dt, time);
       this.writeInstances(v);
-      changed = true;
     }
-    if (changed) {
-      this.mesh.instanceMatrix.needsUpdate = true;
-      this.leaves.instanceMatrix.needsUpdate = true;
+    for (const ch of this.chunks) {
+      if (!ch.dirty) continue;
+      ch.mesh.instanceMatrix.needsUpdate = true;
+      if (ch.leaves) ch.leaves.instanceMatrix.needsUpdate = true;
+      ch.dirty = false;
     }
   }
 

@@ -42,7 +42,8 @@ export class Input {
   touchActive = false;
   private joyX = 0;
   private joyY = 0;
-  private touchSprint = false;
+  /** Joystick empujado al fondo: correr por el suelo (no sube por la liana). */
+  joyFull = false;
 
   private dragging = false;
   private dragMoved = 0;
@@ -193,8 +194,12 @@ export class Input {
   }
 
   isDown(a: Action): boolean {
-    if (a === 'sprint' && this.touchSprint) return true;
     return this.down.has(a);
+  }
+
+  /** Suelta una acción (p. ej. cuando un botón táctil desaparece mientras se pulsa). */
+  releaseAction(a: Action): void {
+    this.release(a);
   }
   wasPressed(a: Action): boolean {
     return this.pressed.has(a);
@@ -250,31 +255,40 @@ export class Input {
     let joyId = -1;
     let lookId = -1;
     let cx = 0, cy = 0;
-    const R = 55;
+    const R = 56;
 
-    const activate = (): void => this.enableTouch();
-
-    joy.addEventListener('touchstart', (e) => {
-      activate();
-      const t = e.changedTouches[0];
+    // El joystick aparece donde se apoya el pulgar en la mitad izquierda.
+    const startJoy = (t: Touch): void => {
       joyId = t.identifier;
-      const r = joy.getBoundingClientRect();
-      cx = r.left + r.width / 2;
-      cy = r.top + r.height / 2;
-      e.preventDefault();
-    }, { passive: false });
+      cx = t.clientX;
+      cy = t.clientY;
+      joy.style.left = `${cx - 70}px`;
+      joy.style.top = `${cy - 70}px`;
+      joy.style.bottom = 'auto';
+      joy.classList.add('active');
+    };
+    const endJoy = (): void => {
+      joyId = -1;
+      this.joyX = this.joyY = 0;
+      this.joyFull = false;
+      knob.style.transform = '';
+      joy.style.left = '';
+      joy.style.top = '';
+      joy.style.bottom = '';
+      joy.classList.remove('active');
+    };
 
-    const area = this.canvas;
-    area.addEventListener('touchstart', (e) => {
-      activate();
+    this.canvas.addEventListener('touchstart', (e) => {
+      this.enableTouch();
       for (const t of Array.from(e.changedTouches)) {
-        if (lookId === -1 && t.clientX > window.innerWidth * 0.35) {
+        if (joyId === -1 && t.clientX < window.innerWidth * 0.42) startJoy(t);
+        else if (lookId === -1) {
           lookId = t.identifier;
           this.lastX = t.clientX;
           this.lastY = t.clientY;
         }
       }
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
     }, { passive: false });
 
     window.addEventListener('touchmove', (e) => {
@@ -287,12 +301,14 @@ export class Input {
             dy *= R / d;
           }
           knob.style.transform = `translate(${dx}px, ${dy}px)`;
-          this.joyX = dx / R;
-          this.joyY = -dy / R;
-          this.touchSprint = d > R * 0.92;
+          // zona muerta pequeña para que el mono no se arrastre solo
+          const k = d < 6 ? 0 : 1;
+          this.joyX = (dx / R) * k;
+          this.joyY = (-dy / R) * k;
+          this.joyFull = d > R * 0.9;
         } else if (t.identifier === lookId) {
-          this.mouseDX += (t.clientX - this.lastX) * 1.6;
-          this.mouseDY += (t.clientY - this.lastY) * 1.6;
+          this.mouseDX += (t.clientX - this.lastX) * 1.5;
+          this.mouseDY += (t.clientY - this.lastY) * 1.5;
           this.lastX = t.clientX;
           this.lastY = t.clientY;
         }
@@ -301,12 +317,7 @@ export class Input {
 
     const end = (e: TouchEvent): void => {
       for (const t of Array.from(e.changedTouches)) {
-        if (t.identifier === joyId) {
-          joyId = -1;
-          this.joyX = this.joyY = 0;
-          this.touchSprint = false;
-          knob.style.transform = '';
-        }
+        if (t.identifier === joyId) endJoy();
         if (t.identifier === lookId) lookId = -1;
       }
     };
@@ -316,16 +327,16 @@ export class Input {
     root.querySelectorAll<HTMLElement>('[data-act]').forEach((btn) => {
       const act = btn.dataset.act as Action;
       btn.addEventListener('touchstart', (e) => {
-        activate();
+        this.enableTouch();
         this.press(act);
         btn.classList.add('on');
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
         e.stopPropagation();
       }, { passive: false });
       const up = (e: TouchEvent): void => {
         this.release(act);
         btn.classList.remove('on');
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
       };
       btn.addEventListener('touchend', up, { passive: false });
       btn.addEventListener('touchcancel', up, { passive: false });

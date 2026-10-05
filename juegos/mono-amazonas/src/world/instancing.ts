@@ -1,6 +1,7 @@
 import {
   BufferGeometry, Color, Group, InstancedMesh, Material, Matrix4,
 } from 'three';
+import { CHUNK } from '../core/device';
 
 /**
  * Acumula transformaciones y crea InstancedMesh troceados por zonas del mapa
@@ -22,7 +23,7 @@ export class InstanceBatch {
     mat: Material,
     opts: { chunk?: number; cast?: boolean; receive?: boolean; name?: string } = {},
   ): Group {
-    const chunk = opts.chunk ?? 90;
+    const chunk = opts.chunk ?? CHUNK;
     const groups = new Map<string, { m: Matrix4; c: Color | null }[]>();
     for (const it of this.items) {
       const k = `${Math.floor(it.m.elements[12] / chunk)},${Math.floor(it.m.elements[14] / chunk)}`;

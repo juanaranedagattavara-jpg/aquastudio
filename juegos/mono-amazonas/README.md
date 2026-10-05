@@ -13,11 +13,31 @@ dan poderes.
 
 ## Jugar ya (sin instalar nada)
 
-Abre **`jugar.html`** con doble clic en Chrome, Edge o Firefox. Es un único archivo
-autocontenido (motor, texturas y sonido generados por código): funciona sin
-internet y sin servidor.
+- **Ordenador:** abre **`jugar.html`** con doble clic en Chrome, Edge o Firefox. Es un
+  único archivo autocontenido (motor, texturas y sonido generados por código):
+  funciona sin internet y sin servidor.
+- **Celular / tablet:** abre `jugar.html` desde una URL (súbelo a cualquier hosting
+  estático, o usa el enlace compartido del juego). En Android también funciona
+  abriéndolo desde el gestor de archivos con Chrome. Se juega mejor en horizontal.
 
-En móvil o tablet (en horizontal) aparecen controles táctiles.
+## Jugar en el celular
+
+El juego detecta pantallas táctiles y cambia a un modo pensado para el teléfono:
+
+- **Joystick dinámico**: aparece donde apoyas el pulgar en la mitad izquierda; al
+  fondo corres. La mitad derecha gira la cámara.
+- **Botones contextuales**: sólo se ve lo que sirve en cada momento. *Trepar* junto a
+  un tronco y *Soltar* trepando o colgado; ▲ ▼ para subir y bajar por la liana;
+  *Caída* (golpe al suelo) en el aire; *Golpe* se vuelve *Patada* al saltar.
+- **Cámara que te sigue sola** al moverte y que se coloca por fuera del tronco al
+  trepar (si la giras con el dedo, respeta tu giro un momento).
+- **Puntería asistida**: *Lanzar* apunta al cazador más centrado y anticipa su paso.
+- **Rendimiento**: modo ligero (sin antialiasing, menos vegetación, menos distancia
+  de dibujado, menos draw calls) y **resolución dinámica** que baja o sube la
+  resolución interna según los FPS reales del teléfono.
+- Pantalla completa y orientación horizontal cuando el navegador lo permite,
+  respeta el notch, vibración al recibir daño (Android) y también se puede jugar en
+  vertical (el campo de visión se abre).
 
 ## Objetivo
 
@@ -34,14 +54,14 @@ Cada fruto dorado que coges atrae refuerzos de cazadores. Si tu vida llega a 0, 
 
 | Acción | Teclado / ratón | Táctil |
 | --- | --- | --- |
-| Mover | `W` `A` `S` `D` | Joystick (al máximo corres) |
-| Cámara | Ratón · flechas · rueda = zoom | Arrastrar a la derecha |
+| Mover | `W` `A` `S` `D` | Pulgar en la mitad izquierda (al fondo corres) |
+| Cámara | Ratón · flechas · rueda = zoom | Arrastrar en la mitad derecha (y te sigue sola) |
 | Saltar / soltar liana con impulso | `Espacio` (mantén para saltar más) | Saltar |
-| Correr / subir por la liana | `Shift` | ▲ Subir |
-| Bajar por la liana / golpe al suelo (en el aire) | `C` | ▼ Bajar |
-| Trepar a un tronco / soltarse | `E` (o saltar contra el tronco) | Trepar |
-| Golpe (combo de 3) / patada voladora (en el aire) | Clic izq. / `J` | Golpe |
-| Lanzar castaña al punto de mira | Clic der. / `K` | Lanzar |
+| Correr / subir por la liana | `Shift` | Joystick al fondo / ▲ colgado |
+| Bajar por la liana / golpe al suelo (en el aire) | `C` | ▼ colgado / Caída en el aire |
+| Trepar a un tronco / soltarse | `E` (o saltar contra el tronco) | Trepar · Soltar (aparecen solos) |
+| Golpe (combo de 3) / patada voladora (en el aire) | Clic izq. / `J` | Golpe · Patada |
+| Lanzar castaña al punto de mira | Clic der. / `K` | Lanzar (puntería asistida) |
 | Esquivar | `Q` | Esquivar |
 | Pausa (sensibilidad, invertir eje, sonido) | `Esc` / `P` | ❚❚ |
 
@@ -112,6 +132,7 @@ cd juegos/mono-amazonas
 npm install
 npm run dev        # servidor de desarrollo con recarga (http://localhost:5173)
 npm run dev -- --host  # igual, accesible desde el móvil en la misma red
+# ?lite=1 / ?lite=0 en la URL fuerza o desactiva el modo ligero de móvil
 npm run typecheck  # comprobación de tipos
 npm run build      # compila y regenera jugar.html (archivo único)
 ```
@@ -155,6 +176,7 @@ reduce la resolución interna; Baja además desactiva las sombras).
 
 ## Limitaciones conocidas
 
-- Pensado para ordenador con teclado y ratón; el control táctil es funcional pero más básico.
+- En iPhone, Safari no permite la pantalla completa ni bloquear la orientación a
+  páginas web: gira el teléfono a mano (o usa "Añadir a pantalla de inicio").
 - No hay guardado de partida (sólo se recuerda el récord y los ajustes).
 - El rendimiento depende de la GPU; en equipos modestos usa la calidad Media o Baja.

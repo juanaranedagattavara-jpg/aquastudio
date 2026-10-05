@@ -3,6 +3,7 @@ import {
   Group, Matrix4, MeshLambertMaterial, Quaternion, Texture, Vector3, BufferAttribute,
 } from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { LITE } from '../core/device';
 import { TAU } from '../core/math';
 import type { Noise2D } from '../core/noise';
 import { Rng } from '../core/random';
@@ -119,7 +120,10 @@ export function buildVegetation(
     return true;
   };
 
-  const place = (n: number, minH: number, nearWater: number, cb: (x: number, z: number, y: number) => void): void => {
+  // en modo ligero (móvil) se planta menos sotobosque
+  const density = LITE ? 0.45 : 1;
+  const place = (count: number, minH: number, nearWater: number, cb: (x: number, z: number, y: number) => void): void => {
+    const n = Math.round(count * density);
     let placed = 0;
     for (let tries = 0; tries < n * 6 && placed < n; tries++) {
       const x = rng.range(-245, 245), z = rng.range(-245, 245);

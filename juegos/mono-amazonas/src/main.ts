@@ -1,5 +1,8 @@
 import './ui/style.css';
+import { IS_TOUCH_DEVICE } from './core/device';
 import { Game } from './game/game';
+
+if (IS_TOUCH_DEVICE) document.body.classList.add('touch-device');
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 

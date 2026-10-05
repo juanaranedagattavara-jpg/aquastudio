@@ -1,4 +1,5 @@
 import { POWER_ORDER, POWERS, type Difficulty } from '../config';
+import { IS_TOUCH_DEVICE } from '../core/device';
 import type { Stats } from '../game/context';
 
 export type Quality = 'alta' | 'media' | 'baja';
@@ -33,7 +34,7 @@ function save(key: string, v: unknown): void {
 /** Pantallas: carga, menú principal, pausa y fin de partida. */
 export class Menus {
   diff: Difficulty['key'] = store('macaco-diff', 'normal');
-  quality: Quality = store<Quality>('macaco-quality', matchMedia('(pointer: coarse)').matches ? 'baja' : 'alta');
+  quality: Quality = store<Quality>('macaco-quality', IS_TOUCH_DEVICE ? 'baja' : 'alta');
   settings = store('macaco-settings', { sens: 0.0024, invert: false, mute: false });
   best = store('macaco-best', 0);
 
@@ -69,7 +70,7 @@ export class Menus {
     document.querySelectorAll('.tomenu').forEach((b) => b.addEventListener('click', () => cb.onMenu()));
     $('#over .again').addEventListener('click', () => cb.onRestart());
     document.querySelector('[data-pause]')?.addEventListener('touchstart', (e) => {
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
       this.pauseRequested?.();
     });
 

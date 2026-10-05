@@ -1,5 +1,6 @@
 import { Texture, Vector3 } from 'three';
 import { ARROW_GRAVITY, SCORE, WATER_LEVEL } from '../config';
+import { DETAIL_FAR } from '../core/device';
 import { clamp, dampAngle, solveBallistic, wrapAngle } from '../core/math';
 import { gaussRand, rand } from '../core/random';
 import type { GameContext } from '../game/context';
@@ -268,6 +269,10 @@ export class Hunter {
     else this.model.setIndicator('');
 
     this.pos.y = Math.max(ctx.world.groundHeight(this.pos.x, this.pos.z), WATER_LEVEL - 0.6);
+    // lejos, la niebla los oculta: no se dibujan ni se animan
+    const far = this.pos.distanceToSquared(ctx.cam.camera.position) > DETAIL_FAR * DETAIL_FAR;
+    this.model.root.visible = !far;
+    if (far) return;
     this.model.root.position.copy(this.pos);
     this.model.root.rotation.y = this.yaw;
     const pose = this.pose;

@@ -3,6 +3,7 @@ import {
   FogExp2, HemisphereLight, Mesh, MeshBasicMaterial, Points, PointsMaterial, Scene, ShaderMaterial,
   SphereGeometry, Texture, Vector3, type Camera,
 } from 'three';
+import { LITE } from '../core/device';
 import { clamp, smoothstep } from '../core/math';
 import { Rng } from '../core/random';
 import type { Terrain } from './terrain';
@@ -82,7 +83,7 @@ export class Atmosphere {
     const shaftGeo = new CylinderGeometry(1.4, 3.2, 42, 12, 1, true);
     shaftGeo.translate(0, -21, 0);
     const tilt = new Vector3(0, 1, 0);
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < (LITE ? 22 : 46); i++) {
       const x = rng.range(-220, 220), z = rng.range(-220, 220);
       if (terrain.distanceToWater(x, z) < 6) continue;
       const mat = new MeshBasicMaterial({
@@ -99,7 +100,7 @@ export class Atmosphere {
     }
 
     // Polen e insectos
-    const N = 700;
+    const N = LITE ? 280 : 700;
     const pos = new Float32Array(N * 3);
     this.pollenVel = new Float32Array(N * 3);
     for (let i = 0; i < N; i++) {
@@ -127,7 +128,8 @@ export class Atmosphere {
     const k = smoothstep(14, 46, height);
     this.fogColor.copy(FOG_LOW).lerp(FOG_HIGH, k);
     this.fog.color.copy(this.fogColor);
-    this.fog.density = 0.0115 - k * 0.0052;
+    // en modo ligero la niebla es algo más densa para ocultar el plano lejano, más corto
+    this.fog.density = LITE ? 0.0128 - k * 0.0034 : 0.0115 - k * 0.0052;
     (this.domeMat.uniforms.horizon.value as Color).copy(this.fogColor);
     this.hemi.intensity = 1.55 + k * 0.25;
 
@@ -141,7 +143,7 @@ export class Atmosphere {
     for (const s of this.shafts) {
       const d = s.mesh.position.distanceTo(camPos);
       const flick = 0.85 + Math.sin(time * 0.6 + s.mesh.position.x) * 0.15;
-      s.mat.opacity = s.base * flick * clamp(1 - d / 110, 0, 1) * clamp((d - 6) / 10, 0, 1) * (1 - k * 0.6);
+      s.mat.opacity = s.base * flick * clamp(1 - d / (LITE ? 70 : 110), 0, 1) * clamp((d - 6) / 10, 0, 1) * (1 - k * 0.6);
       s.mesh.visible = s.mat.opacity > 0.003;
     }
 

@@ -1,5 +1,6 @@
 import { Vector3, type PerspectiveCamera } from 'three';
 import { GOLDEN_COUNT, PLAYER, POWERS, type PowerKind } from '../config';
+import { vibrate } from '../core/device';
 import type { Hunter } from '../enemies/hunter';
 import type { Monkey } from '../player/monkey';
 
@@ -83,6 +84,7 @@ export class HUD {
   golden(n: number, silent = false): void {
     this.goldN.textContent = String(n);
     if (silent) return;
+    vibrate([25, 50, 25]);
     this.goldEl.classList.remove('bump');
     void this.goldEl.offsetWidth;
     this.goldEl.classList.add('bump');
@@ -134,6 +136,7 @@ export class HUD {
 
   damage(_from: Vector3 | null, _playerPos: Vector3, _camYaw: number): void {
     this.hurt = 1;
+    vibrate(40);
   }
 
   update(dt: number, f: HudFrame): void {

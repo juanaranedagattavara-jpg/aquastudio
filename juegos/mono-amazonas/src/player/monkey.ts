@@ -45,6 +45,8 @@ export class Monkey {
   private jumpBuffer = 0;
   private jumpHeld = false;
   private sprint = false;
+  /** Correr por tener el joystick táctil al fondo (sólo en el suelo). */
+  private autoSprint = false;
   private crouch = false;
   private crouchPressed = false;
   private grabPressed = false;
@@ -160,6 +162,7 @@ export class Monkey {
     if (input.wasPressed('jump')) this.jumpBuffer = PLAYER.jumpBuffer;
     this.jumpHeld = input.isDown('jump');
     this.sprint = input.isDown('sprint');
+    this.autoSprint = input.joyFull;
     this.crouch = input.isDown('crouch');
     this.crouchPressed = input.wasPressed('crouch');
     this.grabPressed = input.wasPressed('grab');
@@ -250,7 +253,7 @@ export class Monkey {
     this.noiseTimer -= dt;
     if (this.state === 'ground' && this.support.kind === 'terrain' && this.speedH > 7.5 && this.noiseTimer <= 0) {
       this.noiseTimer = 0.4;
-      ctx.noise(this.pos, this.sprint ? 13 : 9);
+      ctx.noise(this.pos, this.speedH > 9 ? 13 : 9);
     }
 
     this.updateCenter();
@@ -282,7 +285,8 @@ export class Monkey {
   // ======================================================================== suelo
   private stepGround(h: number): void {
     const w = this.ctx.world;
-    const maxSpd = (this.sprint ? PLAYER.sprintSpeed : PLAYER.runSpeed) * this.mul;
+    const running = this.sprint || this.autoSprint;
+    const maxSpd = (running ? PLAYER.sprintSpeed : PLAYER.runSpeed) * this.mul;
     let tx = this.moveDir.x * maxSpd * this.moveMag;
     let tz = this.moveDir.z * maxSpd * this.moveMag;
     if (this.attack === 'punchL' || this.attack === 'punchR' || this.attack === 'spin') {
@@ -326,7 +330,7 @@ export class Monkey {
   }
 
   private jump(): void {
-    const sprintBonus = this.sprint && this.speedH > 8 ? PLAYER.sprintJumpBonus : 0;
+    const sprintBonus = (this.sprint || this.autoSprint) && this.speedH > 8 ? PLAYER.sprintJumpBonus : 0;
     this.vel.y = PLAYER.jumpVel * (this.powers.has('guarana') ? 1.25 : 1) + sprintBonus;
     this.setState('air');
     this.jumpBuffer = 0;
@@ -923,7 +927,9 @@ export class Monkey {
       v.y += 0.35;
       v.normalize().multiplyScalar(PLAYER.nutSpeed);
     }
-    v.addScaledVector(this.vel, 0.5);
+    // hereda sólo parte del impulso horizontal (cayendo en picado la tiraría contra el suelo)
+    v.x += this.vel.x * 0.4;
+    v.z += this.vel.z * 0.4;
     if (this.state !== 'swing') this.yaw = Math.atan2(target.x - this.pos.x, target.z - this.pos.z);
     ctx.projectiles.throwNut(from, v);
     ctx.audio.play('throw', { vol: 0.6 });

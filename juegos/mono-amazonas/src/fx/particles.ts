@@ -37,6 +37,7 @@ class ParticlePool {
   private drag: Float32Array;
   private grow: Float32Array;
   private cursor = 0;
+  private wasAlive = true;
   private c1 = new Color();
   private c2 = new Color();
   readonly material: ShaderMaterial;
@@ -133,11 +134,13 @@ class ParticlePool {
   }
 
   update(dt: number): void {
+    let alive = 0;
     for (let i = 0; i < this.n; i++) {
       if (this.life[i] <= 0) {
         this.alpha[i] = 0;
         continue;
       }
+      alive++;
       this.life[i] -= dt;
       const i3 = i * 3;
       const dr = Math.exp(-this.drag[i] * dt);
@@ -151,6 +154,9 @@ class ParticlePool {
       const t = this.life[i] / this.maxLife[i];
       this.alpha[i] = this.baseAlpha[i] * Math.min(1, t * 2.5);
     }
+    // sin partículas vivas no hace falta subir nada a la GPU
+    if (alive === 0 && !this.wasAlive) return;
+    this.wasAlive = alive > 0;
     const g = this.points.geometry;
     g.attributes.position.needsUpdate = true;
     g.attributes.pcolor.needsUpdate = true;

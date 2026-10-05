@@ -2,6 +2,7 @@ import {
   AdditiveBlending, CylinderGeometry, Mesh, MeshBasicMaterial, MeshStandardMaterial, Sprite, SpriteMaterial, Vector3,
 } from 'three';
 import { GOLDEN_COUNT, PLAYER, POWER_ORDER, POWERS, SCORE, WATER_LEVEL, type PowerKind } from '../config';
+import { DETAIL_FAR } from '../core/device';
 import { TAU } from '../core/math';
 import { Rng } from '../core/random';
 import type { GameContext } from '../game/context';
@@ -223,7 +224,7 @@ export class Pickups {
           continue;
         }
       }
-      const far = p.base.distanceToSquared(cam) > 110 * 110;
+      const far = p.base.distanceToSquared(cam) > DETAIL_FAR * DETAIL_FAR;
       p.mesh.visible = !far;
       if (p.glow) p.glow.visible = !far;
       if (!far) {

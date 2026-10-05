@@ -94,7 +94,7 @@ export class World {
     scene.add(buildVegetation(t, this.noise, this.trunkHash, this.camps, this.leafTex));
     scene.add(this.campMeshes.group);
     this.vines = new VineSystem(this.forest.vines, this.leafTex);
-    scene.add(this.vines.mesh, this.vines.leaves);
+    scene.add(this.vines.group);
     this.water = new Water(t.size, waterNormalTexture());
     scene.add(this.water.mesh);
     this.atmosphere = new Atmosphere(scene, t, this.glow, this.beam);

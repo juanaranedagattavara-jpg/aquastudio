@@ -4,6 +4,7 @@ import {
 import { clamp, smoothstep } from '../core/math';
 import type { Noise2D } from '../core/noise';
 import { WORLD_HALF } from '../config';
+import { LITE } from '../core/device';
 
 /**
  * Terreno: colinas suaves de selva baja cruzadas por un río serpenteante
@@ -61,7 +62,7 @@ export class Terrain {
   }
 
   build(detail: Texture): Mesh {
-    const seg = 216;
+    const seg = LITE ? 150 : 216;
     const geo = new PlaneGeometry(this.size, this.size, seg, seg);
     geo.rotateX(-Math.PI / 2);
     const pos = geo.attributes.position as BufferAttribute;

@@ -1,5 +1,6 @@
 import { PerspectiveCamera, Vector3 } from 'three';
-import { clamp, damp, segmentSphereHit } from '../core/math';
+import { VIEW_FAR } from '../core/device';
+import { clamp, damp, dampAngle, segmentSphereHit, wrapAngle } from '../core/math';
 import type { Input } from '../core/input';
 import type { HunterManager } from '../enemies/hunterManager';
 import type { Monkey } from '../player/monkey';
@@ -16,6 +17,12 @@ export class ThirdPersonCamera {
   distance = 5.6;
   sensitivity = 0.0024;
   invertY = false;
+  /** FOV base (más abierto con el móvil en vertical). */
+  baseFov = 70;
+  /** En táctil la cámara se coloca sola detrás del movimiento. */
+  autoFollow = false;
+  /** Segundos desde el último giro manual de cámara. */
+  lookIdle = 0;
   readonly target = new Vector3();
   readonly aimPoint = new Vector3();
   private curDist = 5.6;
@@ -31,7 +38,7 @@ export class ThirdPersonCamera {
   private hunterC = new Vector3();
 
   constructor(aspect: number) {
-    this.camera = new PerspectiveCamera(70, aspect, 0.1, 290);
+    this.camera = new PerspectiveCamera(70, aspect, 0.1, VIEW_FAR);
   }
 
   shake(amount: number): void {
@@ -40,6 +47,8 @@ export class ThirdPersonCamera {
 
   handleInput(input: Input, dt: number): void {
     const s = this.sensitivity;
+    if (input.mouseDX || input.mouseDY || input.lookKeysX() || input.lookKeysY()) this.lookIdle = 0;
+    else this.lookIdle += dt;
     this.yaw -= input.mouseDX * s;
     this.pitch += input.mouseDY * s * (this.invertY ? -1 : 1);
     this.yaw -= input.lookKeysX() * 2.4 * dt;
@@ -69,6 +78,7 @@ export class ThirdPersonCamera {
     }
 
     const speed = player.vel.length();
+    this.follow(dt, player);
     let extra = 0;
     if (player.state === 'swing') extra = 1.0;
     else if (player.state === 'climb') extra = 0.8;
@@ -99,7 +109,7 @@ export class ThirdPersonCamera {
       this.camera.rotateZ(Math.sin(t * 31 + 2) * 0.05 * sh);
     }
 
-    const fovTarget = 70 + clamp((speed - 7) * 1.3, 0, 17);
+    const fovTarget = this.baseFov + clamp((speed - 7) * 1.3, 0, 17);
     this.fov = damp(this.fov, fovTarget, 4, dt);
     if (Math.abs(this.camera.fov - this.fov) > 0.05) {
       this.camera.fov = this.fov;
@@ -107,8 +117,34 @@ export class ThirdPersonCamera {
     }
   }
 
-  /** Punto al que apunta la mira (centro de pantalla): mundo o cazadores. */
-  computeAim(world: World, hunters: HunterManager): void {
+  /**
+   * Seguimiento automático (táctil): gira suavemente para quedar detrás del
+   * movimiento. Se usa sin(Δ) para que al andar hacia la cámara no dé media vuelta.
+   */
+  private follow(dt: number, player: Monkey): void {
+    if (!this.autoFollow) return;
+    // trepando: colocarse en el lado exterior del tronco para que no tape al mono
+    if (player.state === 'climb' && player.trunk) {
+      if (this.lookIdle < 0.6) return;
+      const t = player.trunk;
+      this.yaw = dampAngle(this.yaw, Math.atan2(player.pos.x - t.x, player.pos.z - t.z), 2.2, dt);
+      return;
+    }
+    if (this.lookIdle < 1.2 || player.state === 'down') return;
+    const vx = player.vel.x, vz = player.vel.z;
+    const sp = Math.hypot(vx, vz);
+    if (sp < 1.5) return;
+    const delta = wrapAngle(Math.atan2(-vx, -vz) - this.yaw);
+    const k = Math.min(1, sp / 8) * (player.state === 'swing' ? 1.1 : 0.6);
+    this.yaw += Math.sin(delta) * k * dt;
+    this.pitch = damp(this.pitch, player.state === 'swing' ? 0.16 : 0.26, 0.5, dt);
+  }
+
+  /**
+   * Punto al que apunta la mira (centro de pantalla): mundo o cazadores.
+   * `assist` (radianes) amplía el cono para elegir al cazador más centrado (táctil).
+   */
+  computeAim(world: World, hunters: HunterManager, assist = 0): void {
     const origin = this.target;
     const dir = this.camera.getWorldDirection(this.tmp);
     world.raycast(origin, dir, 70, this.hit);
@@ -127,6 +163,27 @@ export class ThirdPersonCamera {
         found = true;
       }
     }
-    if (!found) this.aimPoint.copy(end);
+    if (!found && assist > 0) {
+      // ángulo horizontal: "el cazador que tengo delante", aunque la cámara mire hacia abajo
+      const fl = Math.hypot(dir.x, dir.z) || 1;
+      let best = Infinity;
+      for (const h of hunters.hunters) {
+        if (!h.active) continue;
+        this.hunterC.copy(h.pos);
+        this.hunterC.y += 1.1;
+        const dx = this.hunterC.x - origin.x, dz = this.hunterC.z - origin.z;
+        const d = Math.hypot(dx, dz);
+        if (d > 42 || d < 1) continue;
+        const ang = Math.acos(clamp((dx * dir.x + dz * dir.z) / (d * fl), -1, 1));
+        const score = ang + d * 0.004;
+        if (ang < assist && score < best && world.lineOfSight(origin, this.hunterC) > 0.15) {
+          best = score;
+          // anticipa dónde estará cuando llegue la castaña (~28 m/s)
+          this.aimPoint.copy(this.hunterC).addScaledVector(h.vel, d / 28);
+          found = true;
+        }
+      }
+    }
+    if (!found) this.aimPoint.copy(origin).addScaledVector(dir, maxD);
   }
 }

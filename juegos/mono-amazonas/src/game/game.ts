@@ -4,6 +4,7 @@ import {
 } from 'three';
 import { DIFFICULTIES, GOLDEN_COUNT, type Difficulty } from '../config';
 import { AudioSys } from '../core/audio';
+import { IS_TOUCH_DEVICE, LITE } from '../core/device';
 import { Input } from '../core/input';
 import { ThirdPersonCamera } from '../camera/thirdPersonCamera';
 import { Projectiles } from '../combat/projectiles';
@@ -13,6 +14,7 @@ import { Pickups } from '../items/pickups';
 import { Monkey } from '../player/monkey';
 import { HUD } from '../ui/hud';
 import { Menus, type Quality } from '../ui/menus';
+import { TouchUI } from '../ui/touch';
 import { World } from '../world/world';
 import type { Platform } from '../world/types';
 import { newStats, type GameContext, type Stats } from './context';
@@ -55,9 +57,17 @@ export class Game implements GameContext {
   private objectiveDone = false;
   private reachedTopWithoutAll = 0;
   private tmp = new Vector3();
+  private touchUI: TouchUI | null = null;
+  // resolución dinámica: baja la resolución interna si los FPS caen y la recupera si sobran
+  private prCap = 1;
+  private resScale = 1;
+  private frameEma = 1 / 60;
+  private resTimer = 0;
+  private goodChecks = 0;
 
   constructor(canvas: HTMLCanvasElement) {
-    this.renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    // en móvil sin antialias: es lo que más cuesta en GPUs de teléfono
+    this.renderer = new WebGLRenderer({ canvas, antialias: !LITE, powerPreference: 'high-performance' });
     this.renderer.outputColorSpace = SRGBColorSpace;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.05;
@@ -78,6 +88,7 @@ export class Game implements GameContext {
       onMenu: () => this.toMenu(),
       onSettings: (s) => this.applySettings(s),
     });
+    this.touchUI = IS_TOUCH_DEVICE || 'ontouchstart' in window ? new TouchUI(this.input) : null;
     this.menus.pauseRequested = () => {
       if (this.mode === 'playing') this.pause();
     };
@@ -184,12 +195,28 @@ export class Game implements GameContext {
     this.mode = 'playing';
     this.input.enabled = true;
     this.input.requestLock();
-    if (this.input.touchActive || matchMedia('(pointer: coarse)').matches) {
-      this.input.enableTouch();
-      document.getElementById('touch')?.classList.remove('hidden');
-    }
+    if (this.input.touchActive || IS_TOUCH_DEVICE) this.startTouch();
     this.audio.play('click');
     this.last = performance.now();
+  }
+
+  /** Modo táctil: controles en pantalla, pantalla completa y horizontal si el navegador lo permite. */
+  private startTouch(): void {
+    this.input.enableTouch();
+    document.getElementById('touch')?.classList.remove('hidden');
+    const root = document.documentElement as HTMLElement & { webkitRequestFullscreen?: () => void };
+    try {
+      if (!document.fullscreenElement && root.requestFullscreen) {
+        root.requestFullscreen({ navigationUI: 'hide' })
+          .then(() => (screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> }).lock?.('landscape'))
+          .catch(() => { /* no permitido (iOS, iframes): se sigue sin pantalla completa */ });
+      }
+    } catch {
+      /* sin pantalla completa */
+    }
+    if (window.innerHeight > window.innerWidth) {
+      this.hud.toast('Gira el teléfono: se juega mejor en horizontal', '#cfe6a0', 4);
+    }
   }
 
   private pause(): void {
@@ -232,8 +259,10 @@ export class Game implements GameContext {
     const changed = q !== this.quality;
     this.quality = q;
     const dpr = window.devicePixelRatio || 1;
-    const pr = q === 'alta' ? Math.min(dpr, 2) : q === 'media' ? Math.min(dpr, 1.25) : Math.min(dpr, 1) * 0.8;
-    this.renderer.setPixelRatio(pr);
+    if (LITE) this.prCap = q === 'alta' ? Math.min(dpr, 1.6) : q === 'media' ? Math.min(dpr, 1.25) : Math.min(dpr, 1);
+    else this.prCap = q === 'alta' ? Math.min(dpr, 2) : q === 'media' ? Math.min(dpr, 1.25) : Math.min(dpr, 1) * 0.8;
+    this.resScale = 1;
+    this.renderer.setPixelRatio(this.prCap);
     const sun = this.world.atmosphere.sun;
     const shadows = q !== 'baja';
     const size = q === 'alta' ? 2048 : 1024;
@@ -257,9 +286,35 @@ export class Game implements GameContext {
   private resize(): void {
     const w = window.innerWidth, h = window.innerHeight;
     this.renderer.setSize(w, h, false);
+    // en vertical se abre el FOV para no ver el mundo por una rendija
+    const aspect = w / h;
+    this.cam.baseFov = aspect < 1 ? Math.min(95, 70 + (1 / aspect - 1) * 18) : 70;
     this.cam.camera.aspect = w / h;
     this.cam.camera.updateProjectionMatrix();
     this.fx?.setViewportHeight(h * this.renderer.getPixelRatio(), this.cam.camera.fov);
+  }
+
+  /** Ajusta la resolución interna según el tiempo de frame medido. */
+  private adaptResolution(dt: number): void {
+    this.frameEma += (dt - this.frameEma) * 0.05;
+    this.resTimer += dt;
+    if (this.resTimer < 1) return;
+    this.resTimer = 0;
+    let next = this.resScale;
+    if (this.frameEma > 0.026) {
+      next = Math.max(0.55, this.resScale * 0.85);
+      this.goodChecks = 0;
+    } else if (this.frameEma < 0.0185 && this.resScale < 1) {
+      if (++this.goodChecks >= 3) {
+        next = Math.min(1, this.resScale * 1.1);
+        this.goodChecks = 0;
+      }
+    }
+    if (Math.abs(next - this.resScale) > 0.01) {
+      this.resScale = next;
+      this.renderer.setPixelRatio(this.prCap * this.resScale);
+      this.resize();
+    }
   }
 
   // ======================================================================== contexto
@@ -345,7 +400,10 @@ export class Game implements GameContext {
     this.world.update(gdt, this.time, p.pos);
     this.fx.update(gdt);
     this.cam.update(dt, p, this.world);
-    this.cam.computeAim(this.world, this.hunters);
+    this.cam.computeAim(this.world, this.hunters, this.input.touchActive ? 0.42 : 0.05);
+    this.cam.autoFollow = this.input.touchActive;
+    if (this.input.touchActive) this.touchUI?.update(dt, p, this.world);
+    this.adaptResolution(dt);
     const ground = this.world.groundHeight(this.cam.camera.position.x, this.cam.camera.position.z);
     this.world.atmosphere.update(dt, this.time, this.cam.camera, p.pos, ground);
 
@@ -441,7 +499,9 @@ export class Game implements GameContext {
         : 'W/A/S/D para impulsarte · Shift sube por la liana · C baja · Espacio te suelta con impulso', 7);
     }
     if (p.state === 'climb') {
-      this.showHint('climb', 'W/S sube y baja · A/D rodea el tronco · arriba del todo subes a la copa · Espacio salta desde el tronco', 7);
+      this.showHint('climb', touch
+        ? 'Joystick arriba/abajo para subir y bajar, a los lados para rodear el tronco · arriba del todo subes a la copa · Saltar te lanza desde el tronco'
+        : 'W/S sube y baja · A/D rodea el tronco · arriba del todo subes a la copa · Espacio salta desde el tronco', 7);
     } else if (t > 20 && this.world.nearestTrunk(p.pos, 1.2) && p.state === 'ground') {
       this.showHint('trunk', touch ? 'Pulsa Trepar junto a un tronco para subir.' : 'Pulsa E junto a un tronco (o salta contra él) para trepar.', 5);
     }
