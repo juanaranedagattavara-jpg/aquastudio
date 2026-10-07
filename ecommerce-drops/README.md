@@ -17,6 +17,18 @@ npm run dev        # http://localhost:3100
 - Tienda: `/`
 - Panel de la marca: `/admin`
 
+## Publicar en Vercel
+
+El proyecto vive en la carpeta `ecommerce-drops/` del repo `aquastudio`.
+
+1. Vercel → **Add New… → Project** → importar `aquastudio`.
+2. **Root Directory:** `ecommerce-drops` (framework Next.js se detecta solo). Nombre sugerido: `ecommerce-drops`.
+3. Vercel despliega la rama de producción (`master`). Mientras el código esté solo en la rama
+   `feat/ecommerce-drops-prototipo`, hay que fusionarla a `master` o, en **Settings → Git → Production Branch**,
+   elegir esa rama y volver a desplegar.
+
+No necesita variables de entorno: no hay backend.
+
 ## Guion de demo (10 minutos con el cliente)
 
 1. **El problema de la prenda única.** Abre la tienda en dos pestañas (cada pestaña es un comprador distinto).
