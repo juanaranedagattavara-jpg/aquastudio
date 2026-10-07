@@ -75,7 +75,7 @@ export function UploadPanel({ dropId, category, onUploaded }: Props) {
     <div className="card p-4 sm:p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 className="font-black uppercase tracking-tight">Subir {cat.label.toLowerCase()}</h3>
-        <p className="text-xs text-muted">Se crean como borrador. Nada es público hasta que lances el drop.</p>
+        <p className="text-xs text-muted">Se crean como borrador. Nada se ve en la tienda hasta que publiques la categoría.</p>
       </div>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">

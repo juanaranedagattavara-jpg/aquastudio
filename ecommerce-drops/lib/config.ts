@@ -7,10 +7,14 @@ import type { CategoryId, Condition, DeliveryMethod } from './types'
 export const config = {
   brand: {
     name: 'ARCHIVO',
-    tagline: 'Prendas únicas. Una de cada una.',
+    tagline: 'Ropa americana seleccionada. Una de cada una.',
     instagram: 'tumarca',
     whatsapp: '56900000000',
   },
+  /** Hora a la que se publica cada categoría (así lo hace hoy en Instagram). */
+  releaseHour: 20,
+  /** Día de despacho: 0 domingo … 2 martes. Los pedidos pagados hasta el lunes salen ese martes. */
+  dispatchWeekday: 2,
   /** Minutos que una prenda queda apartada al agregarla al carrito. */
   reservationMinutes: 10,
   /** Horas para pagar por transferencia antes de liberar las prendas. */
@@ -53,9 +57,30 @@ export const conditions: { id: Condition; label: string; hint: string }[] = [
 ]
 
 export const delivery: { id: DeliveryMethod; label: string; detail: string; cost: number }[] = [
-  { id: 'retiro', label: 'Retiro en persona', detail: 'Coordinamos punto y hora por WhatsApp', cost: 0 },
-  { id: 'envio-rm', label: 'Envío Santiago', detail: '24–48 h hábiles', cost: 3990 },
-  { id: 'envio-regiones', label: 'Envío a regiones', detail: 'Starken / Blue Express, 2–5 días', cost: 5990 },
+  { id: 'envio-rm', label: 'Envío Santiago', detail: 'Sale el martes, llega en 24–48 h', cost: 3990 },
+  { id: 'envio-regiones', label: 'Envío a regiones', detail: 'Sale el martes por Starken, 2–5 días', cost: 5990 },
+  { id: 'retiro', label: 'Retiro en persona', detail: 'El martes, coordinamos por WhatsApp', cost: 0 },
+]
+
+/** Sugerencias para el campo marca: lo que más llega en los fardos. */
+export const brands = [
+  "Levi's",
+  'Carhartt',
+  'Dickies',
+  'Wrangler',
+  'Lee',
+  'Nike',
+  'Adidas',
+  'Champion',
+  'Russell',
+  'Ralph Lauren',
+  'Tommy Hilfiger',
+  'The North Face',
+  'Columbia',
+  'Patagonia',
+  'Harley-Davidson',
+  'Gap',
+  'Sin marca',
 ]
 
 export const regions = [

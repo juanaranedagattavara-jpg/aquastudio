@@ -4,6 +4,9 @@ export type Condition = 'nuevo' | 'como-nuevo' | 'muy-bueno' | 'con-detalles'
 
 export type DropStatus = 'draft' | 'scheduled' | 'live' | 'closed'
 
+/** Estado de una categoría dentro de un drop: él publica por categoría, a las 20:00. */
+export type ReleaseStatus = 'draft' | 'scheduled' | 'live'
+
 /** Estado que ve el público. Se calcula, no se guarda. */
 export type ProductState = 'available' | 'reserved' | 'sold'
 
@@ -25,6 +28,7 @@ export interface Product {
   dropId: string
   category: CategoryId
   title: string
+  brand: string
   price: number | null
   size: string
   measurements: Measurements
@@ -44,8 +48,11 @@ export interface Drop {
   number: number
   name: string
   description: string
-  status: DropStatus
-  launchAt?: number
+  /** Hora de publicación de cada categoría (ms). Sin valor = borrador. */
+  releases: Partial<Record<CategoryId, number>>
+  closedAt?: number
+  /** Descuento para liquidar lo que sobró (0–90). */
+  discountPct?: number
   createdAt: number
 }
 
@@ -56,6 +63,7 @@ export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
 export interface OrderItem {
   productId: string
   title: string
+  brand: string
   size: string
   price: number
   image?: string

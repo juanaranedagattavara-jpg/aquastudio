@@ -20,14 +20,18 @@ npm run dev        # http://localhost:3100
 ## Guion de demo (10 minutos con el cliente)
 
 1. **El problema de la prenda única.** Abre la tienda en dos pestañas (cada pestaña es un comprador distinto).
-   En la pestaña A reserva una prenda; en la B aparece "Alguien la tiene en su carrito · 09:41".
+   En la pestaña A reserva una prenda; en la B aparece "En un carrito · se libera en 09:41".
    Nadie puede comprar algo que ya se vendió.
 2. **Checkout.** En A paga con transferencia: la prenda queda retenida 2 h. En `/admin/pedidos` confirma el
    pago → en la pestaña B la prenda pasa a "Vendida" sin recargar.
-3. **Su proceso real.** `/admin` → Drop 04 (a medio cargar, como él trabaja: pantalones un día, polerones otro).
-   Está seleccionada la categoría que falta (Poleras). Elige "2 fotos por prenda", pon un precio para el lote y
-   sube fotos desde el teléfono: se crea una prenda por cada par de fotos. Solo falta tocar la talla.
-4. **Lanzamiento.** "Programar" → fecha y hora. La tienda muestra la cuenta regresiva y el formulario "Avísame".
+3. **Su proceso real.** `/admin` → Noviembre (a medio cargar, como él trabaja: pantalones un día, polerones
+   otro). Está seleccionada la categoría que falta (Poleras). Elige "2 fotos por prenda", pon un precio para el
+   lote y sube fotos desde el teléfono: se crea una prenda por cada par de fotos. Solo falta tocar la talla.
+4. **Publicación por categoría.** Barra de abajo → "Programar 20:00" → "hoy 20:00". En Octubre, las poleras están
+   programadas: la tienda muestra el calendario del drop y la cuenta regresiva. "Publicar ahora" las saca al tiro.
+5. **Martes de despacho.** `/admin/pedidos` → "Por enviar": pedidos agrupados por martes, con "copiar todo para
+   etiquetas" y "marcar todos enviados".
+6. **Sobrantes.** Septiembre está con −30 % y aparece en "Últimas piezas". Se cambia en el editor del drop.
 
 "Reiniciar datos de demo" en `/admin` vuelve todo al estado inicial.
 
@@ -44,10 +48,10 @@ npm run dev        # http://localhost:3100
 ## Estructura
 
 ```
-app/(tienda)/        portada del drop, ficha /p/[id], carrito, confirmación /pedido/[id]
+app/(tienda)/        portada del drop, ficha /p/[id], carrito, /pedido/[id], /ayuda
 app/admin/           drops, editor de drop (carga por lotes + lanzamiento), pedidos
 components/          UI de tienda y panel
-lib/config.ts        marca, categorías, tallas, envíos, datos bancarios  ← lo que cambia por cliente
+lib/config.ts        marca, hora de publicación, día de despacho, categorías, tallas, envíos, banco ← lo que cambia por cliente
 lib/store.ts         "API" de datos: reservas, pedidos, drops (se reemplaza por llamadas al servidor)
 lib/images.ts        compresión de fotos en el teléfono + almacenamiento local
 lib/seed.ts          datos de ejemplo

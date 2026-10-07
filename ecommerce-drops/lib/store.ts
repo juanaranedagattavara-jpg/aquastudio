@@ -10,7 +10,8 @@
  */
 
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { categoryById, config } from './config'
+import { categories, categoryById, config } from './config'
+import { discounted, nextWeekday } from './format'
 import { createSeed } from './seed'
 import type {
   CategoryId,
@@ -22,9 +23,11 @@ import type {
   PaymentMethod,
   Product,
   ProductState,
+  ReleaseStatus,
 } from './types'
 
-const KEY = 'drops-proto:v1'
+const KEY = 'drops-proto:v2'
+const VERSION = 2
 const BUYER_KEY = 'drops-proto:buyer'
 const MIN = 60_000
 
@@ -36,7 +39,7 @@ function parse(raw: string | null): DbState | null {
   if (!raw) return null
   try {
     const db = JSON.parse(raw) as DbState
-    return db.version === 1 ? db : null
+    return db.version === VERSION ? db : null
   } catch {
     return null
   }
@@ -129,19 +132,40 @@ export function useBuyerId(): string | null {
 
 // ───────────────────────── Selectores ─────────────────────────
 
-export function dropStatus(drop: Drop, now: number): DropStatus {
-  if (drop.status === 'scheduled' && drop.launchAt && drop.launchAt <= now) return 'live'
-  return drop.status
+export function releaseStatus(drop: Drop, category: CategoryId, now: number): ReleaseStatus {
+  const at = drop.releases[category]
+  if (!at) return 'draft'
+  return at <= now ? 'live' : 'scheduled'
 }
 
+export function dropStatus(drop: Drop, now: number): DropStatus {
+  if (drop.closedAt) return 'closed'
+  const times = Object.values(drop.releases).filter((t): t is number => Boolean(t))
+  if (times.some((t) => t <= now)) return 'live'
+  return times.length ? 'scheduled' : 'draft'
+}
+
+/** Drops con al menos una categoría publicada, el más nuevo primero. */
 export function liveDrops(db: DbState, now: number): Drop[] {
   return db.drops.filter((d) => dropStatus(d, now) === 'live').sort((a, b) => b.number - a.number)
 }
 
-export function nextDrop(db: DbState, now: number): Drop | undefined {
+export interface UpcomingRelease {
+  drop: Drop
+  category: CategoryId
+  at: number
+}
+
+/** Próximas categorías programadas (las que la tienda anuncia con cuenta regresiva). */
+export function upcomingReleases(db: DbState, now: number): UpcomingRelease[] {
   return db.drops
-    .filter((d) => d.status === 'scheduled' && (d.launchAt ?? 0) > now)
-    .sort((a, b) => (a.launchAt ?? 0) - (b.launchAt ?? 0))[0]
+    .filter((d) => !d.closedAt)
+    .flatMap((drop) =>
+      categories
+        .filter((c) => releaseStatus(drop, c.id, now) === 'scheduled')
+        .map((c) => ({ drop, category: c.id, at: drop.releases[c.id]! }))
+    )
+    .sort((a, b) => a.at - b.at)
 }
 
 export function productState(p: Product, now: number): ProductState {
@@ -164,16 +188,36 @@ export function hasMeasurements(p: Product): boolean {
   return Boolean(p.measurements.ancho && p.measurements.largo)
 }
 
-export function isPublic(p: Product): boolean {
+export function isReady(p: Product): boolean {
   return !p.hidden && missingFields(p).length === 0
 }
 
-export function dropProducts(db: DbState, dropId: string): Product[] {
-  return db.products.filter((p) => p.dropId === dropId)
+export function dropOf(db: DbState, p: Product): Drop | undefined {
+  return db.drops.find((d) => d.id === p.dropId)
 }
 
-export function publicDropProducts(db: DbState, dropId: string): Product[] {
-  return dropProducts(db, dropId).filter(isPublic)
+/** Visible en la tienda: lista, no oculta y con su categoría ya publicada. */
+export function isPublic(db: DbState, p: Product, now: number): boolean {
+  const drop = dropOf(db, p)
+  return Boolean(drop && !drop.closedAt && isReady(p) && releaseStatus(drop, p.category, now) === 'live')
+}
+
+export function dropProducts(db: DbState, dropId: string): Product[] {
+  return db.products.filter((p) => p.dropId === dropId).sort((a, b) => a.createdAt - b.createdAt)
+}
+
+export function publicDropProducts(db: DbState, dropId: string, now: number): Product[] {
+  return dropProducts(db, dropId).filter((p) => isPublic(db, p, now))
+}
+
+/** Precio que paga el cliente (con la liquidación del drop, si tiene). */
+export function finalPrice(db: DbState, p: Product): number {
+  return discounted(p.price ?? 0, dropOf(db, p)?.discountPct)
+}
+
+/** Martes en que sale un pedido pagado. */
+export function dispatchDate(o: Order): number {
+  return nextWeekday(config.dispatchWeekday, o.paidAt ?? o.createdAt)
 }
 
 /** El carrito ES el conjunto de reservas vigentes de este comprador. */
@@ -200,7 +244,7 @@ export type ReserveResult =
 export function reserveProduct(productId: string, buyerId: string): ReserveResult {
   return mutate((db, now) => {
     const p = db.products.find((x) => x.id === productId)
-    if (!p || !isPublic(p)) return { ok: false, reason: 'unavailable' }
+    if (!p || !isPublic(db, p, now)) return { ok: false, reason: 'unavailable' }
     const state = productState(p, now)
     if (state === 'sold') return { ok: false, reason: 'sold' }
     if (state === 'reserved' && p.reservation!.buyerId !== buyerId) {
@@ -234,13 +278,21 @@ export function placeOrder(input: CheckoutInput): CheckoutResult {
     if (!items.length) {
       return { ok: false, error: 'Tu reserva expiró. Vuelve a agregar las prendas al carrito.' }
     }
-    const subtotal = items.reduce((s, p) => s + (p.price ?? 0), 0)
+    const lines = items.map((p) => ({
+      productId: p.id,
+      title: p.title,
+      brand: p.brand,
+      size: p.size,
+      price: finalPrice(db, p),
+      image: p.images[0],
+    }))
+    const subtotal = lines.reduce((s, l) => s + l.price, 0)
     const order: Order = {
       id: `o-${randomId(10)}`,
       code: randomId(4),
       buyerId: input.buyerId,
       dropId: items[0].dropId,
-      items: items.map((p) => ({ productId: p.id, title: p.title, size: p.size, price: p.price ?? 0, image: p.images[0] })),
+      items: lines,
       customer: input.customer,
       delivery: input.delivery,
       payment: input.payment,
@@ -305,6 +357,16 @@ export function markShipped(orderId: string, tracking: string) {
   })
 }
 
+export function markShippedMany(orderIds: string[]) {
+  mutate((db, now) => {
+    for (const order of db.orders) {
+      if (!orderIds.includes(order.id) || order.status !== 'paid') continue
+      order.status = 'shipped'
+      order.shippedAt = now
+    }
+  })
+}
+
 export function cancelOrder(orderId: string) {
   mutate((db) => {
     const order = db.orders.find((o) => o.id === orderId)
@@ -325,7 +387,7 @@ export function cancelOrder(orderId: string) {
 export function createDrop(): string {
   return mutate((db, now) => {
     const number = Math.max(0, ...db.drops.map((d) => d.number)) + 1
-    const drop: Drop = { id: `d-${randomId(8)}`, number, name: '', description: '', status: 'draft', createdAt: now }
+    const drop: Drop = { id: `d-${randomId(8)}`, number, name: '', description: '', releases: {}, createdAt: now }
     db.drops.push(drop)
     return drop.id
   })
@@ -338,21 +400,43 @@ export function updateDrop(id: string, patch: Partial<Pick<Drop, 'name' | 'descr
   })
 }
 
-export function setDropStatus(id: string, status: DropStatus, launchAt?: number) {
-  mutate((db, now) => {
-    const d = db.drops.find((x) => x.id === id)
+/** Publica (o programa) una categoría del drop. `null` la vuelve a borrador. */
+export function setRelease(dropId: string, category: CategoryId, at: number | null) {
+  mutate((db) => {
+    const d = db.drops.find((x) => x.id === dropId)
     if (!d) return
-    d.status = status
-    if (status === 'live') d.launchAt = d.launchAt && d.launchAt <= now ? d.launchAt : now
-    if (status === 'scheduled') d.launchAt = launchAt
-    if (status === 'draft') delete d.launchAt
+    if (at === null) delete d.releases[category]
+    else d.releases[category] = at
+  })
+}
+
+export function setDropClosed(dropId: string, closed: boolean) {
+  mutate((db, now) => {
+    const d = db.drops.find((x) => x.id === dropId)
+    if (!d) return
+    if (closed) d.closedAt = now
+    else delete d.closedAt
+  })
+}
+
+export function setDiscount(dropId: string, pct: number) {
+  mutate((db) => {
+    const d = db.drops.find((x) => x.id === dropId)
+    if (!d) return
+    if (pct > 0) d.discountPct = pct
+    else delete d.discountPct
   })
 }
 
 // ───────────────────────── Prendas (admin) ─────────────────────────
 
 /** Crea una prenda por cada grupo de fotos, numeradas a continuación de las existentes. */
-export function addProducts(dropId: string, category: CategoryId, groups: string[][], basePrice: number | null): string[] {
+export function addProducts(
+  dropId: string,
+  category: CategoryId,
+  groups: string[][],
+  basePrice: number | null
+): string[] {
   return mutate((db, now) => {
     const cat = categoryById(category)
     const existing = db.products.filter((p) => p.dropId === dropId && p.category === category).length
@@ -361,6 +445,7 @@ export function addProducts(dropId: string, category: CategoryId, groups: string
       dropId,
       category,
       title: `${cat.singular} ${String(existing + i + 1).padStart(2, '0')}`,
+      brand: '',
       price: basePrice,
       size: '',
       measurements: {},

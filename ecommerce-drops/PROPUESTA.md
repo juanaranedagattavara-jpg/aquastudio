@@ -1,17 +1,18 @@
 # Propuesta — E-commerce por drops
 
-## 1. Lo que aprendimos del proceso del cliente
+## 1. Cómo trabaja el cliente (respuestas del 7 de octubre)
 
-> "Primero saco las fotos y las subo por partes: a veces los pantalones, después los polerones y después las
-> poleras. Normalmente lo separo por días, dependiendo de si tengo tiempo."
+| Pregunta | Respuesta | Qué cambió en el prototipo |
+| --- | --- | --- |
+| ¿Prendas únicas? | Sí, ropa americana de fardos | Stock 1 por prenda, sin variantes |
+| ¿Qué ropa? | De marca, vintage y usada | Campo **marca** (con sugerencias), estado y medidas en plano; filtro por marca |
+| ¿Volumen? | 50–100 prendas por drop, mensual; siempre sobran | Drops mensuales; los sobrantes pasan a **"Últimas piezas"** con descuento (−20/30/40/50 %) |
+| ¿Cómo publica? | A las 20:00, **por categoría** | Cada categoría se programa por separado ("hoy 20:00", "mañana 20:00"…). La tienda muestra el **calendario del drop** y la cuenta regresiva de la próxima categoría |
+| ¿Cobro y envío? | Los martes | **Despacho todos los martes**: se muestra la fecha en la ficha, el carrito y el pedido; en el panel los pedidos se agrupan por martes con "copiar todo para etiquetas" y "marcar todos enviados" |
 
-Esto define el diseño más que cualquier pantalla: **subir y lanzar tienen que ser dos cosas separadas.**
-
-- **Subir** pasa en varios días, por categoría, desde el teléfono, en ratos libres → todo queda como borrador.
-- **Lanzar** pasa una vez, a una hora anunciada → todo se publica junto y se genera el "evento" del drop.
-
-Si se publica a medida que se sube, se pierde el efecto drop: el tráfico de Instagram llega disperso y no hay
-momento que anunciar.
+Subir y publicar siguen separados: sube por partes cuando tiene tiempo (todo queda en borrador) y publica cada
+categoría a las 20:00. Publicar por categoría tiene una ventaja que conviene aprovechar: **son 3–4 "eventos"
+por drop en vez de uno**, cada uno con su historia en Instagram y su aviso por WhatsApp.
 
 ## 2. Qué resuelve el prototipo
 
@@ -23,7 +24,9 @@ momento que anunciar.
 | Fotos mal agrupadas | Tocar una foto → "pasar a la prenda anterior" o "separar como prenda nueva" |
 | Saber qué falta | Cada categoría muestra cuántas prendas hay y cuántas están incompletas. Las incompletas no se publican |
 | Muchos compradores pagan por transferencia | Transferencia con **2 h de reserva**; él confirma el pago desde el panel |
-| La hora del lanzamiento | **Programar** el drop: cuenta regresiva en la tienda y formulario "Avísame" |
+| La hora de publicación | **Programar cada categoría** a las 20:00: cuenta regresiva en la tienda y formulario "Avísame" |
+| Lo que no se vende | Liquidación con descuento en "Últimas piezas" hasta el drop siguiente |
+| El martes de despacho | Pedidos agrupados por martes, copiar todas las direcciones de una vez |
 | Las DMs "¿qué medidas tiene?" | Medidas en plano (ancho/largo) en cada ficha + botón de WhatsApp con la prenda ya escrita |
 | Comprar rápido en el segundo drop | Se recuerdan los datos del comprador |
 | Prueba social | Las vendidas siguen visibles con "Vendida" y barra de progreso del drop |
@@ -60,11 +63,17 @@ where id = $2
 returning id;   -- 0 filas = otra persona la reservó primero
 ```
 
-**3.4 Faltan decisiones de negocio que pesan más que la UI**: medio de pago, envíos, boleta, cambios. Ver
+**3.4 "Cobro los martes" no debería seguir así con la web.** Si hoy apartas por DM y cobras el martes, con
+prendas únicas eso significa tener la prenda bloqueada varios días sin saber si te van a pagar; si no paga,
+perdiste la venta y el momento del drop. En la web se cobra al comprar (tarjeta al tiro, o transferencia con 2 h
+de plazo) y **el martes queda solo para despachar**. Es el cambio de proceso más importante.
+
+**3.5 Faltan decisiones de negocio que pesan más que la UI**: medio de pago, envíos, boleta, cambios. Ver
 preguntas abajo.
 
-**3.5 Define cómo vas a medir si funcionó**, antes de construir:
-- Tiempo para cargar un drop de 20 prendas (meta: < 30 min desde el teléfono).
+**3.6 Define cómo vas a medir si funcionó**, antes de construir:
+- Tiempo para cargar una categoría de 25 prendas (meta: < 30 min desde el teléfono).
+- % de sobrantes por drop (hoy "siempre sobran": medirlo permite ajustar cuánto comprar en fardos).
 - % del drop vendido en las primeras 24 h.
 - Conversión visitas desde Instagram → compra.
 - Menos DMs repitiendo "¿precio?", "¿medidas?", "¿aún está?".
@@ -95,20 +104,12 @@ presentarle números honestos al cliente.
 | 2 · Automatización | n8n (avisos, notificaciones), historias de Instagram generadas por prenda, IA que sugiere nombre/categoría desde la foto | Menos trabajo manual por drop |
 | 3 · Producto | Multi-marca: una instalación, varias tiendas | Producto vendible de Aqua Studio |
 
-## 6. Preguntas para él (por orden de impacto)
+## 6. Preguntas que siguen abiertas
 
-1. **¿Todas las prendas son únicas (stock 1) o a veces repite un modelo en varias tallas?** El prototipo asume
-   únicas; si repite, hay que agregar variantes.
-2. **¿Es ropa vintage/segunda mano o diseño propio?** Cambia los campos (estado, medidas) y el tono.
-3. **¿Cuántas prendas por drop, cada cuánto y en cuánto tiempo se agotan hoy?** Define si hace falta una fila
-   virtual en el lanzamiento.
-4. **¿Lanza todo junto a una hora o prefiere ir publicando cada categoría cuando la termina?** Recomiendo todo
-   junto; si no, se agrega "publicar esta categoría".
-5. **¿Cuántas fotos saca por prenda, en qué orden y las edita antes?** Define el agrupado automático.
-6. **¿Cómo cobra hoy?** ¿Transferencia, Mercado Pago? ¿Tiene inicio de actividades y emite boleta? Si emite,
-   hay que integrar boleta electrónica.
-7. **¿Cómo envía?** Courier, retiro, ¿precio fijo o por pagar?
-8. **¿Acepta cambios o devoluciones?** En compras online en Chile rige el derecho a retracto salvo que se
-   excluya expresamente; hay que definirlo y mostrarlo antes de pagar.
-9. **¿Administra solo él, desde el celular?**
-10. **Nombre, logo, colores, dominio y usuario de Instagram.** El prototipo usa "ARCHIVO" como placeholder.
+1. **Nombre, logo, colores, dominio y usuario de Instagram.** El demo usa "ARCHIVO" como placeholder.
+2. **Fotos reales**: 15–20 fotos de un drop anterior para reemplazar las ilustraciones del demo.
+3. **¿Tiene inicio de actividades y emite boleta?** Si emite, hay que integrar boleta electrónica.
+4. **Courier y precios de envío reales** (el demo usa $3.990 Santiago / $5.990 regiones).
+5. **Cambios y devoluciones**: el texto de `/ayuda` es una propuesta. En compras online en Chile rige el derecho
+   a retracto salvo que se excluya expresamente; hay que decidirlo y mostrarlo antes de pagar.
+6. **¿Medio de pago?** Mercado Pago o Flow (tarjeta) + transferencia.

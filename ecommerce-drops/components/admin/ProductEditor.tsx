@@ -119,8 +119,23 @@ export function ProductEditor({ product: p, prev, suggestedPrices, now }: Props)
         </div>
       )}
 
-      <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_160px]">
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-[140px_1fr_160px]">
         <div>
+          <label className="label" htmlFor={`b-${p.id}`}>
+            Marca
+          </label>
+          <input
+            key={`b-${p.brand}`}
+            id={`b-${p.id}`}
+            className="input"
+            list="brand-options"
+            placeholder="Levi's…"
+            autoCapitalize="words"
+            defaultValue={p.brand}
+            onBlur={(e) => e.target.value.trim() !== p.brand && updateProduct(p.id, { brand: e.target.value.trim() })}
+          />
+        </div>
+        <div className="order-3 col-span-2 sm:order-none sm:col-span-1">
           <label className="label" htmlFor={`t-${p.id}`}>
             Nombre
           </label>

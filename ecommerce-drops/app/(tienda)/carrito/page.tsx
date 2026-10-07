@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ProductImage } from '@/components/ProductImage'
 import { config, delivery, regions } from '@/lib/config'
-import { clp, mmss } from '@/lib/format'
-import { cartItems, placeOrder, releaseProduct, useBuyerId, useDb, useNow } from '@/lib/store'
+import { clp, longDate, mmss, nextWeekday } from '@/lib/format'
+import { cartItems, finalPrice, placeOrder, releaseProduct, useBuyerId, useDb, useNow } from '@/lib/store'
 import type { DeliveryMethod, PaymentMethod } from '@/lib/types'
 
 const CUSTOMER_KEY = 'drops-proto:customer'
@@ -57,7 +57,8 @@ export default function CartPage() {
   const items = cartItems(db, buyerId, now)
   const until = items.length ? Math.min(...items.map((p) => p.reservation!.until)) : 0
   const remaining = until - now
-  const subtotal = items.reduce((s, p) => s + (p.price ?? 0), 0)
+  const subtotal = items.reduce((s, p) => s + finalPrice(db, p), 0)
+  const dispatch = longDate(nextWeekday(config.dispatchWeekday, now))
   const shipping = delivery.find((d) => d.id === form.method)!
   const total = subtotal + shipping.cost
   const set = <K extends keyof Form>(key: K, value: Form[K]) => setForm((f) => ({ ...f, [key]: value }))
@@ -65,7 +66,7 @@ export default function CartPage() {
   if (!items.length && !processing) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
-        <h1 className="text-3xl font-black uppercase tracking-tightest">Tu carrito está vacío</h1>
+        <h1 className="display text-6xl">Tu carrito está vacío</h1>
         <p className="mt-3 text-sm text-muted">
           Las prendas quedan reservadas {config.reservationMinutes} minutos. Si agregaste algo y no aparece, la reserva
           expiró y volvió al drop.
@@ -116,7 +117,7 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6">
-      <h1 className="text-3xl font-black uppercase tracking-tightest">Tu carrito</h1>
+      <h1 className="display text-6xl">Tu carrito</h1>
 
       {items.length > 0 && (
         <div className={`mt-4 rounded-2xl p-4 ${remaining < 2 * 60_000 ? 'bg-alert text-white' : 'bg-accent'}`}>
@@ -139,9 +140,13 @@ export default function CartPage() {
               <ProductImage src={p.images[0]} alt={p.title} className="aspect-[4/5] w-full rounded-lg" />
             </Link>
             <div className="flex min-w-0 flex-1 flex-col">
+              {p.brand && <p className="truncate text-[10px] font-bold uppercase tracking-[0.14em] text-muted">{p.brand}</p>}
               <p className="truncate font-semibold">{p.title}</p>
               <p className="text-xs text-muted">Talla {p.size}</p>
-              <p className="mt-auto font-semibold">{clp(p.price)}</p>
+              <p className="mt-auto font-semibold">
+                {finalPrice(db, p) !== p.price && <span className="mr-2 text-xs font-normal text-muted line-through">{clp(p.price)}</span>}
+                {clp(finalPrice(db, p))}
+              </p>
             </div>
             <button
               type="button"
@@ -157,7 +162,7 @@ export default function CartPage() {
 
       <form onSubmit={submit} className="mt-6 space-y-8" noValidate>
         <fieldset className="space-y-3">
-          <legend className="mb-3 text-lg font-black uppercase tracking-tight">1 · Tus datos</legend>
+          <legend className="display mb-3 text-3xl">1 · Tus datos</legend>
           <Field label="Nombre" id="name">
             <input id="name" className="input" autoComplete="name" value={form.name} onChange={(e) => set('name', e.target.value)} />
           </Field>
@@ -189,7 +194,10 @@ export default function CartPage() {
         </fieldset>
 
         <fieldset className="space-y-2">
-          <legend className="mb-3 text-lg font-black uppercase tracking-tight">2 · Entrega</legend>
+          <legend className="display mb-1 text-3xl">2 · Entrega</legend>
+          <p className="mb-3 text-sm text-muted">
+            Despachamos los martes. Tu pedido sale el <strong className="text-ink">{dispatch}</strong>.
+          </p>
           {delivery.map((d) => (
             <Option key={d.id} name="delivery" checked={form.method === d.id} onChange={() => set('method', d.id)}>
               <span className="font-semibold">{d.label}</span>
@@ -226,7 +234,7 @@ export default function CartPage() {
         </fieldset>
 
         <fieldset className="space-y-2">
-          <legend className="mb-3 text-lg font-black uppercase tracking-tight">3 · Pago</legend>
+          <legend className="display mb-3 text-3xl">3 · Pago</legend>
           <Option name="payment" checked={form.payment === 'tarjeta'} onChange={() => set('payment', 'tarjeta')}>
             <span className="font-semibold">Tarjeta débito / crédito</span>
             <span className="text-xs text-muted">Mercado Pago o Webpay · se confirma al instante</span>

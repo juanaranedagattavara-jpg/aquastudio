@@ -4,8 +4,18 @@ import { useState } from 'react'
 import { ProductImage } from '@/components/ProductImage'
 import { OrderStatusPill } from '@/components/admin/StatusPill'
 import { config, delivery } from '@/lib/config'
-import { clp, countdown, relativeTime, waLink } from '@/lib/format'
-import { cancelOrder, confirmPayment, markShipped, orderStatus, useDb, useNow, type OrderView } from '@/lib/store'
+import { clp, countdown, longDate, relativeTime, waLink } from '@/lib/format'
+import {
+  cancelOrder,
+  confirmPayment,
+  dispatchDate,
+  markShipped,
+  markShippedMany,
+  orderStatus,
+  useDb,
+  useNow,
+  type OrderView,
+} from '@/lib/store'
 import type { Order } from '@/lib/types'
 
 type Tab = 'pending' | 'paid' | 'shipped' | 'all'
@@ -29,7 +39,7 @@ export default function OrdersPage({ searchParams }: { searchParams: { tab?: Tab
 
   return (
     <div>
-      <h1 className="text-2xl font-black uppercase tracking-tightest">Pedidos</h1>
+      <h1 className="display text-5xl">Pedidos</h1>
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto" role="tablist">
         {tabs.map((t) => {
           const count = db.orders.filter((o) => t.match(orderStatus(o, now))).length
@@ -50,6 +60,8 @@ export default function OrdersPage({ searchParams }: { searchParams: { tab?: Tab
 
       {orders.length === 0 ? (
         <p className="mt-10 text-center text-sm text-muted">No hay pedidos aquí.</p>
+      ) : tab === 'paid' ? (
+        groupByDispatch(orders).map(([day, group]) => <DispatchGroup key={day} day={day} orders={group} now={now} />)
       ) : (
         <ul className="mt-4 space-y-3">
           {orders.map((o) => (
@@ -61,6 +73,70 @@ export default function OrdersPage({ searchParams }: { searchParams: { tab?: Tab
   )
 }
 
+function groupByDispatch(orders: Order[]): [number, Order[]][] {
+  const groups = new Map<number, Order[]>()
+  for (const o of orders) {
+    const day = dispatchDate(o)
+    groups.set(day, [...(groups.get(day) ?? []), o])
+  }
+  return Array.from(groups.entries()).sort((a, b) => a[0] - b[0])
+}
+
+const shippingText = (o: Order) =>
+  [
+    `#${o.code} · ${o.customer.name} · ${o.customer.phone}`,
+    o.delivery.address ? `${o.delivery.address}, ${o.delivery.comuna}, ${o.delivery.region}` : 'Retiro en persona',
+    o.items.map((i) => `${i.brand} ${i.title} (${i.size})`.trim()).join(' + '),
+  ].join('\n')
+
+/** Los martes despacha todo junto: un bloque por día con acciones en lote. */
+function DispatchGroup({ day, orders, now }: { day: number; orders: Order[]; now: number }) {
+  const [copied, setCopied] = useState(false)
+  const late = day < now - 12 * 3600_000
+  const items = orders.reduce((n, o) => n + o.items.length, 0)
+
+  return (
+    <section className="mt-6">
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl bg-ink p-4 text-paper">
+        <div className="mr-auto">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-paper/50">{late ? 'Atrasado' : 'Despacho'}</p>
+          <p className="display text-3xl first-letter:uppercase">{longDate(day)}</p>
+          <p className="text-xs text-paper/60">
+            {orders.length} pedidos · {items} prendas
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn-ghost btn-sm border-white/20 bg-transparent text-paper"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(orders.map(shippingText).join('\n\n'))
+              setCopied(true)
+              setTimeout(() => setCopied(false), 1500)
+            } catch {
+              /* portapapeles bloqueado */
+            }
+          }}
+        >
+          {copied ? 'Copiado' : 'Copiar todo para etiquetas'}
+        </button>
+        <button
+          type="button"
+          className="btn-accent btn-sm"
+          onClick={() => confirm(`¿Marcar los ${orders.length} pedidos como enviados?`) && markShippedMany(orders.map((o) => o.id))}
+        >
+          Marcar todos enviados
+        </button>
+      </div>
+      <ul className="mt-3 space-y-3">
+        {orders.map((o) => (
+          <OrderCard key={o.id} order={o} now={now} />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 function OrderCard({ order: o, now }: { order: Order; now: number }) {
   const [tracking, setTracking] = useState('')
   const [shipping, setShipping] = useState(false)
@@ -68,15 +144,6 @@ function OrderCard({ order: o, now }: { order: Order; now: number }) {
   const [copied, setCopied] = useState(false)
   const status = orderStatus(o, now)
   const method = delivery.find((d) => d.id === o.delivery.method)
-
-  const shippingText = [
-    o.customer.name,
-    o.customer.phone,
-    o.delivery.address && `${o.delivery.address}, ${o.delivery.comuna}, ${o.delivery.region}`,
-    `Pedido #${o.code}`,
-  ]
-    .filter(Boolean)
-    .join('\n')
 
   return (
     <li className="card p-4">
@@ -108,6 +175,7 @@ function OrderCard({ order: o, now }: { order: Order; now: number }) {
             <ProductImage src={i.image} alt={i.title} className="aspect-[4/5] w-full rounded-lg" />
             <p className="mt-1 truncate text-[11px] font-semibold">{i.title}</p>
             <p className="text-[11px] text-muted">
+              {i.brand ? `${i.brand} · ` : ''}
               {i.size} · {clp(i.price)}
             </p>
           </div>
@@ -185,7 +253,7 @@ function OrderCard({ order: o, now }: { order: Order; now: number }) {
                 className="btn-ghost btn-sm"
                 onClick={async () => {
                   try {
-                    await navigator.clipboard.writeText(shippingText)
+                    await navigator.clipboard.writeText(shippingText(o))
                     setCopied(true)
                     setTimeout(() => setCopied(false), 1500)
                   } catch {

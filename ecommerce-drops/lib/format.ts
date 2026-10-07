@@ -57,3 +57,51 @@ export function waLink(phone: string, text: string): string {
   const digits = phone.replace(/\D/g, '')
   return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`
 }
+
+const sameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+
+/** "hoy 20:00", "mañana 20:00", "jue 9 oct 20:00". */
+export function whenLabel(ts: number, now: number): string {
+  const d = new Date(ts)
+  const today = new Date(now)
+  const tomorrow = new Date(now + 86_400_000)
+  const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`
+  if (sameDay(d, today)) return `hoy ${time}`
+  if (sameDay(d, tomorrow)) return `mañana ${time}`
+  const day = new Intl.DateTimeFormat('es-CL', { weekday: 'short', day: 'numeric', month: 'short' }).format(d)
+  return `${day.replace(/[.,]/g, '')} ${time}`
+}
+
+/** "martes 14 de octubre". */
+export function longDate(ts: number): string {
+  return new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long' }).format(ts).replace(',', '')
+}
+
+/** "martes 13". */
+export function shortDay(ts: number): string {
+  return new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric' }).format(ts).replace(',', '')
+}
+
+/** La próxima vez que el reloj marque `hour`:00 (hoy si aún no pasa, si no mañana). */
+export function nextAt(hour: number, now: number): number {
+  const d = new Date(now)
+  d.setHours(hour, 0, 0, 0)
+  if (d.getTime() <= now) d.setDate(d.getDate() + 1)
+  return d.getTime()
+}
+
+/** Próximo día de despacho. Un pedido del mismo martes sale el martes siguiente. */
+export function nextWeekday(weekday: number, now: number): number {
+  const d = new Date(now)
+  const add = (weekday - d.getDay() + 7) % 7 || 7
+  d.setDate(d.getDate() + add)
+  d.setHours(12, 0, 0, 0)
+  return d.getTime()
+}
+
+/** Precio con descuento, redondeado a la decena. */
+export function discounted(price: number, pct: number | undefined): number {
+  if (!pct) return price
+  return Math.round((price * (100 - pct)) / 1000) * 10
+}

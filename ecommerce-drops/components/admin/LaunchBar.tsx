@@ -1,133 +1,155 @@
 'use client'
 
 import { useState } from 'react'
-import { countdown, dateTime, toLocalInput } from '@/lib/format'
-import { dropStatus, isPublic, missingFields, productState, setDropStatus } from '@/lib/store'
-import type { Drop, Product } from '@/lib/types'
+import { categoryById, config } from '@/lib/config'
+import { countdown, nextAt, toLocalInput, whenLabel } from '@/lib/format'
+import { isReady, missingFields, productState, releaseStatus, setRelease } from '@/lib/store'
+import type { CategoryId, Drop, Product } from '@/lib/types'
 
 interface Props {
   drop: Drop
+  category: CategoryId
+  /** Prendas de esa categoría en este drop. */
   products: Product[]
   now: number
-  otherLive?: Drop
 }
 
-function defaultLaunch(now: number): number {
-  const d = new Date(now + 24 * 3600_000)
-  d.setHours(20, 0, 0, 0)
-  return d.getTime()
-}
-
-/** Barra fija abajo: el estado del drop y la acción que corresponde. */
-export function LaunchBar({ drop, products, now, otherLive }: Props) {
+/**
+ * Barra fija abajo. Él publica por categoría a las 20:00, así que la acción
+ * siempre es sobre la categoría que está mirando.
+ */
+export function LaunchBar({ drop, category, products, now }: Props) {
   const [scheduling, setScheduling] = useState(false)
-  const [when, setWhen] = useState(() => toLocalInput(drop.launchAt ?? defaultLaunch(now)))
-  const status = dropStatus(drop, now)
-  const ready = products.filter(isPublic).length
+  const tonight = nextAt(config.releaseHour, now)
+  const [when, setWhen] = useState(() => toLocalInput(drop.releases[category] ?? tonight))
+  const cat = categoryById(category)
+  const status = releaseStatus(drop, category, now)
+  const at = drop.releases[category]
+  const ready = products.filter(isReady).length
   const incomplete = products.filter((p) => missingFields(p).length > 0).length
   const sold = products.filter((p) => productState(p, now) === 'sold').length
 
-  const confirmPublish = (verb: string) => {
-    const notes = [
-      incomplete > 0 && `${incomplete} prenda(s) incompletas no se van a mostrar.`,
-      otherLive && `El Drop ${otherLive.number} sigue en vivo: lo que no se vendió quedará en "Últimas piezas".`,
-    ].filter(Boolean)
-    return !notes.length || confirm(`${notes.join('\n')}\n\n¿${verb} igual?`)
-  }
+  const warn = (verb: string) =>
+    !incomplete || confirm(`${incomplete} prenda(s) de ${cat.label.toLowerCase()} están incompletas y no se van a mostrar.\n\n¿${verb} igual?`)
 
-  const schedule = () => {
-    const ts = new Date(when).getTime()
+  const schedule = (ts: number) => {
     if (!ts || ts <= Date.now()) return alert('Elige una fecha y hora futura.')
-    if (!confirmPublish('Programar')) return
-    setDropStatus(drop.id, 'scheduled', ts)
+    if (!warn('Programar')) return
+    setRelease(drop.id, category, ts)
     setScheduling(false)
   }
 
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-ink text-paper">
-      <div className="mx-auto max-w-5xl px-4 pb-safe pt-3">
-        {scheduling ? (
-          <div className="flex flex-wrap items-end gap-2">
-            <div className="min-w-[200px] flex-1">
-              <label htmlFor="launch-at" className="label text-paper/60">
-                Fecha y hora de lanzamiento
-              </label>
-              <input
-                id="launch-at"
-                type="datetime-local"
-                className="input border-white/20 bg-white/10 text-paper [color-scheme:dark]"
-                value={when}
-                onChange={(e) => setWhen(e.target.value)}
-              />
-            </div>
-            <button type="button" className="btn-accent" onClick={schedule}>
-              Confirmar
+  if (drop.closedAt) {
+    return (
+      <Bar>
+        <p className="text-sm text-paper/60">Drop cerrado: no se ve en la tienda.</p>
+      </Bar>
+    )
+  }
+
+  if (scheduling) {
+    const quick: [string, number][] = [
+      [whenLabel(tonight, now), tonight],
+      [whenLabel(tonight + 86_400_000, now), tonight + 86_400_000],
+      [whenLabel(tonight + 2 * 86_400_000, now), tonight + 2 * 86_400_000],
+    ]
+    return (
+      <Bar>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-paper/60">¿Cuándo salen los {cat.label.toLowerCase()}?</p>
+        <div className="flex flex-wrap items-center gap-2">
+          {quick.map(([label, ts]) => (
+            <button key={ts} type="button" className="btn-accent btn-sm" onClick={() => schedule(ts)}>
+              {label}
             </button>
-            <button type="button" className="btn text-paper/70" onClick={() => setScheduling(false)}>
+          ))}
+          <input
+            aria-label="Otra fecha y hora"
+            type="datetime-local"
+            className="input min-h-[36px] w-auto flex-1 border-white/20 bg-white/10 text-paper [color-scheme:dark]"
+            value={when}
+            onChange={(e) => setWhen(e.target.value)}
+          />
+          <button type="button" className="btn-ghost btn-sm border-white/20 bg-transparent text-paper" onClick={() => schedule(new Date(when).getTime())}>
+            Usar esa
+          </button>
+          <button type="button" className="btn btn-sm text-paper/60" onClick={() => setScheduling(false)}>
+            Cancelar
+          </button>
+        </div>
+      </Bar>
+    )
+  }
+
+  return (
+    <Bar>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="min-w-0 flex-1 text-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-paper/50">{cat.label}</p>
+          {status === 'draft' && (
+            <p>
+              <strong>{ready} listas</strong>
+              {incomplete > 0 && <span className="text-paper/60"> · {incomplete} incompletas</span>}
+            </p>
+          )}
+          {status === 'scheduled' && at && (
+            <p>
+              Sale {whenLabel(at, now)} · <span className="font-mono text-accent">{countdown(at - now)}</span>
+            </p>
+          )}
+          {status === 'live' && (
+            <p>
+              <strong>Publicada</strong> · {sold}/{ready} vendidas
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {status !== 'live' && (
+            <>
+              <button
+                type="button"
+                className="btn-ghost btn-sm border-white/20 bg-transparent text-paper"
+                onClick={() => setScheduling(true)}
+                disabled={!ready}
+              >
+                {status === 'scheduled' ? 'Cambiar hora' : `Programar ${config.releaseHour}:00`}
+              </button>
+              <button
+                type="button"
+                className="btn-accent btn-sm"
+                disabled={!ready}
+                onClick={() => warn('Publicar') && setRelease(drop.id, category, Date.now())}
+              >
+                Publicar ahora
+              </button>
+            </>
+          )}
+          {status === 'scheduled' && (
+            <button type="button" className="btn btn-sm text-paper/60" onClick={() => setRelease(drop.id, category, null)}>
               Cancelar
             </button>
-          </div>
-        ) : (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <div className="min-w-0 flex-1 text-sm">
-              {status === 'draft' && (
-                <p>
-                  <strong>{ready} listas</strong>
-                  {incomplete > 0 && <span className="text-paper/60"> · {incomplete} incompletas</span>}
-                </p>
-              )}
-              {status === 'scheduled' && drop.launchAt && (
-                <p>
-                  Sale {dateTime(drop.launchAt)} · <span className="font-mono text-accent">{countdown(drop.launchAt - now)}</span>
-                </p>
-              )}
-              {status === 'live' && (
-                <p>
-                  <strong>En vivo</strong> · {sold}/{ready} vendidas
-                </p>
-              )}
-              {status === 'closed' && <p className="text-paper/60">Drop cerrado · {sold} vendidas</p>}
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {(status === 'draft' || status === 'scheduled') && (
-                <>
-                  <button type="button" className="btn-ghost btn-sm border-white/20 bg-transparent text-paper" onClick={() => setScheduling(true)} disabled={!ready}>
-                    {status === 'scheduled' ? 'Cambiar hora' : 'Programar'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-accent btn-sm"
-                    disabled={!ready}
-                    onClick={() => confirmPublish('Publicar') && setDropStatus(drop.id, 'live')}
-                  >
-                    Publicar ahora
-                  </button>
-                </>
-              )}
-              {status === 'scheduled' && (
-                <button type="button" className="btn btn-sm text-paper/60" onClick={() => setDropStatus(drop.id, 'draft')}>
-                  Volver a borrador
-                </button>
-              )}
-              {status === 'live' && (
-                <button
-                  type="button"
-                  className="btn-ghost btn-sm border-white/20 bg-transparent text-paper"
-                  onClick={() => confirm('¿Cerrar el drop? Las prendas sin vender dejan de verse en la tienda.') && setDropStatus(drop.id, 'closed')}
-                >
-                  Cerrar drop
-                </button>
-              )}
-              {status === 'closed' && (
-                <button type="button" className="btn-ghost btn-sm border-white/20 bg-transparent text-paper" onClick={() => setDropStatus(drop.id, 'live')}>
-                  Reabrir
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+          )}
+          {status === 'live' && (
+            <button
+              type="button"
+              className="btn-ghost btn-sm border-white/20 bg-transparent text-paper"
+              onClick={() =>
+                confirm(`¿Despublicar ${cat.label.toLowerCase()}? Dejan de verse en la tienda.`) && setRelease(drop.id, category, null)
+              }
+            >
+              Despublicar
+            </button>
+          )}
+        </div>
       </div>
+    </Bar>
+  )
+}
+
+function Bar({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-ink text-paper">
+      <div className="mx-auto max-w-5xl px-4 pb-safe pt-3">{children}</div>
     </div>
   )
 }

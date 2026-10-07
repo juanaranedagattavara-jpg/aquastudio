@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ProductImage } from '@/components/ProductImage'
 import { config, delivery } from '@/lib/config'
-import { clp, countdown, waLink } from '@/lib/format'
-import { orderStatus, useDb, useNow } from '@/lib/store'
+import { clp, countdown, longDate, nextWeekday, waLink } from '@/lib/format'
+import { dispatchDate, orderStatus, useDb, useNow } from '@/lib/store'
 
 export default function OrderPage({ params }: { params: { id: string } }) {
   const db = useDb()
@@ -18,7 +18,7 @@ export default function OrderPage({ params }: { params: { id: string } }) {
   if (!order) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
-        <p className="text-2xl font-black uppercase">Pedido no encontrado</p>
+        <p className="display text-5xl">Pedido no encontrado</p>
         <Link href="/" className="btn-primary mt-8">
           Volver a la tienda
         </Link>
@@ -54,21 +54,22 @@ export default function OrderPage({ params }: { params: { id: string } }) {
 
       {(status === 'paid' || status === 'shipped') && (
         <>
-          <h1 className="mt-2 text-4xl font-black uppercase leading-none tracking-tightest">Es tuya.</h1>
+          <h1 className="display mt-2 text-7xl">Es tuya.</h1>
           <p className="mt-3 text-muted">
-            Pago confirmado. Te escribimos por WhatsApp al {order.customer.phone} para coordinar
-            {order.delivery.method === 'retiro' ? ' el retiro.' : ' el envío.'}
+            Pago confirmado. {order.delivery.method === 'retiro' ? 'La entregamos' : 'Sale'} el{' '}
+            <strong className="text-ink">{longDate(dispatchDate(order))}</strong>. Te escribimos por WhatsApp al{' '}
+            {order.customer.phone} para coordinar.
           </p>
         </>
       )}
 
       {status === 'pending' && (
         <>
-          <h1 className="mt-2 text-4xl font-black uppercase leading-none tracking-tightest">Te la guardamos.</h1>
+          <h1 className="display mt-2 text-7xl">Te la guardamos.</h1>
           <p className="mt-3 text-muted">
             Transfiere <strong className="text-ink">{clp(order.total)}</strong> y envíanos el comprobante. Si no recibimos el
             pago en <span className="font-mono text-ink">{countdown((order.expiresAt ?? now) - now)}</span>, la prenda vuelve
-            al drop.
+            al drop. Si pagas hoy, sale el {longDate(nextWeekday(config.dispatchWeekday, now))}.
           </p>
           <div className="card mt-6 divide-y divide-ink/10 overflow-hidden text-sm">
             {bankRows.map(([label, value]) => (
@@ -99,9 +100,7 @@ export default function OrderPage({ params }: { params: { id: string } }) {
 
       {(status === 'expired' || status === 'cancelled') && (
         <>
-          <h1 className="mt-2 text-4xl font-black uppercase leading-none tracking-tightest">
-            {status === 'expired' ? 'La reserva expiró' : 'Pedido cancelado'}
-          </h1>
+          <h1 className="display mt-2 text-6xl">{status === 'expired' ? 'La reserva expiró' : 'Pedido cancelado'}</h1>
           <p className="mt-3 text-muted">Si ya pagaste, escríbenos por WhatsApp con el número de pedido.</p>
         </>
       )}
@@ -111,6 +110,7 @@ export default function OrderPage({ params }: { params: { id: string } }) {
           <li key={i.productId} className="flex items-center gap-3 py-3">
             <ProductImage src={i.image} alt={i.title} className="aspect-[4/5] w-14 rounded-md" />
             <div className="min-w-0 flex-1">
+              {i.brand && <p className="truncate text-[10px] font-bold uppercase tracking-[0.14em] text-muted">{i.brand}</p>}
               <p className="truncate text-sm font-semibold">{i.title}</p>
               <p className="text-xs text-muted">Talla {i.size}</p>
             </div>
