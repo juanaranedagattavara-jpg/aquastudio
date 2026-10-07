@@ -47,7 +47,7 @@ export function categoryById(id: CategoryId): CategoryConfig {
   return categories.find((c) => c.id === id) ?? categories[categories.length - 1]
 }
 
-export const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '28', '30', '32', '34', '36', '38', 'Única']
+export const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '28', '29', '30', '31', '32', '33', '34', '36', '38', 'Única']
 
 export const conditions: { id: Condition; label: string; hint: string }[] = [
   { id: 'nuevo', label: 'Nuevo', hint: 'Con etiqueta o sin uso' },
