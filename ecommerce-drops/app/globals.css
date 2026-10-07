@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ink ring-offset-2 ring-offset-paper;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold uppercase tracking-wide transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-paper hover:bg-ink/85;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-ink hover:brightness-95;
+  }
+  .btn-ghost {
+    @apply btn border border-ink/15 bg-white/60 text-ink hover:border-ink/40;
+  }
+  .btn-sm {
+    @apply min-h-[36px] px-3 text-xs;
+  }
+  .label {
+    @apply mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted;
+  }
+  .input {
+    @apply block min-h-[44px] w-full rounded-xl border border-ink/15 bg-white px-3 text-base text-ink placeholder:text-ink/30 focus:border-ink focus:outline-none focus:ring-0 sm:text-sm;
+  }
+  .chip {
+    @apply inline-flex min-h-[36px] shrink-0 items-center gap-1.5 rounded-full border border-ink/15 bg-white/70 px-3.5 text-xs font-semibold uppercase tracking-wide text-ink transition hover:border-ink/40;
+  }
+  .chip-active {
+    @apply border-ink bg-ink text-paper hover:border-ink;
+  }
+  .card {
+    @apply rounded-2xl border border-ink/10 bg-white;
+  }
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-muted;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

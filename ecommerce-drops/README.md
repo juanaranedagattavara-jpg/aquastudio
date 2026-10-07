@@ -1,0 +1,54 @@
+# E-commerce por drops — prototipo
+
+Prototipo navegable de una tienda para una marca de Instagram que vende **prendas únicas por drops**.
+Separado del sitio de Aqua Studio: tiene su propio `package.json` y no comparte código con la raíz.
+
+> Es un prototipo: **no tiene backend**. Los datos viven en el navegador (localStorage + IndexedDB para las
+> fotos). Sirve para validar el flujo con el cliente antes de construir la versión real. Ver `PROPUESTA.md`.
+
+## Correrlo
+
+```bash
+cd ecommerce-drops
+npm install
+npm run dev        # http://localhost:3100
+```
+
+- Tienda: `/`
+- Panel de la marca: `/admin`
+
+## Guion de demo (10 minutos con el cliente)
+
+1. **El problema de la prenda única.** Abre la tienda en dos pestañas (cada pestaña es un comprador distinto).
+   En la pestaña A reserva una prenda; en la B aparece "Alguien la tiene en su carrito · 09:41".
+   Nadie puede comprar algo que ya se vendió.
+2. **Checkout.** En A paga con transferencia: la prenda queda retenida 2 h. En `/admin/pedidos` confirma el
+   pago → en la pestaña B la prenda pasa a "Vendida" sin recargar.
+3. **Su proceso real.** `/admin` → Drop 04 (a medio cargar, como él trabaja: pantalones un día, polerones otro).
+   Está seleccionada la categoría que falta (Poleras). Elige "2 fotos por prenda", pon un precio para el lote y
+   sube fotos desde el teléfono: se crea una prenda por cada par de fotos. Solo falta tocar la talla.
+4. **Lanzamiento.** "Programar" → fecha y hora. La tienda muestra la cuenta regresiva y el formulario "Avísame".
+
+"Reiniciar datos de demo" en `/admin` vuelve todo al estado inicial.
+
+## Qué está simulado
+
+| En el prototipo | En producción |
+| --- | --- |
+| localStorage / IndexedDB | Supabase (Postgres + Storage) |
+| Reserva con lectura-escritura en el navegador | `UPDATE … WHERE` atómico en Postgres |
+| Pago con tarjeta aprobado al instante | Mercado Pago / Flow con confirmación por webhook |
+| Sincronización entre pestañas (evento `storage`) | Supabase Realtime |
+| Panel sin login | Login por magic link solo para la marca |
+
+## Estructura
+
+```
+app/(tienda)/        portada del drop, ficha /p/[id], carrito, confirmación /pedido/[id]
+app/admin/           drops, editor de drop (carga por lotes + lanzamiento), pedidos
+components/          UI de tienda y panel
+lib/config.ts        marca, categorías, tallas, envíos, datos bancarios  ← lo que cambia por cliente
+lib/store.ts         "API" de datos: reservas, pedidos, drops (se reemplaza por llamadas al servidor)
+lib/images.ts        compresión de fotos en el teléfono + almacenamiento local
+lib/seed.ts          datos de ejemplo
+```
